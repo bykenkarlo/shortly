@@ -20,6 +20,7 @@
                                         <ul>
                                             <li><a target="_blank" rel="nofollow" href="https://imagekit.io">ImageKit</a></li>
                                             <li><a target="_blank" rel="nofollow" href="https://ipinfo.io">IPinfo</a></li>
+                                            <li><a target="_blank" rel="nofollow" href="https://clipboardjs.com/">ClipboardJS</a></li>
                                             <li><a target="_blank" rel="nofollow" href="https://reactjsexample.com/javascript-library-for-generating-qr-codes-with-a-logo-and-styling/">QR Code Styling</a></li>
                                             <li><a target="_blank" rel="nofollow" href="https://getbootstrap.com">Bootstrap</a></li>
                                             <li><a target="_blank" rel="nofollow" href="https://iconscout.com/unicons/explore/line">Iconscout</a></li>

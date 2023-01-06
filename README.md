@@ -7,7 +7,7 @@ Shortly is a FREE URL Shortener Tool with Premium Features without account regis
 ## Features
 
 - Link shortener
-- Qr code generator
+- Qr code generator with Logo
 - Customize Link
 - Check Location, Browser, Platform/Device and Referrer Stat
 

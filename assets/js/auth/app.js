@@ -508,7 +508,10 @@ const generateQrCode = (_url_param, image) => {
        
         dotsOptions: {
             color: "#000",
-            type: "classy-rounded"
+            type: "rounded"
+        },
+        cornersSquareOptions: {
+            type: "rounded"
         },
         backgroundOptions: {
             color: "#fff",

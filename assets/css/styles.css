@@ -49,7 +49,7 @@ h1, h2, h3, h4, h5 {
     color: #5d657b;
     font-size: 1.1rem;
     word-wrap: break-word;
-    font-weight: 400;
+    font-weight: 300;
 }
 .btn-shortener{
     height: 60px;

@@ -35,6 +35,9 @@
                                             <button class="btn  col-5"> </button>
                                         </div>
                                     </div>
+                                    <!-- <div class="mt-2 text-center">
+                                        <a href="#more_option" id="_more_opt">+ More Options</a>
+                                    </div> -->
                                 </div>
                             </div>
                         </div> 
