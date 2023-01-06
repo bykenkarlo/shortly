@@ -4,12 +4,20 @@
 Shortly is a FREE URL Shortener Tool with Premium Features without account registration.
 
 
-## Resources Used
+## Features
+
+- Link shortener
+- Qr code generator
+- Customize Link
+- Check Location, Browser, Platform/Device and Referrer Stat
+
+## Resources
 
 - [QR Code Styling](https://reactjsexample.com/javascript-library-for-generating-qr-codes-with-a-logo-and-styling)
 - [ImageKit](https://imagekit.io)
 - [IPinfo](https://ipinfo.io)
 - [Iconscout](https://iconscout.com/unicons/explore/line)
+
 
 ## Tech Stack
 
