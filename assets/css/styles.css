@@ -21,17 +21,27 @@ h1, h2, h3, h4, h5 {
 .f-h1{
     font-weight: 600;
     font-size: 2.2em;
-    color: #0e0e0e;
+    color: #383737;
 }
 .f-h2{
     font-weight: 500;
     font-size: 2.1em;
-    color: #0e0e0e;
+    color: #383737;
 }
 .f-h3{
     font-weight: 500;
     font-size: 2em;
-    color: #0e0e0e;
+    color: #383737;
+}
+.f-h4{
+    font-weight: 500;
+    font-size: 1.9em;
+    color: #383737;
+}
+.f-h4{
+    font-weight: 500;
+    font-size: 1.8em;
+    color: #383737;
 }
 .hide{
     display: none !important;
@@ -49,7 +59,7 @@ h1, h2, h3, h4, h5 {
     color: #5d657b;
     font-size: 1.1rem;
     word-wrap: break-word;
-    font-weight: 300;
+    font-weight: 400;
 }
 .btn-shortener{
     height: 60px;

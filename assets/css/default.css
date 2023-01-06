@@ -2187,8 +2187,8 @@ body{
   animation: cursor-blink 1.5s steps(2) infinite;
 }
 .header-container{
-  /*background-color: #323644 !important;*/
-  /*background: #323644 !important;*/
+  /*background-color: #1d212d !important;*/
+  /*background: #1d212d !important;*/
   /*height:  100%;*/
 }
 .body-container{
@@ -2203,12 +2203,12 @@ body{
   height:  100%;
 }
 .contact-container{
-  background-color: #323644 !important;
-  background: #323644 !important;
+  background-color: #1d212d !important;
+  background: #1d212d !important;
   height:  100%;
 }
 .footer-div{
-  background-color: #323644 !important;
+  background-color: #1d212d !important;
 }
 .container-hr{
   border-top:  1px solid #454755;
