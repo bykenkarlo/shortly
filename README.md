@@ -16,7 +16,9 @@ Website URL: https://shortly.at
 
 - [QR Code Styling](https://reactjsexample.com/javascript-library-for-generating-qr-codes-with-a-logo-and-styling)
 - [ImageKit](https://imagekit.io)
+- [ClipboardJS](https://clipboardjs.com)
 - [IPinfo](https://ipinfo.io)
+- [Chartjs](https://www.chartjs.org)
 - [Iconscout](https://iconscout.com/unicons/explore/line)
 
 

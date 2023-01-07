@@ -103,14 +103,14 @@
                                     <div class="row">
                                         <div class="col-lg-6 mb-2 mt-2">
                                         <h4 class="card-title mb-3" id="_browser_title"><span class="placeholder-glow"><span class="placeholder col-4"></span></span></h4>
-                                            <div dir="ltr">
+                                            <div>
                                                 <canvas id="_browser_overview" class="apex-charts mt-3"></canvas>
                                             </div>
                                         </div>
 
                                         <div class="col-lg-6 mb-2 mt-2">
                                         <h4 class="card-title mb-3" id="_platform_title"><span class="placeholder-glow"><span class="placeholder col-4"></span></span></h4>
-                                            <div dir="ltr">
+                                            <div>
                                                 <canvas id="_platform_overview" class="apex-charts mt-3"></canvas>
                                             </div>
                                         </div>

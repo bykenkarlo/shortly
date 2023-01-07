@@ -2,7 +2,7 @@
     <div class="">
     <!-- NAVBAR START -->
     <div class="_nav np">
-        <nav class="navbar navbar-expand navbar-dark home-index-default bg-white k-header" id="_home_navbar">
+        <nav class="navbar navbar-expand navbar-dark home-index-default bg-nav k-header" id="_home_navbar">
             <div class="container nav-container">
                 <!-- logo -->
                 <div class="web-view">
@@ -47,28 +47,20 @@
                     <ul class="navbar-nav me-auto align-items-right text-uppercase fw-500 web-view">
                     </ul>
                     <!-- right menu -->
-                    <ul class="navbar-nav ms-auto align-items-center text-uppercase fw-500 web-view">
-                        <!-- <li class="nav-item mx-lg-1">
-                            <a class="nav-link" href="<?=base_url('#our_products')?>">Our Products</a>
+                    <ul class="navbar-nav ms-auto align-items-center fw-500 web-view">
+                        <li class="nav-item mx-lg-1">
+                            <a class="nav-link" href="<?=base_url('about')?>">About Us</a>
+                        </li>
+                        <li class="nav-item mx-lg-1">
+                            <a class="nav-link" href="<?=base_url('privacy')?>">Privacy</a>
                         </li>
                         
-                        <li class="nav-item mx-lg-1">
-                            <a class="nav-link" href="<?=base_url('pay-your-loan')?>">Pay Now </a>
-                        </li>
-                        <li class="nav-item mx-lg-1">
-                            <a class="nav-link" href="<?=base_url('blog')?>">Blog</a>
-                        </li>
-                        <li class="nav-item mx-lg-1">
-                            <a href="javascript:void(0);" class="nav-link "  onclick="_accessPage('about', 'About Us','about')">About Us</a>
-                        </li>
-                        <li class="nav-item mx-lg-1">
-                            <div class="nav-link" onclick="_accessPage('faq', 'Faq','faq')">Faq</div>
-                        </li>
-                        <li class="nav-item me-0">
+                        
+                        <!--<li class="nav-item me-0">
                             <a  href="<?=base_url('borrow?').'utm_source=self&utm_medium=btn&utm_campaign=borrow_btn'?>"  class="btn btn-sm btn-kwartz text-uppercase c-white rounded-pill padding-right-20 padding-left-20 d-none d-lg-inline-flex btn-login">
                             Borrow
                             </a> 
-                        </li> -->
+                        </li>  -->
                         
                         <?php if(isset($this->session->user_id)) {?>
                         <li class="dropdown text-capitalize">

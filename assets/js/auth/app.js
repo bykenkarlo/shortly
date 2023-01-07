@@ -24,7 +24,7 @@ $("#_try_again_btn").on('click', () => {
     $("#_copy_url_div").addClass('hide').removeClass('show');
     $("#_shortened_url").val("");
     $("#_input_url").val("");
-	$("#_shorten_url_btn").text('Shorten URL').removeAttr('disabled', 'disabled');
+	$("#_shorten_url_btn").text('Shorten').removeAttr('disabled', 'disabled');
 })
 const _placeholder = () => {
     placeholder = '';
