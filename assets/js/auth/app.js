@@ -122,7 +122,7 @@ const statistics = (_url_param) => {
         $("#_platform_title").html('Platform'+' <small>(In the last 30 days)</small>');
         $("#_browser_title").html('Browser'+' <small>(In the last 30 days)</small>');
         $("#_location_title").html('Location'+' <small>(In the last 30 days)</small>');
-        $("#_engagement_overview_title").text('Engagement Overview');
+        $("#_engagement_overview_title").html('Engagement Overview'+' <small>(In the last 30 days)</small>');
         $("#_copy_url_div").html('<a href="#copy" class="arrow-none card-drop" data-clipboard-target="#_short_url" id="_copy_shortly"><i class="uil-copy"></i></a>')
         $("#_engagement_div").html('<i class="uil uil-chart-bar"></i> <span id="_engagement">'+res.data.total_click+'</span> Total engagements')
         $("#_dl_btn_div").html('<button onclick="downloadQr(\''+res.data.logo_img+'\')" class="btn btn-md rounded btn-light"><i class="uil uil-download-alt"></i> Download</button>');
@@ -285,6 +285,7 @@ const _clickStatChart = (dates, clicks) => {
         click_statistics_chart.destroy();
     }
     const ctx = document.getElementById('_clicks_overview');
+    options = '';
     click_statistics_chart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -292,17 +293,37 @@ const _clickStatChart = (dates, clicks) => {
             datasets: [{
                 label: 'URL Clicks',
                 data: clicks,
-                backgroundColor: 'rgba(5, 203, 98, 1)',
-                borderColor: 'rgba(5, 203, 98, 0.05)',
-                borderWidth: 1
+                fill: true,
+                backgroundColor: 'rgba(5, 203, 98, .2)',
+                borderColor: 'rgba(5, 203, 98, 1)',
+                borderJoinStyle: 'round',
+                borderWidth: 1.5,
+                tension: .3
             }]
         },
         options: {
+           
             scales: {
+                x: {
+                    grid: {
+                      display: false,
+                    }
+                },
                 y: {
-                    beginAtZero: true
+                    grid: {
+                      display: false
+                    }
+                },
+            },
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: 'circle'
+                    }
+
                 }
-            }
+            },
         }
     });
 }
@@ -343,7 +364,7 @@ const _referrerStatChart = (count, referrer) => {
     }
     const ctx = document.getElementById('_referrer_overview');
     referrer_stat_chart = new Chart(ctx, {
-        type: 'horizontalBar',
+        type: 'bar',
         data: {
             labels: referrer,
             datasets: [{
@@ -355,11 +376,28 @@ const _referrerStatChart = (count, referrer) => {
             }]
         },
         options: {
+            indexAxis: 'y',
             scales: {
+                x: {
+                    grid: {
+                      display: false,
+                    }
+                },
                 y: {
-                    beginAtZero: true
+                    grid: {
+                      display: false
+                    }
+                },
+            },
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: 'circle'
+                    }
+
                 }
-            }
+            },
         }
     });
 }
@@ -406,20 +444,23 @@ const _browserStatChart = (count, browser) => {
                 data: count,
                 backgroundColor: color,
                 borderColor: '#fff',
-                borderWidth: 1,
                 hoverOffset: 4
             }],
         },
         options: {
-            responsive: true,
-            cutoutPercentage: 40,
-            legend: {
-                labels: {
-                    usePointStyle: true,
-                    boxWidth: 6,
+            layout: {
+                padding: 20
+            },
+           
+            plugins: {
+                legend: {
                     position: 'bottom',
+                    labels: {
+                        usePointStyle: 'circle'
+                    }
+
                 }
-            }
+            },
         }
     });
 }
@@ -477,15 +518,18 @@ const _platformStatChart = (count, platform) => {
             }],
         },
         options: {
-            responsive: true,
-            cutoutPercentage: 40,
-            position: 'bottom',
-            legend: {
-                labels: {
-                  usePointStyle: true,
-                  boxWidth: 6
+            layout: {
+                padding: 20
+            },
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: 'circle'
+                    }
+
                 }
-            }
+            },
         }
     });
 }
@@ -567,7 +611,6 @@ if(_state == 'statistics'){
     platformStat(_url_param, '30_days');
     locationStat(_url_param, '30_days');
     browserStat(_url_param, '30_days');
-
     _logo_img = $("#_logo_thumbnail").croppie({
         viewport: {
             width: 200,
@@ -669,66 +712,6 @@ $("#_upload_img_form").on('submit', function(e){
         }) 
 	})
 })
-// $('#_upload_img_form').on('submit', function(e) {
-// 	e.preventDefault();
-//     let formData = new FormData(this);
-//     var file = $("#_logo_img")[0].files[0];
-// 	var fileType = file["type"];
-// 	var validImageTypes = ["image/gif", "image/jpeg", "image/png", "image/webp", "image/jpg"];
-// 	if ($.inArray(fileType, validImageTypes) < 0) {
-// 		Swal.fire({
-// 			icon: 'error',
-// 			title: 'Error!',
-// 			html: 'File not an image!',
-// 		})
-// 			return false;
-// 	}
-//     $("#_upload_btn").text('Uploading...').attr('disabled','disabled');
-//     $.ajax({
-//         url: base_url+'api/v1/shortener/_upload_logo',
-//         type: 'POST',
-//         data: formData,
-//         cache       : false,
-//         contentType : false,
-//         processData : false,
-//         statusCode: {
-//         403: () => {
-//                 _error403();
-//             }
-//         }
-//     })
-//     .done( (res) => {
-//         if (res.data.status == 'success') {
-//             Swal.fire({
-//                 icon: 'success',
-//                 title: 'Success!',
-//                 html: res.data.message,
-//           });
-//             generateQrCode(res.data.attribute.url_param, res.data.attribute.image);
-//             $("#_upload_custom_logo_modal").modal('hide');
-//             $("#_upload_btn").text('Upload').removeAttr('disabled','disabled');
-//             $("#_dl_btn_div").html('<button onclick="downloadQr(\''+res.data.attribute.image+'\')" class="btn btn-md rounded btn-light"><i class="uil uil-download-alt"></i> Download</button>');
-//         }
-//         else{
-//             Swal.fire({
-//                   icon: 'error',
-//                   title: 'Error!',
-//                  html: res.data.message,
-//             });
-//             $("#_upload_btn").text('Upload').removeAttr('disabled','disabled')
-//         }
-//         _csrfNonce();
-//     })
-//     .fail(() => {
-//         Swal.fire({
-//             icon: 'error',
-//             title: 'Error!',
-//             html: "Something went wrong! Please refresh the page and Try again!",
-//         });
-//         _csrfNonce();
-//         $("#_upload_btn").text('Upload').removeAttr('disabled','disabled')
-//     }) 
-// })
 $("#_close_btn").on('click', () => {
     $("#_upload_custom_logo_modal").modal('hide');
 })

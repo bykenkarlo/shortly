@@ -37,4 +37,18 @@ class Page extends CI_Controller {
     	$this->load->view('pages/privacy');
     	$this->load->view('home/footer');
     }
+    public function terms(){
+        $data['siteSetting'] = $this->Site_settings_model->siteSettings();
+        $data['social_media'] = $this->Site_settings_model->getSocialMedias();
+        $data['title'] = 'Terms and Conditions';
+        $data['description'] = 'By using the Shortly website, you consent to the data practices described in this statement.';
+        $data['canonical_url'] = base_url('terms');
+        $data['url_param'] = "";
+        $data['state'] = "terms";
+        $data['csrf_data'] = $this->Csrf_model->getCsrfData();
+    	$this->load->view('home/header', $data);
+    	$this->load->view('home/nav');
+    	$this->load->view('pages/terms');
+    	$this->load->view('home/footer');
+    }
 }

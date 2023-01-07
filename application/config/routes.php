@@ -52,6 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $route['about'] = 'Page/about';
 $route['privacy'] = 'Page/privacy';
+$route['terms'] = 'Page/terms';
 $route['sitemap.xml'] = 'Sitemap/index';
 $route['stat/(:any)'] = 'Shortener/checkURLStat/$1';
 $route['(:any)'] = 'Shortener/accessLongURL/$1';

@@ -15,7 +15,7 @@ a {
 body {
   font-family: 'Poppins', sans-serif;
   font-size: .9rem;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 25px;
   color: #515659 !important;
   -webkit-text-size-adjust: 100%;
@@ -2186,11 +2186,7 @@ body{
   display: inline-block;
   animation: cursor-blink 1.5s steps(2) infinite;
 }
-.header-container{
-  /*background-color: #1d212d !important;*/
-  /*background: #1d212d !important;*/
-  /*height:  100%;*/
-}
+
 .body-container{
   background-color: #fff !important;
   background: #fff !important;

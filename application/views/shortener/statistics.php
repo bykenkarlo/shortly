@@ -95,23 +95,30 @@
                                             <i class="uil-ellipsis-v"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-end">
-                                            <a class="dropdown-item" onclick="browserStat('<?=$url_param?>','7_days')" href="#browserStat">Last 7 days</a>
-                                            <a class="dropdown-item" onclick="browserStat('<?=$url_param?>','30_days')" href="#browserStat">Last 30 days</a>
-                                            <a class="dropdown-item" onclick="browserStat('<?=$url_param?>','1_year')" href="#browserStat">1 year</a>
+                                            <a class="dropdown-item" onclick="_browserPlatformStat('<?=$url_param?>','7_days')" href="#_browserPlatformStat">Last 7 days</a>
+                                            <a class="dropdown-item" onclick="_browserPlatformStat('<?=$url_param?>','30_days')" href="#_browserPlatformStat">Last 30 days</a>
+                                            <a class="dropdown-item" onclick="_browserPlatformStat('<?=$url_param?>','1_year')" href="#_browserPlatformStat">1 year</a>
                                         </div>
                                     </div>
-                                    <h4 class="card-title mb-3" id="_browser_title"><span class="placeholder-glow"><span class="placeholder col-4"></span></span></h4>
                                     <div class="row">
-                                        <div class="col-lg-12 mb-2 mt-2">
+                                        <div class="col-lg-6 mb-2 mt-2">
+                                        <h4 class="card-title mb-3" id="_browser_title"><span class="placeholder-glow"><span class="placeholder col-4"></span></span></h4>
                                             <div dir="ltr">
                                                 <canvas id="_browser_overview" class="apex-charts mt-3"></canvas>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 mb-2 mt-2">
+                                        <h4 class="card-title mb-3" id="_platform_title"><span class="placeholder-glow"><span class="placeholder col-4"></span></span></h4>
+                                            <div dir="ltr">
+                                                <canvas id="_platform_overview" class="apex-charts mt-3"></canvas>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             
-                            <div class="card card-services-highlights pt-1 pb-2 c-gray">
+                            <!-- <div class="card card-services-highlights pt-1 pb-2 c-gray">
                                 <div class="card-body">
                                     <div class="dropdown float-end">
                                         <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
@@ -132,7 +139,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="card card-services-highlights pt-1 pb-2 c-gray">
                                 <div class="card-body">

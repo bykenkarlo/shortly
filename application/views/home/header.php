@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <title><?=($title == 'index') ? $siteSetting['website_name'] .' - URL Shortener, Short URLs & Free Custom Link Shortener' : $title." | ".$siteSetting['website_name'] ?> </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="<?= ($title == 'index') ? $siteSetting['description'].' link management software, QR Code features' : $description ?>"/>
+        <meta name="description" content="<?= ($title == 'index') ? $siteSetting['description'].' link management software, QR Code features, link shortener' : $description.' , link shortener' ?>"/>
         <meta name="keywords" content=""/>
         <meta name="theme-color" content="#05cb62" />
         <meta name="mobile-web-app-capable" content="yes">

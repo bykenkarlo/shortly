@@ -40,7 +40,7 @@
 						<!-- <h3 class="font-16 footer-title">Website</h3> -->
 						<ul class="no-list-style ml-n-3 footer-text">
 							<li><a class="cursor-pointer" href="<?=base_url('about')?>">About Us</a></li>
-							<!-- <li><a class="cursor-pointer" href="<?=base_url('terms')?>">Terms & Conditions</a></li> -->
+							<li><a class="cursor-pointer" href="<?=base_url('terms')?>">Terms & Conditions</a></li>
 							<li><a class="cursor-pointer" href="<?=base_url('privacy')?>">Privacy Policy</a></li>
 							<li><a class="cursor-pointer" href="<?=base_url('login')?>">Account</a></li>
 						</ul>
