@@ -3,6 +3,7 @@
 
 Shortly is a FREE URL Shortener Tool with Premium Features without account registration.
 
+Website URL: https://shortly.at
 
 ## Features
 
