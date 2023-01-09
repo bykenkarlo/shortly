@@ -1,0 +1,37 @@
+{
+    "name": "Shortly",
+    "short_name": "Shortly",
+    "start_url": "/?utm_source=pwa",
+    "icons": [
+      {
+        "src": "assets/images/logo/512x512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any maskable"
+      }, 
+      {
+        "src": "assets/images/logo/128x128.png",
+        "sizes": "128x128",
+        "type": "image/png",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "assets/images/logo/144x144.png",
+        "sizes": "144x144",
+        "type": "image/png",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "assets/images/logo/64x64.png",
+        "sizes": "64x64 32x32 24x24 16x16",
+        "type": "image/png",
+        "purpose": "any maskable"
+      }
+    ],
+    "display": "standalone",
+    "orientation": "portrait",
+    "theme_color": "#ffc516",
+    "background_color": "#ffffff"
+  }
+  
+  
