@@ -194,7 +194,7 @@
                             <form id="_edit_url_form" class="mb-3">
                                 <div class="row">
                                     <div class="col-lg-12 mt-2">
-                                        <p class="alert alert-warning">Note that old URLs will not work and will return to Error 404 page!</p>
+                                        <p class="alert alert-warning bg-warning-lighten font-14">Changing this URL will result to inaccessible of your previous edited URLs!</p>
                                         <p>
                                             URL: <?=preg_replace("(^https?://)", "", base_url() )?><span id="_url_param_view"></span>
                                         </p>
