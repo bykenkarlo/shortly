@@ -16,10 +16,10 @@
 
 <style type="text/css">
 * {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 p {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 16px;
   line-height: 1.8;
   font-weight: 400;
@@ -29,7 +29,7 @@ p {
   text-shadow: rgba(0,0,0,.01) 0 0 1px;
 }
 h1, h2 , h3 {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 .footer-below{
     bottom: 0;
@@ -58,7 +58,7 @@ h1, h2 , h3 {
             <div class="content mt-2 mb-5">
                 <div class="row justify-content-center">
                     <div class="col-lg-6">
-                        <div class="text-center">
+                        <div class="text-center mt-3">
                              <img src="<?=base_url('assets/images/logo/broken-url.webp')?>" height="180" alt="File not found Image">
 
                             <h1 class="text-error mt-2 justify-content-center font-40">404 Not Found</h1>
@@ -66,7 +66,7 @@ h1, h2 , h3 {
                             <p class="text-muted mt-3 font-15">It's looking like you may have taken a wrong turn. Don't worry... it
                                 happens to the best of us. Here's a little tip that might help you get back on track.</p>
 
-                            <a class="btn mt-2 btn-success btn-lg c-white rounded" href="<?=base_url();?>"><i class="uil-back"></i> Return Home</a>
+                            <a class="btn mt-2 btn-secondary btn-lg c-white rounded" href="<?=base_url();?>"><i class="uil-back"></i> Return Home</a>
                         </div> 
                     </div> 
                 </div>

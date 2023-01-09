@@ -39,9 +39,9 @@
 
             <div class="other-section padding-bottom-30 c-dwhite">
                 <div class="container">
-                    <div class="mt-5 text-center">
+                    <div class="mt-5 text-center" id="features">
                         <h2 class="f-h2">Why Use Shortly?</h2>
-                        <p class="p-text">Shortly helps online businesses by transforming their website links into powerful tools and create<br> statistics that will provide insights into the business.</p>
+                        <p class="p-text">Shortly helps online businesses, marketers, ordinary internet users by transforming their links into <br> powerful tools and  create statistics that will provide insights to measure how marketing, content and products are performing relative to user engagement.</p>
                     </div>
 
                     <div class="row mt-3 ">
@@ -53,7 +53,7 @@
                             </div>
                             <div class="c-gray">
                                 <h4>Free Tools</h4>
-                                <p>Unlike other URL shortener, Shortly a FREE tool that has almost all features of a Link Management platform has.</p>
+                                <p>Unlike other URL shortener, Shortly is a FREE tool that has almost all premium features of a Link Management platform has.</p>
                             </div>
                         </div>
                                 
@@ -110,7 +110,7 @@
                 <div class="container">
                     <div class="text-center">
                         <h2 class="f-h3 mb-2 c-white">Suggestions? We hear you!</h2>
-                        <p class="p-text c-white font-15">We are open for suggestions for any features that we can add on the site. Let us know by contacting us using the button below.</p>
+                        <p class="p-text c-white font-15">We are open for suggestions for any possible features that can be added on the site. Let us know by contacting us using the button below.</p>
                         <button class="btn btn-lg btn-light rounded" type="button" id="_email_us">Email Us</button>
                     </div>
                 </div>
