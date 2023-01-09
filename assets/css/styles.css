@@ -5,7 +5,7 @@ h1, h2, h3, h4, h5 {
     margin-top: -25px;
 }
 .bg-nav{
-    background-color: transparent;
+    background-color: #fff;
 }
 .first-section{
     background: linear-gradient(0deg, rgba(33, 37, 41,.5), rgba(33, 37, 41,.8)), url('../images/bg/bg1.webp') no-repeat center;
@@ -23,7 +23,7 @@ h1, h2, h3, h4, h5 {
     background-size: cover;
 }
 .custom-alert-box{
-    padding: 7px 15px 5px 15px;
+    padding: 5px 15px 5px 15px;
     text-align: center;
     height: 40px;
     width: auto;
@@ -464,7 +464,7 @@ h1, h2, h3, h4, h5 {
     }
     #_short_url{
         white-space: nowrap;
-        width: 280px;
+        width: 260px;
         overflow: hidden;
         text-overflow: ellipsis;
     }
@@ -584,7 +584,7 @@ h1, h2, h3, h4, h5 {
 }
 @media only screen and (max-width: 500px){
     .card_qr_div{
-        margin-bottom: -20px !important;
+        margin-bottom: 5px !important;
     }
 }
 @media only screen and (min-width: 501px) and  (max-width: 680px){
@@ -654,6 +654,33 @@ h1, h2, h3, h4, h5 {
     }
 }
 /* large screens  */
+@media only screen and (max-width: 511px){
+    .btn-shortener{
+        margin-top: 5px !important;
+        border-radius: .45em;
+    }
+}
+@media only screen and (min-width: 768px){
+    #_input_url_div {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+    #_input_url {
+        background: #fff;
+        border: 0;
+        border-radius: 20px;
+        padding: 20px;
+        width: 100%;
+        border: 1px solid #dee2e6;
+    }
+    #_shorten_url_btn {
+        position: absolute;
+        right: 6px;
+        top: -7px;
+        border-radius: 15px !important;
+    }
+}
 @media only screen and (min-width: 769px) and  (max-width: 800px){
     .redirect-link {
         white-space: nowrap;
@@ -737,23 +764,4 @@ h1, h2, h3, h4, h5 {
     letter-spacing: .02em;
     font-size: 1rem;
     margin-top: 0;
-}
-#_input_url_div {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-}
-#_input_url {
-    background: #fff;
-    border: 0;
-    border-radius: 20px;
-    padding: 20px;
-    width: 100%;
-    border: 1px solid #dee2e6;
-}
-#_shorten_url_btn {
-    position: absolute;
-    right: 6px;
-    top: -7px;
-    border-radius: 15px !important;
 }

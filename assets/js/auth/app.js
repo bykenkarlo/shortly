@@ -103,7 +103,7 @@ const isValidUrl = (long_url) => {
 }
 $("#_monitor_btn").on('click', () => {
     const param = $("#_monitor_btn").data("param");
-    location.href=base_url+'stat/'+param;
+    location.href=base_url+''+param+'-';
 });
 
 const statistics = (_url_param) => {
@@ -118,18 +118,18 @@ const statistics = (_url_param) => {
 	.then(response => response.json())
 	.then(res => {
         generateQrCode(_url_param, res.data.logo_img);
-        $("#_referrer_title").html('Referrer'+' <small>(In the last 30 days)</small>');
-        $("#_platform_title").html('Platform'+' <small>(In the last 30 days)</small>');
-        $("#_browser_title").html('Browser'+' <small>(In the last 30 days)</small>');
-        $("#_location_title").html('Location'+' <small>(In the last 30 days)</small>');
-        $("#_engagement_overview_title").html('Engagement Overview'+' <small>(In the last 30 days)</small>');
+		$("#_short_url").html(res.data.short_url+ ' <span id="_edit_url" class="pointer-cursor font-16"><i class="uil uil-edit-alt"></i></span>').attr('data-url_param',res.data.url_param);
+        $("#_referrer_title").html('Referrer'+' <small>(in the last 30 days)</small>');
+        $("#_platform_title").html('Platform'+' <small>(in the last 30 days)</small>');
+        $("#_browser_title").html('Browser'+' <small>(in the last 30 days)</small>');
+        $("#_location_title").html('Location'+' <small>(in the last 30 days)</small>');
+        $("#_engagement_overview_title").html('Engagement Overview'+' <small>(in the last 30 days)</small>');
         $("#_copy_url_div").html('<a href="#copy" class="arrow-none card-drop" data-clipboard-target="#_short_url" id="_copy_shortly"><i class="uil-copy"></i></a>')
         $("#_engagement_div").html('<i class="uil uil-chart-bar"></i> <span id="_engagement">'+res.data.total_click+'</span> Total engagements')
         $("#_dl_btn_div").html('<button onclick="downloadQr(\''+res.data.logo_img+'\')" class="btn btn-md rounded btn-light"><i class="uil uil-download-alt"></i> Download</button>');
         $("#_upload_btn_div").html('<button onclick="_upload_logo_btn()" class="btn btn-md rounded btn-light"><i class="uil uil-upload-alt"></i> Upload Logo</button>');
         $("#_qr_code_title").html('<i class="uil-qrcode-scan"></i> QR Code')
         $("#_redirect_title").text('Redirect')
-		$("#_short_url").text(res.data.short_url);
 		$("#_created_div").html('<i class="uil uil-calendar-alt"></i> <span id="_created_at" class="font-14">'+res.data.created_at+'</span>');
 		$("#_redirect_url").html('<i class="uil uil-link"></i> <a target="_blank" rel="nofollow" class="font-14 c-gray" href="'+res.data.redirect_url+'">'+res.data.redirect_url+'</a>');
 	})
@@ -152,6 +152,16 @@ const clickStats = (_url_param, range) => {
 		let dates = [];
         let clicks = [];
 
+        if(range == '7_days'){
+            $("#_engagement_overview_title").html('Engagement Overview'+' <small> (in the last 7 days)</small>');
+        }
+        else if(range == '30_days'){
+            $("#_engagement_overview_title").html('Engagement Overview'+' <small> (in the last 30 days)</small>');
+        }
+        else if(range == '1_year'){
+            $("#_engagement_overview_title").html('Engagement Overview'+' <small> (in the last 1 year)</small>');
+        }
+        
         stats = res.data.click_statistics;
         for(var i in stats){
             dates.push(stats[i].date);
@@ -176,6 +186,16 @@ const referrerStat = (_url_param, range) => {
 	.then(res => {
 		let count = [];
         let referrer = [];
+
+        if(range == '7_days'){
+            $("#_referrer_title").html('Referrer'+' <small> (in the last 7 days)</small>');
+        }
+        else if(range == '30_days'){
+            $("#_referrer_title").html('Referrer'+' <small> (in the last 30 days)</small>');
+        }
+        else if(range == '1_year'){
+            $("#_referrer_title").html('Referrer'+' <small> (in the last 1 year)</small>');
+        }
 
         stats = res.data.referrer_statistics;
         for(var i in stats){
@@ -202,6 +222,16 @@ const browserStat = (_url_param, range) => {
 		let count = [];
         let browser = [];
 
+        if(range == '7_days'){
+            $("#_browser_title").html('Browser'+' <small> (in the last 7 days)</small>');
+        }
+        else if(range == '30_days'){
+            $("#_browser_title").html('Browser'+' <small> (in the last 30 days)</small>');
+        }
+        else if(range == '1_year'){
+            $("#_browser_title").html('Browser'+' <small> (in the last 1 year)</small>');
+        }
+
         stats = res.data.browser_statistics;
         for(var i in stats){
             count.push(stats[i].count);
@@ -226,6 +256,16 @@ const platformStat = (_url_param, range) => {
 	.then(res => {
 		let count = [];
         let platform = [];
+
+        if(range == '7_days'){
+            $("#_platform_title").html('Platform'+' <small> (in the last 7 days)</small>');
+        }
+        else if(range == '30_days'){
+            $("#_platform_title").html('Platform'+' <small> (in the last 30 days)</small>');
+        }
+        else if(range == '1_year'){
+            $("#_platform_title").html('Platform'+' <small> (in the last 1 year)</small>');
+        }
 
         stats = res.data.platform_statistics;
         for(var i in stats){
@@ -255,6 +295,15 @@ const locationStat = (_url_param, range) => {
         let country = [];
         let string = "";
 
+        if(range == '7_days'){
+            $("#_location_title").html('Location'+' <small> (in the last 7 days)</small>');
+        }
+        else if(range == '30_days'){
+            $("#_location_title").html('Location'+' <small> (in the last 30 days)</small>');
+        }
+        else if(range == '1_year'){
+            $("#_location_title").html('Location'+' <small> (in the last 1 year)</small>');
+        }
         stats = res.data.country_statistics;
         for(var i in stats){
             count.push(stats[i].count);
@@ -624,9 +673,9 @@ if(_state == 'statistics'){
     });
 
 }
-const _browserPlatformStat = () =>{
-    platformStat(_url_param, '30_days');
-    browserStat(_url_param, '30_days');
+const _browserPlatformStat = (_url_param, range) =>{
+    platformStat(_url_param, range);
+    browserStat(_url_param, range);
 }
 
 const readImageURL = (input) => {
@@ -715,3 +764,104 @@ $("#_upload_img_form").on('submit', function(e){
 $("#_close_btn").on('click', () => {
     $("#_upload_custom_logo_modal").modal('hide');
 })
+$("#_email_us").on('click', () => {
+	fetch(base_url+'api/v1/email/_get?', {
+  		method: "GET",
+		  	headers: {
+		    	'Accept': 'application/json',
+		    	'Content-Type': 'application/json'
+		  	},
+	})
+	.then(response => response.json())
+	.then(res => {
+		location.href="mailto:"+res.data.email_address
+	})
+	.catch((error) => {
+		console.error('Error:', error);
+	});
+})
+$("#_short_url").on('click', () => {
+    const param = $("#_short_url").data("url_param");
+    $("#_edit_url_modal").modal('show');
+    $("#_edit_url_param").val(param);
+    $("#_url_param_view").text(param)
+})
+$("#_close_update_url_btn").on('click', () => {
+    $("#_edit_url_modal").modal('hide');
+});
+$("#_edit_url_param").keyup(function(){
+    customized_url = $(this).val();
+    $("#_url_param_view").text(customized_url)
+});
+$("#_edit_url_form").on('submit', function(e){
+    e.preventDefault();
+    let edit_url_param = $("#_edit_url_param").val();
+    let url_param = $("#_url_param").val();
+  	let text_count = $("#_edit_url_param").val().length;
+    if(edit_url_param == url_param){
+        return false;
+    }
+    else if(text_count < 4){
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            html:  "Only a minimum of 4 characters is allowed!",
+        });
+        return false;
+    }
+    else if(text_count > 18){
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            html:  "Only a maximum of 18 characters is allowed!",
+        });
+        return false;
+    }
+    else if(!edit_url_param || edit_url_param == ''){
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            html:   "Input cannot be empty!",
+        });
+        return false;
+    }
+    let formData = new FormData(this);
+
+    $("#_customize_url_btn").text('Updating...').attr('disabled','disabled')
+    $.ajax({
+        url: base_url+'api/v1/shortener/_customize_url',
+        type: 'POST',
+        data: formData,
+        cache       : false,
+        contentType : false,
+        processData : false,
+        statusCode: {
+        403: () => {
+                _error403();
+            }
+        }
+    })
+    .done( (res) => {
+        if (res.data.status == 'success') {
+            location.href=res.data.attribute.new_url
+        }
+        else{
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                html: res.data.message,
+            });
+            $("#_customize_url_btn").text('Update').removeAttr('disabled','disabled')
+        }
+        _csrfNonce();
+    })
+    .fail(() => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            html: "Something went wrong! Please refresh the page and Try again!",
+        });
+        _csrfNonce();
+        $("#_customize_url_btn").text('Update').removeAttr('disabled','disabled')
+    }) 
+});

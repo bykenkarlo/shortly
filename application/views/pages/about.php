@@ -15,7 +15,7 @@
                                         Shortly is a FREE URL Shortener Tool with Premium Features without account registration. 
                                         Use our URL Shortener to create a shortened link making it easy to remember for your products.
                                     </p>
-                                    <h2 class="font-20 c-gray mt-3">Resources:</h2>
+                                    <!-- <h2 class="font-20 c-gray mt-3">Resources:</h2>
                                     <p  class="p-text">
                                         <ul>
                                             <li><a target="_blank" rel="nofollow" href="https://imagekit.io">ImageKit</a></li>
@@ -28,7 +28,7 @@
                                             <li><a target="_blank" rel="nofollow" href="https://jquery.com/">JQuery</a></li>
                                             <li><a target="_blank" rel="nofollow" href="https://codeigniter.com/">Codeigniter</a></li>
                                         </ul>
-                                    </p>
+                                    </p> -->
                                 </div>
                                 
                             </div> 

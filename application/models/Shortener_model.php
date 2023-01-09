@@ -56,6 +56,10 @@ class Shortener_model extends CI_Model {
 		}
 		return $long_url;
 	}
+	public function checkURLData($param) {
+		$data = $this->db->WHERE('short_url',$param)->GET('shortened_url_tbl')->num_rows();
+		return $data;
+	}
 	public function getURLData() {
 		$url_param = $this->input->get('url_param');
 		$data = $this->db->SELECT('sut.long_url, sut.short_url, COUNT(st.click_id) as total_click, sut.created_at')
@@ -331,37 +335,37 @@ class Shortener_model extends CI_Model {
 			$groupBy = 'platform';
 		}
 
-			else if($range == '30_days') {
-				$start_date = date('Y-m-d 00:00:00', strtotime('-30 day', strtotime(date('Y-m-d 00:00:00'))));
-				$end_date = date('Y-m-d 23:59:59');
-				$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
-				$groupBy = 'platform';
-			}
-			else if($range == '1_year') {
-				$start_date = date('Y-m-d 00:00:00', strtotime('-365 day', strtotime(date('Y-m-d 00:00:00'))));
-				$end_date = date('Y-m-d 23:59:59');
-				$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
-				$groupBy = 'platform';
-			}
+		else if($range == '30_days') {
+			$start_date = date('Y-m-d 00:00:00', strtotime('-30 day', strtotime(date('Y-m-d 00:00:00'))));
+			$end_date = date('Y-m-d 23:59:59');
+			$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+			$groupBy = 'platform';
+		}
+		else if($range == '1_year') {
+			$start_date = date('Y-m-d 00:00:00', strtotime('-365 day', strtotime(date('Y-m-d 00:00:00'))));
+			$end_date = date('Y-m-d 23:59:59');
+			$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+			$groupBy = 'platform';
+		}
 	 
-			$click_stat_data = $this->db->SELECT('count(platform) as count, platform')
-				->WHERE($date_range)
-				->WHERE('url_param',$url_param)
-				->GROUP_BY($groupBy)
-				->ORDER_BY('created_at','asc')
-				->GET('statistics_tbl')->result_array();
+		$click_stat_data = $this->db->SELECT('count(platform) as count, platform')
+			->WHERE($date_range)
+			->WHERE('url_param',$url_param)
+			->GROUP_BY($groupBy)
+			->ORDER_BY('created_at','asc')
+			->GET('statistics_tbl')->result_array();
 	
-			$result = array();
-			foreach($click_stat_data as $q){
-				
-				$array = array(
-					'count'=>$q['count'],
-					'platform'=>$q['platform']
-				);
-				array_push($result, $array);
-			}
-			$data['platform_statistics'] = $result;
-			return $data;
+		$result = array();
+		foreach($click_stat_data as $q){
+			
+			$array = array(
+				'count'=>$q['count'],
+				'platform'=>$q['platform']
+			);
+			array_push($result, $array);
+		}
+		$data['platform_statistics'] = $result;
+		return $data;
 	}
 	public function getLocationData(){
 		$ip_address = $this->input->ip_address();
@@ -394,8 +398,7 @@ class Shortener_model extends CI_Model {
 		}
 		else{
 			$this->db->INSERT('uploaded_img_tbl',$data);
-		}
-		
+		}	
 	}
 	public function getImageLogo($url_param){
 		$query = $this->db->WHERE('url_param',$url_param)
@@ -412,5 +415,59 @@ class Shortener_model extends CI_Model {
 		else{
 			return '';
 		}
+	}
+	public function getEmailAddress(){
+		$data = $this->db->SELECT('recovery_email')->GET('site_settings_tbl')->row_array();
+		return array('email_address'=>$data['recovery_email']);
+	}
+	public function customizeUrl(){
+		$url_param = $this->input->post('url_param');
+		$edit_url_param = $this->input->post('edit_url_param');
+		$check_param = $this->checkURLData($edit_url_param);
+		if($check_param > 0){
+			$response['status'] = 'error';
+			$response['message'] = "URL is already taken!";
+			$response['attribute'] = "";
+		}
+		else if(strlen($edit_url_param) < 4) {
+			$response['status'] = 'error';
+			$response['message'] = "Only a minimum of 4 characters is allowed!";
+			$response['attribute'] = "";
+		}
+		else if(strlen($edit_url_param) > 18) {
+			$response['status'] = 'error';
+			$response['message'] = "Only a maximum of 18 characters is allowed!";
+			$response['attribute'] = "";
+		} 
+		else if(!empty($url_param) && !empty($edit_url_param)){
+			if(!preg_match('/[^a-z\-0-9]/i', $edit_url_param)) {
+				$data_arr = array(
+					'short_url'=>$edit_url_param,
+					'updated_at'=>date('Y-m-d H:i:s'),
+				);
+				$data_arr2 = array(
+					'url_param'=>$edit_url_param,
+					'updated_at'=>date('Y-m-d H:i:s'),
+				);
+				$this->db->WHERE('short_url',$url_param)->UPDATE('shortened_url_tbl', $data_arr);
+				$this->db->WHERE('url_param',$url_param)->UPDATE('statistics_tbl', $data_arr2);
+				$response['status'] = 'success';
+				$response['message'] = "Succesfuly customize your URL!";
+				$response['attribute'] = array('new_url'=>base_url().$edit_url_param.'-');
+			}
+			else{
+				$response['status'] = 'error';
+				$response['message'] = "Only alphanumeric characters and dash is allowed!";
+				$response['attribute'] = "";
+			}
+			
+		}
+		else{
+			$response['status'] = 'error';
+			$response['message'] = "";
+			$response['attribute'] = "";
+		}
+		return $response;
+
 	}
 }

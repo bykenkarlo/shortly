@@ -45,7 +45,7 @@
                     </div>
 
                     <div class="row mt-3 ">
-                        <div class="col-lg-4 text-center mt-2">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-12 text-center mt-2">
                             <div class="avatar-md m-auto">
                                 <span class="avatar-title bg-success-lighten rounded-circle">
                                     <i class="uil uil-pricetag-alt text-success font-28"></i>
@@ -57,7 +57,7 @@
                             </div>
                         </div>
                                 
-                        <div class="col-lg-4 text-center mt-2">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-12 text-center mt-2">
                             <div class="avatar-md m-auto">
                                 <span class="avatar-title bg-success-lighten rounded-circle">
                                     <i class="uil uil-chart-line text-success font-28"></i>
@@ -68,7 +68,7 @@
                                 <p>Provides complete statistics from Browser, Platform, Location, Referrers and etc.</p>
                             </div>
                         </div>
-                        <div class="col-lg-4 text-center mt-2">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-12 text-center mt-2">
                              <div class="avatar-md m-auto">
                                 <span class="avatar-title bg-success-lighten rounded-circle">
                                     <i class="uil uil-qrcode-scan text-success font-28"></i>
@@ -79,7 +79,7 @@
                                 <p>Generate a customizable QR code and upload your business' logo image.</p>
                             </div>
                         </div>
-                        <div class="col-lg-4 text-center mt-2">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-12 text-center mt-2">
                             <div class="avatar-md m-auto">
                                 <span class="avatar-title bg-success-lighten rounded-circle">
                                     <i class="uil uil-shield-check text-success font-28"></i>
@@ -91,7 +91,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-4 text-center mt-2">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-12 text-center mt-2">
                             <div class="avatar-md m-auto">
                                 <span class="avatar-title bg-success-lighten rounded-circle">
                                     <i class="uil uil-apps text-success font-28"></i>
@@ -111,7 +111,7 @@
                     <div class="text-center">
                         <h2 class="f-h3 mb-2 c-white">Suggestions? We hear you!</h2>
                         <p class="p-text c-white font-15">We are open for suggestions for any features that we can add on the site. Let us know by contacting us using the button below.</p>
-                        <button class="btn btn-lg btn-light rounded">Suggest</button>
+                        <button class="btn btn-lg btn-light rounded" type="button" id="_email_us">Email Us</button>
                     </div>
                 </div>
             </div>

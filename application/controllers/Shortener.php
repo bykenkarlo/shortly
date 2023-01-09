@@ -29,18 +29,24 @@ class Shortener extends CI_Controller {
         }
     }
     public function checkURLStat($param){
-        $data['siteSetting'] = $this->Site_settings_model->siteSettings();
-        $data['social_media'] = $this->Site_settings_model->getSocialMedias();
-        $data['title'] = 'Check your URL Statistics';
-        $data['description'] = 'this is the description';
-        $data['canonical_url'] = base_url();
-        $data['csrf_data'] = $this->Csrf_model->getCsrfData();
-        $data['state'] = "statistics";
-        $data['url_param'] = $param;
-        $this->load->view('home/header', $data);
-        $this->load->view('home/nav');
-        $this->load->view('shortener/statistics');
-        $this->load->view('home/footer');
+        $url_data = $this->Shortener_model->checkURLData($param);
+        if($url_data > 0){
+            $data['siteSetting'] = $this->Site_settings_model->siteSettings();
+            $data['social_media'] = $this->Site_settings_model->getSocialMedias();
+            $data['title'] = 'Check your URL Statistics';
+            $data['description'] = 'this is the description';
+            $data['canonical_url'] = base_url();
+            $data['csrf_data'] = $this->Csrf_model->getCsrfData();
+            $data['state'] = "statistics";
+            $data['url_param'] = $param;
+            $this->load->view('home/header', $data);
+            $this->load->view('home/nav');
+            $this->load->view('shortener/statistics');
+            $this->load->view('home/footer');
+        }
+        else{
+            $this->Site_settings_model->error404();
+        }
     }
     public function getURLData(){
         $data = $this->Shortener_model->getURLData();
@@ -111,5 +117,13 @@ class Shortener extends CI_Controller {
     }
     public function imagekit(){
         $data = $this->Shortener_model->imagekit();
+    }
+    public function getEmailAddress(){
+        $data = $this->Shortener_model->getEmailAddress();
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+    }
+    public function customizeUrl(){
+        $data = $this->Shortener_model->customizeUrl();
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
 }

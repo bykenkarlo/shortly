@@ -47,7 +47,7 @@
                     <ul class="navbar-nav me-auto align-items-right text-uppercase fw-500 web-view">
                     </ul>
                     <!-- right menu -->
-                    <ul class="navbar-nav ms-auto align-items-center fw-500 web-view">
+                    <ul class="navbar-nav ms-auto align-items-center bg-white fw-500 web-view">
                         <li class="nav-item mx-lg-1">
                             <a class="nav-link" href="<?=base_url('about')?>">About Us</a>
                         </li>
