@@ -41,7 +41,7 @@
                 <div class="container">
                     <div class="mt-5 text-center" id="features">
                         <h2 class="f-h2">Why Use Shortly?</h2>
-                        <p class="p-text">Shortly helps online businesses, marketers, ordinary internet users by transforming their links into <br> powerful tools and  create statistics that will provide insights to measure how marketing, content and products are performing relative to user engagement.</p>
+                        <p class="p-text">Shortly helps online businesses, marketers, internet users by transforming their links into <br> powerful tools and  create statistics that will provide insights to measure how marketing, content and products are performing relative to user engagement.</p>
                     </div>
 
                     <div class="row mt-3 ">

@@ -15,3 +15,21 @@ window.addEventListener("beforeinstallprompt", function(e) {
     console.log(choiceResult.outcome); // either "accepted" or "dismissed"
   }, handleError);
 });
+
+const _accessPage = (page) => {
+    $("#loader").removeAttr('hidden','hidden');
+
+    if(page.indexOf('#') !== -1){
+        url = page.split("#")
+        location.href=base_url+'#'+url[1];
+        $("html, body").animate({scrollTop:$(window.location.hash).position().top}, 500);
+        $("#loader").attr('hidden','hidden');
+    }
+    else if(page == '') {
+        location.href=base_url
+    }
+    else{
+        location.href=base_url+''+page
+    }
+    
+}

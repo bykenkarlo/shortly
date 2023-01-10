@@ -7,14 +7,14 @@
                 <!-- logo -->
                 <div class="web-view">
                     <div class="navbar-brand me-lg-5 cursor-pointer" >
-                        <a href="<?=base_url();?>"><img src="<?=base_url('assets/images/logo/hh-logo.webp')?>" alt="<?=$siteSetting['website_name']?> Logo" class="hh-logo"></a>
+                        <a onclick="_accessPage('')" class="cursor-pointer"><img src="<?=base_url('assets/images/logo/hh-logo.webp')?>" alt="<?=$siteSetting['website_name']?> Logo" class="hh-logo"></a>
                     </div>
                 </div>
 
                 <div class="mobile-view d-flex justify-content-between w-100">
                     <div class="p-2 mt-1 ">
                         <div class="navbar-brand me-lg-5 cursor-pointer">
-                            <a href="<?=base_url();?>"><img class="mm-logo" src="<?=base_url('assets/images/logo/hh-logo.webp')?>" alt="<?=$siteSetting['website_name']?>"></a>
+                            <a class="cursor-pointer" onclick="_accessPage('')"><img class="mm-logo" src="<?=base_url('assets/images/logo/hh-logo.webp')?>" alt="<?=$siteSetting['website_name']?>"></a>
                         </div>
                     </div>
                     <div class="div-nav-logo p-2">
@@ -31,9 +31,9 @@
                     <div class="menu_container menu_mm">
                         <div class="page_menu_content">
                             <ul class="page_menu_nav menu_mm">
-                                <li class="page_menu_item menu_mm cursor-pointer"><a href="<?=base_url()?>">Home</a></li>
-                                <li class="page_menu_item menu_mm cursor-pointer"><a href="<?=base_url('about')?>">About Us</a></li>
-                                <li class="page_menu_item menu_mm cursor-pointer"><a href="<?=base_url('privacy')?>">Privacy Policy</a></li>
+                                <li class="page_menu_item menu_mm cursor-pointer"><a onclick="_accessPage('')">Home</a></li>
+                                <li class="page_menu_item menu_mm cursor-pointer"><a onclick="_accessPage('about')">About Us</a></li>
+                                <li class="page_menu_item menu_mm cursor-pointer"><a onclick="_accessPage('privacy')">Privacy Policy</a></li>
                                 <!-- <li class="page_menu_item menu_mm cursor-pointer mt-3 install-app-btn-container"><button id="_install_app" class="btn rounded btn-warning c-white ">Install App</button></li> -->
                             </ul>
                         </div>
@@ -49,19 +49,15 @@
                     <!-- right menu -->
                     <ul class="navbar-nav ms-auto align-items-center bg-white fw-500 web-view">
                         <li class="nav-item mx-lg-1">
-                            <a class="nav-link" href="#features">Features</a>
+                            <a class="nav-link cursor-pointer" onclick="_accessPage('index#features')">Features</a>
                         </li>
                         <li class="nav-item mx-lg-1">
-                            <a class="nav-link" href="<?=base_url('about')?>">About Us</a>
+                            <a class="nav-link cursor-pointer" onclick="_accessPage('about')">About Us</a>
                         </li>
                         <li class="nav-item mx-lg-1">
-                            <a class="nav-link" href="<?=base_url('privacy')?>">Privacy</a>
+                            <a class="nav-link cursor-pointer" onclick="_accessPage('privacy')">Privacy</a>
                         </li>
-                        
-                        
                         <!--<li class="nav-item me-0">
-                            <a  href="<?=base_url('borrow?').'utm_source=self&utm_medium=btn&utm_campaign=borrow_btn'?>"  class="btn btn-sm btn-kwartz text-uppercase c-white rounded-pill padding-right-20 padding-left-20 d-none d-lg-inline-flex btn-login">
-                            Borrow
                             </a> 
                         </li>  -->
                         

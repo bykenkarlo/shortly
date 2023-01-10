@@ -14,6 +14,7 @@ const assets = [
   "assets/images/thumbnail.webp",
   "assets/images/bg/bg1.webp",
   "assets/images/bg/bg2.webp",
+  "assets/images/other/loader.gif",
 ]
 self.addEventListener("install", installEvent => {
   installEvent.waitUntil(

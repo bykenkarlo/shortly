@@ -1,6 +1,12 @@
         
 		<div class="" id="_menu_backdrop"></div>
 		
+		<div id="loader" class="loader-div" hidden>
+            <div class="loader-wrapper">
+                <img src="<?=base_url('assets/images/other/loader.gif')?>" width="120" heigth="120">
+            </div>
+        </div>
+
 		<div class="footer-div padding-bottom-30 pt-5">
 			<div class="container">
 				<div class="row">
@@ -39,18 +45,18 @@
 					<div class="col-lg-3">
 						<!-- <h3 class="font-16 footer-title">Website</h3> -->
 						<ul class="no-list-style ml-n-3 footer-text">
-							<li><a class="cursor-pointer" href="<?=base_url('about')?>">About Us</a></li>
-							<li><a class="cursor-pointer" href="<?=base_url('terms')?>">Terms & Conditions</a></li>
-							<li><a class="cursor-pointer" href="<?=base_url('privacy')?>">Privacy Policy</a></li>
-							<li><a class="cursor-pointer" href="<?=base_url('login')?>">Account</a></li>
+							<li><a class="cursor-pointer" onclick="_accessPage('about')">About Us</a></li>
+							<li><a class="cursor-pointer" onclick="_accessPage('terms')">Terms & Conditions</a></li>
+							<li><a class="cursor-pointer" onclick="_accessPage('privacy')">Privacy Policy</a></li>
+							<li><a class="cursor-pointer" onclick="_accessPage('account')">Account</a></li>
 						</ul>
 					</div>	
 
 					<div class="col-lg-3">
 						<!-- <h3 class="font-16 footer-title">Products</h3> -->
 						<ul class="no-list-style ml-n-3 footer-text">
-							<li><a href="<?=base_url()?>">Link Shortener</a></li>
-							<li><a href="<?=base_url('qr-code-generator')?>">QR Code Generator</a></li>
+							<li><a class="cursor-pointer" onclick="_accessPage('')">Link Shortener</a></li>
+							<li><a class="cursor-pointer" onclick="_accessPage('qr-code-generator')">QR Code Generator</a></li>
 						</ul>
 					</div>	
 
