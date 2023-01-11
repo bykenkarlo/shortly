@@ -119,7 +119,7 @@
             <div class="other-section padding-bottom-50 padding-top-50 c-dwhite">
                 <div class="container">
                     <div class="text-center">
-                        <h2 class="f-h3 mb-2">Stay tune, we will release new features soon.</h2>
+                        <h2 class="f-h3 mb-2">Stay tune, new features will be released soon.</h2>
                     </div>
                 </div>
             </div>

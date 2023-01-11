@@ -51,10 +51,6 @@ body[data-layout="detached"] .leftside-menu .side-nav .side-nav-forth-level li a
   color: #ffc516 !important;
 }
 
-
-.row .form-floating > label {
-  /*left: 10px;*/
-}
 .nav-tabs.nav-bordered li a.active {
   border-bottom: 2px solid #ffc516;
 }
@@ -269,55 +265,19 @@ select.form-control:not([size]):not([multiple]) {
 a{
   color: #3699ff;
 }
-.nav-user {
-  /*padding: calc(31px * .5) 20px calc(31px * .5) 15px !important;*/
-  text-align: left !important;
-  position: relative;
-}
 .form-floating > label {
-  padding: 1rem 1.7rem;
-}
-#_edit_user_form .form-floating > label {
-  padding: 1rem .9rem;
-}
-#_add_user_form .form-floating > label {
-  padding: 1rem .9rem;
-}
-#_add_category_form .form-floating > label {
-  padding: 1rem .9rem;
-}
-#_login_form .form-floating > label {
-  padding: 1rem .9rem;
-}
-#_add_carousel_form .form-floating > label {
-  padding: 1rem .9rem;
-}
-#_add_product_form .form-floating > label {
-  padding: 1rem .9rem;
-}
-#_update_carousel_form .form-floating > label {
-  padding: 1rem .9rem;
+  padding: .8rem 1.7rem;
 }
 
+#_login_form .form-floating > label {
+  padding: .8rem .9rem;
+}
 .social-media-handles .form-floating > label {
   padding: 1rem .9rem;
 }
 .border-inline-block {
   border-bottom: 2px solid rgba(152,166,173,.2);
 }
-#_import_excel_form .form-floating > label {
-  padding: 1rem 1rem;
-}
-#_payment_pref_form .form-floating > label {
-  padding: 1rem .6rem;
-}
-#_update_loan_details_form .form-floating > label {
-  padding: 1rem 1rem;
-}
-#_manual_payment_record_form .form-floating > label {
-  padding: 1rem .9rem;
-}
-
 .tilebox-one i {
   position: absolute;
   right: 1.5rem;
@@ -350,4 +310,16 @@ a{
 
 .custom-tooltip:hover .tooltiptext {
   visibility: visible;
+}
+.form-check .form-check-input {
+  float: left !important;
+  margin-left: -1.612em !important;
+  margin-top: .5em !important;
+}
+.form-check-input:checked {
+  background-color: #05cb62 !important;
+  border-color: #05cb62 !important;
+}
+.breadcrumb-item + .breadcrumb-item::before {
+  margin-top: .3em;
 }

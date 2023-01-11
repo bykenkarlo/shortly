@@ -31,5 +31,20 @@ const _accessPage = (page) => {
     else{
         location.href=base_url+''+page
     }
-    
 }
+
+const _guest_defaults = () => {
+	fetch(base_url+'api/v1/_website_guest',{
+  		method: "GET",
+		  	headers: {
+		    	'Accept': 'application/json',
+		    	'Content-Type': 'application/json'
+		  	},
+	})
+	.then(response => response.json())
+	.then(res => {})
+	.catch((error) => {
+		console.error('Error:', error);
+	});
+}
+_guest_defaults();

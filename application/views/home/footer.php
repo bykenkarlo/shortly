@@ -48,7 +48,6 @@
 							<li><a class="cursor-pointer" onclick="_accessPage('about')">About Us</a></li>
 							<li><a class="cursor-pointer" onclick="_accessPage('terms')">Terms & Conditions</a></li>
 							<li><a class="cursor-pointer" onclick="_accessPage('privacy')">Privacy Policy</a></li>
-							<li><a class="cursor-pointer" onclick="_accessPage('account')">Account</a></li>
 						</ul>
 					</div>	
 
@@ -81,17 +80,20 @@
 		</script>
 	    <script src="<?=base_url('assets/js/jquery-3.6.3.min.js')?>"></script>
 		<script src="<?=base_url()?>assets/js/_web_package.min.js"></script>
-		<script src="<?=base_url()?>assets/js/_access.js"></script>
-		<script src="<?=base_url()?>assets/js/_webapp.js"></script>
+		<script src="<?=base_url()?>assets/js/_access.js?v=<?=filemtime('assets/js/_access.js')?>"></script>
+		<script src="<?=base_url()?>assets/js/_webapp.js?v=<?=filemtime('assets/js/_webapp.js')?>"></script>
 		<script src="<?=base_url()?>assets/js/clipboard.min.js"></script>
 		<script src="<?=base_url()?>assets/js/sweetalert2.all.min.js"></script>
-		<script src="<?=base_url()?>assets/js/auth/_csrf.js"></script>
+		<script src="<?=base_url()?>assets/js/auth/_csrf.js?v=<?=filemtime('assets/js/auth/_csrf.js')?>"></script>
 		    
 		<?php if ($state == 'statistics') {?><script src="<?=base_url()?>assets/js/vendor/qr_code_styling.js"></script>
-			<script src="<?=base_url()?>assets/js/vendor/croppie.js"></script>
-			<script src="<?=base_url()?>assets/js/vendor/Chart.bundle.min.js"></script> <?php } ?>
+		<script src="<?=base_url()?>assets/js/vendor/croppie.js"></script>
+		<script src="<?=base_url()?>assets/js/vendor/Chart.bundle.min.js"></script> <?php } ?>
+		
+		<?php if ($state == 'login') {?><script src="<?=base_url()?>assets/js/auth/_login.js"></script>
+		<script src="<?=base_url()?>assets/js/vendor/croppie.js"></script><?php } ?>
 
-		<script src="<?=base_url()?>assets/js/auth/app.js"></script>
+		<script src="<?=base_url()?>assets/js/auth/app.js?v=<?=filemtime('assets/js/auth/app.js')?>"></script>
 		
 		<script>
 			<?php if ($state == 'statistics') {?>var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))

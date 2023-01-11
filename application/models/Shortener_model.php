@@ -219,7 +219,7 @@ class Shortener_model extends CI_Model {
 				$q['referrer'] = $parse['host'];
 			}
 			else if($q['referrer'] == '' || !$q['referrer']){
-				$q['referrer'] = 'Other';
+				$q['referrer'] = 'Direct';
 			}
 			$referrer = ucfirst(preg_replace("(^https?://)", "", $q['referrer'] ));
 			$array = array(

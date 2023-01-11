@@ -587,7 +587,7 @@ body {
   background-color: #3699ff !important;
 }
 .breadcrumb-item a:hover {
-  color: #ffc516 !important;
+  color: #05cb62  !important;
 }
 .bg-primary{
     background: #3699ff !important;
@@ -638,7 +638,7 @@ body {
 
 /* Success Colors*/
 .widget-icon {
-  color: #ffc516 !important;
+  color: #05cb62  !important;
   font-size: 20px;
   background-color: rgba(255, 251, 21, 0.18) !important;
   height: 40px;
@@ -702,7 +702,7 @@ body {
   color: #fff !important;
 }
 .breadcrumb-item a{
-  color: #ffc516 !important;
+  color: #05cb62  !important;
 }
 .breadcrumb-item a:hover{
   color: #3699ff !important;
@@ -1139,8 +1139,10 @@ input[type=number] {
     z-index: 999 !important;
   }
   .nav-user {
-    min-height: 70px !important;
-    margin-top: -10px;
+    padding: calc(31px * .5) 20px calc(31px * .5) 57px !important;
+    text-align: left !important;
+    position: relative;
+    min-height: 80px !important;
   }
   .loader-wrapper{
     position: fixed;
@@ -1866,33 +1868,6 @@ body{
   position: relative;
   padding: 80px 0 120px 0;
 }
-.pay-now-section::after {
-  content: ' ';
-  background-image: linear-gradient(to bottom,#ffc516 ,#ffebb0 );
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  z-index: -1;
-  width: 100%;
-  border-radius: 0;
-  top: 0;
-  -webkit-transform: skewY(0deg);
-  transform: skewY(0deg);
-}
-.pay-now-section::after {
-  top: 10%;
-  background: linear-gradient(0deg, rgba(33, 37, 41,.5), rgba(33, 37, 41,.5)), url('../images/bg/pay_now.jpg') no-repeat center;
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: fixed;
-  height: 85%;
-}
-.pay-now-section {
-  position: relative;
-  padding: 80px 0 120px 0;
-}
 .index-section::after {
   content: ' ';
   background-image: linear-gradient(to bottom,#8669ed,#727cf5);
@@ -2118,8 +2093,9 @@ body{
 .nav-user .account-user-name{
   color: #6c757d ;
 }
-.nav-user .account-position{
-  color: #6c757d ;
+.nav-user .account-position {
+  font-size: .9em;
+  margin-top: 6px;
 }
 .nav-user .account-user-avatar{
   color: #6c757d !important;

@@ -732,11 +732,7 @@ h1, h2, h3, h4, h5 {
     }
 }
 
-.nav-user {
-  padding: calc(31px * .5) 20px calc(31px * .5) 57px !important;
-  text-align: left !important;
-  position: relative;
-}
+
 /* Ipad  */
 @media only screen and (min-width: 801px) and (max-width: 811px){
     .sticky-buttons-wrapper button{

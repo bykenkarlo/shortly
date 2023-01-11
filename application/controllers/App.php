@@ -10,6 +10,7 @@ class App extends CI_Controller {
         $this->load->model('Csrf_model');
     }
     public function index(){
+        // $this->output->cache(43200); // cache for one month
         $data['siteSetting'] = $this->Site_settings_model->siteSettings();
         $data['social_media'] = $this->Site_settings_model->getSocialMedias();
         $data['title'] = 'index';
@@ -22,6 +23,7 @@ class App extends CI_Controller {
     	$this->load->view('home/nav');
     	$this->load->view('home/index');
     	$this->load->view('home/footer');
+        $this->output->delete_cache('/'); // delete cache url
     }
     public function getCsrfData() { 
         $data = $this->Csrf_model->getCsrfData();

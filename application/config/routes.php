@@ -53,10 +53,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['about'] = 'Page/about';
 $route['privacy'] = 'Page/privacy';
 $route['terms'] = 'Page/terms';
+$route['account'] = 'Page/account';
+$route['login'] = 'Page/login';
 $route['sitemap.xml'] = 'Sitemap/index';
 $route['stat/(:any)'] = 'Shortener/checkURLStat/$1';
 $route['(:any)-'] = 'Shortener/checkURLStat/$1';
 $route['(:any)'] = 'Shortener/accessLongURL/$1';
+
+#ACCOUNT 
+$route['account/dashboard'] = 'Page/dashboard';
+
+# LOGIN
+$route['api/v1/account/_login'] = 'Login/loginProcess';
+
+# Statistics
+$route['api/v1/statistics/_website_stat_chart'] = 'Statistics/getWebsiteStatsChart';
+$route['api/v1/statistics/_website_stats'] = 'Statistics/getWebsiteStats';
+$route['api/v1/statistics/_lending_bussiness_stats'] = 'Statistics/getLendingBussinessStats';
+
 
 # API
 $route['api/v1/shortener/_process'] = 'Shortener/processUrl';
@@ -70,6 +84,7 @@ $route['api/v1/shortener/_upload_logo'] = 'Shortener/uploadCustomLogo';
 $route['api/v1/shortener/_customize_url'] = 'Shortener/customizeUrl';
 $route['api/v1/email/_get'] = 'Shortener/getEmailAddress';
 $route['api/v1/xss/_get_csrf_data'] = 'App/getCsrfData';
+$route['api/v1/_website_guest'] = 'Page/newWebsiteVisits';
 
 $route['default_controller'] = 'App/index';
 $route['404_override'] = 'Error404';
