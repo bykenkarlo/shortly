@@ -39,34 +39,36 @@ h1, h2 , h3 {
     font-size: 16px;
     color: #383838;
 }
-.image_404{
-    display: block;
-    width: 330px;
-    height: 330px;
-    -moz-border-radius: 100%;
-    -webkit-border-radius: 100%;
-    object-fit: cover;
-    background-repeat:no-repeat; 
-    margin-left: auto;
-    margin-right: auto;
-}   
+.image_404 {
+  display: block;
+  width: 330px;
+  height: 330px;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  object-fit: cover;
+  background-repeat: no-repeat;
+  margin-left: auto;
+  margin-right: auto;
+}
 </style>
 </head>
-<body class="body-bg-error" style="background-image:url();">
+<body class="body-bg-error">
     <div class="super_container">
         <div class="">
             <div class="content mt-2 mb-5">
                 <div class="row justify-content-center">
                     <div class="col-lg-6">
                         <div class="text-center mt-3">
-                             <img src="<?=base_url('assets/images/logo/broken-url.webp')?>" height="180" alt="File not found Image">
 
-                            <h1 class="text-error mt-2 justify-content-center font-40">404 Not Found</h1>
-                            <h2 class="text-uppercase text-danger font-27">You are lost!</h4>
-                            <p class="text-muted mt-3 font-15">It's looking like you may have taken a wrong turn. Don't worry... it
+                            <h1 class="mt-2 justify-content-center font-35">Sometimes when you close your eyes... you can't see.</h1>
+
+                            <img src="<?=base_url('assets/images/cannot-see.webp')?>" class="image_404" height="180" alt="404 page">
+
+                            <h2 class=" font-27 fw-600">This is a 404 Page!</h4>
+                            <p class="p-text mt-3 font-15">It's looking like you may have taken a wrong turn. Don't worry... it
                                 happens to the best of us. Here's a little tip that might help you get back on track.</p>
 
-                            <a class="btn mt-2 btn-secondary btn-lg c-white rounded" href="<?=base_url();?>"><i class="uil-back"></i> Return Home</a>
+                            <a class="btn mt-2 btn-dark btn-lg font-18 c-white rounded" href="<?=base_url();?>"><i class="uil-back"></i> Go Home</a>
                         </div> 
                     </div> 
                 </div>
