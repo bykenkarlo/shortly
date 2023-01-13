@@ -103,7 +103,7 @@ const isValidUrl = (long_url) => {
 }
 $("#_monitor_btn").on('click', () => {
     const param = $("#_monitor_btn").data("param");
-    location.href=base_url+''+param+'-';
+    location.href=base_url+'stat/'+param+'';
 });
 
 const statistics = (_url_param) => {
