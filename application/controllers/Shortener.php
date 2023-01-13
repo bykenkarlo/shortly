@@ -13,6 +13,7 @@ class Shortener extends CI_Controller {
         $this->load->model('Shortener_model');
         $this->load->model('Site_settings_model');
         $this->load->model('Csrf_model');
+        $this->load->model('User_model');
     }
     public function processUrl() {
         $data = $this->Shortener_model->processUrl();
@@ -22,6 +23,7 @@ class Shortener extends CI_Controller {
         $data = $this->Shortener_model->accessLongURL($url_param);
         if(!empty($data)){
             $click_id = $this->Shortener_model->recordUserClick($url_param);
+            $this->User_model->newWebsiteVisits(); // insert new visit
             header('Location: '.$data);
         }
         else{
