@@ -64,7 +64,7 @@ h1, h2 , h3 {
 
                             <img src="<?=base_url('assets/images/cannot-see.webp')?>" class="image_404" height="180" alt="404 page">
 
-                            <h2 class=" font-27 fw-600">This is a 404 Page!</h4>
+                            <h2 class=" font-27 fw-600 mt-4">This is a 404 Page!</h4>
                             <p class="p-text mt-3 font-15">It's looking like you may have taken a wrong turn. Don't worry... it
                                 happens to the best of us. Here's a little tip that might help you get back on track.</p>
 
