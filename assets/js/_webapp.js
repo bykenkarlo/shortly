@@ -15,3 +15,12 @@ function _imgError(image){
     image.src = base_url+"assets/images/default-profile.webp";
     return true;
 }
+$(".button-menu-mobile").on('click',function(e) {
+    e.preventDefault();
+    $('body').toggleClass('sidebar-enable');
+    $("#_account_backdrop").toggleClass('account-backdrop');
+});
+$("#_account_backdrop").on('click', function (){
+    $('body').toggleClass('sidebar-enable');
+    $(this).toggleClass('account-backdrop');
+})

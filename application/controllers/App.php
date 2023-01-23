@@ -23,7 +23,7 @@ class App extends CI_Controller {
     	$this->load->view('home/nav');
     	$this->load->view('home/index');
     	$this->load->view('home/footer');
-        $this->output->delete_cache('/'); // delete cache url
+        // $this->output->delete_cache('/'); // delete cache url
     }
     public function getCsrfData() { 
         $data = $this->Csrf_model->getCsrfData();

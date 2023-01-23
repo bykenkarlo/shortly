@@ -9,7 +9,7 @@ body[data-layout="detached"] .leftside-menu {
   box-shadow: 0 0 35px 0 rgba(154,161,171,.15);
   margin-top: 30px;
   padding-top: 0 !important;
-  z-index: 1001 !important;
+  z-index: 99999 !important;
 }
 body[data-layout="detached"] .leftbar-user {
   background: url(../images/waves.png) no-repeat;
@@ -28,7 +28,13 @@ body[data-layout="detached"].sidebar-enable .leftside-menu {
   overflow-y: auto;
   margin-top: 0px;
 }
-
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+  line-height: 1.4;
+}
+.btn-xs {
+  font-size: 1.1em;
+  padding: 5px 8px;
+}
 .notification-list .noti-icon {
   font-size: 22px;
   vertical-align: middle;
@@ -45,17 +51,17 @@ body[data-layout="detached"].sidebar-enable .leftside-menu {
   background-color: #fa5c7c;
 }
 body[data-layout="detached"] .leftside-menu .side-nav .side-nav-link:active, body[data-layout="detached"] .leftside-menu .side-nav .side-nav-link:focus, body[data-layout="detached"] .leftside-menu .side-nav .side-nav-link:hover {
-  color: #ffc516 !important;
+  color: #05cb62 !important;
 }
 body[data-layout="detached"] .leftside-menu .side-nav .side-nav-forth-level li a:focus, body[data-layout="detached"] .leftside-menu .side-nav .side-nav-forth-level li a:hover, body[data-layout="detached"] .leftside-menu .side-nav .side-nav-second-level li a:focus, body[data-layout="detached"] .leftside-menu .side-nav .side-nav-second-level li a:hover, body[data-layout="detached"] .leftside-menu .side-nav .side-nav-third-level li a:focus, body[data-layout="detached"] .leftside-menu .side-nav .side-nav-third-level li a:hover {
-  color: #ffc516 !important;
+  color: #05cb62 !important;
 }
 
 .nav-tabs.nav-bordered li a.active {
-  border-bottom: 2px solid #ffc516;
+  border-bottom: 2px solid #05cb62;
 }
 .nav-link:focus, .nav-link:hover {
-  color: #ffc516;
+  color: #05cb62;
 }
 #loan-period .form-select {
   padding: 0rem 1.7rem 0rem 0rem !important;

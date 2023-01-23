@@ -41,6 +41,7 @@ class Shortener extends CI_Controller {
             $data['csrf_data'] = $this->Csrf_model->getCsrfData();
             $data['state'] = "statistics";
             $data['url_param'] = $param;
+            $data['url_data'] =  $this->Shortener_model->getURLDataByURLParam($param);
             $this->load->view('home/header', $data);
             $this->load->view('home/nav');
             $this->load->view('shortener/statistics');
@@ -126,6 +127,10 @@ class Shortener extends CI_Controller {
     }
     public function customizeUrl(){
         $data = $this->Shortener_model->customizeUrl();
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+    }
+    public function changeStatus(){
+        $data = $this->Shortener_model->changeStatus();
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
 }

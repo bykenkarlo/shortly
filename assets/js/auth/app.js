@@ -865,3 +865,6 @@ $("#_edit_url_form").on('submit', function(e){
         $("#_customize_url_btn").text('Update').removeAttr('disabled','disabled')
     }) 
 });
+$("#_check_url_stat_btn").on('click', () => {
+    $("#_url_stat_modal").modal('show');
+});

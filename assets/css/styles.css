@@ -653,6 +653,7 @@ h1, h2, h3, h4, h5 {
         text-align: center;
     }
 }
+
 /* large screens  */
 @media only screen and (max-width: 511px){
     .btn-shortener{
@@ -660,7 +661,18 @@ h1, h2, h3, h4, h5 {
         border-radius: .45em;
     }
 }
+@media only screen and (max-width: 767.98px){
+    .button-menu-mobile.disable-btn{
+        display: block !important;
+    }
+    .button-menu-mobile span {
+        background-color: rgba(104, 104, 104, 0.8);
+    }
+}
 @media only screen and (min-width: 768px){
+    .button-menu-mobile.disable-btn{
+        display: none !important;
+    }
     #_input_url_div {
         position: relative;
         display: inline-block;

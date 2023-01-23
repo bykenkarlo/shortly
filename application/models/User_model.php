@@ -44,13 +44,8 @@ class User_model extends CI_Model {
 				'created_at'=>date('Y-m-d H:i:s'),
 			);
 			$this->db->INSERT('website_visits_tbl',$data);
-			$response['view_id'] = base64_encode($view_id);
 		}
-		else{
-			$response['bot'] = $this->agent->is_robot();
-			$response['view_id'] = base64_encode($this->session->website_views);
-		}
-		return $response;
+		return true;
 	}
     public function generateWebsiteVisitorID($length = 15) {
 		$characters = '0123456789abcdef';

@@ -51,10 +51,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 $route['about'] = 'Page/about';
-$route['privacy'] = 'Page/privacy';
-$route['terms'] = 'Page/terms';
-$route['account'] = 'Page/account';
+$route['privacy-terms'] = 'Page/terms';
 $route['login'] = 'Page/login';
+$route['logout'] = 'Page/logout';
+$route['account'] = 'Page/dashboard';
 $route['sitemap.xml'] = 'Sitemap/index';
 $route['stat/(:any)'] = 'Shortener/checkURLStat/$1';
 $route['(:any)-'] = 'Shortener/checkURLStat/$1';
@@ -62,6 +62,9 @@ $route['(:any)'] = 'Shortener/accessLongURL/$1';
 
 #ACCOUNT 
 $route['account/dashboard'] = 'Page/dashboard';
+$route['account/url-list'] = 'Page/urlList';
+
+$route['api/v1/account/_url_list'] = 'Account/getURLList';
 
 # LOGIN
 $route['api/v1/account/_login'] = 'Login/loginProcess';
@@ -82,6 +85,8 @@ $route['api/v1/shortener/_get_platform_stats'] = 'Shortener/getPlatformStat';
 $route['api/v1/shortener/_get_location_stats'] = 'Shortener/getLocationStat';
 $route['api/v1/shortener/_upload_logo'] = 'Shortener/uploadCustomLogo';
 $route['api/v1/shortener/_customize_url'] = 'Shortener/customizeUrl';
+$route['api/v1/shortener/_change_status'] = 'Shortener/changeStatus';
+
 $route['api/v1/email/_get'] = 'Shortener/getEmailAddress';
 $route['api/v1/xss/_get_csrf_data'] = 'App/getCsrfData';
 $route['api/v1/_website_guest'] = 'Page/newWebsiteVisits';

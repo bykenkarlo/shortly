@@ -125,6 +125,26 @@ class Page extends CI_Controller {
             header('location:'.base_url('login?return=').uri_string());
         }
     }
+    public function urlList(){
+        if (isset($this->session->user_id)) {
+        $data['siteSetting'] = $this->Site_settings_model->siteSettings();
+        $data['social_media'] = $this->Site_settings_model->getSocialMedias();
+        $data['title'] = 'URL List';
+        $data['description'] = 'URL lists';
+        $data['canonical_url'] = base_url('url-list');
+        $data['url_param'] = "";
+        $data['state'] = "url_list";
+        $data['csrf_data'] = $this->Csrf_model->getCsrfData();
+        $data['user_data'] = $this->User_model->getUserData(); 
+    	$this->load->view('account/header', $data);
+    	$this->load->view('account/nav');
+    	$this->load->view('account/url_list');
+    	$this->load->view('account/footer');
+        }
+        else{
+            header('location:'.base_url('login?return=').uri_string());
+        }
+    }
     public function newWebsiteVisits(){
 		$data = $this->User_model->newWebsiteVisits();
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));

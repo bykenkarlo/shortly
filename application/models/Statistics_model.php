@@ -45,7 +45,7 @@ class Statistics_model extends CI_Model {
         $result = array();
         $timestamp = time();
         for ($i = 0 ; $i < $range ; $i++) {
-            $array = array('date'=>date('d/m/y', $timestamp));
+            $array = array('date'=>date('d/m', $timestamp));
             $timestamp -= 24 * 3600;
         }
         array_push($result, $array);
@@ -62,7 +62,7 @@ class Statistics_model extends CI_Model {
         $result = array();
         foreach($query as $q){
             $array = array(
-                'date'=>date('d/m/y', strtotime($q['date'])),
+                'date'=>date('d/m', strtotime($q['date'])),
                 'views'=>$q['views']
             );
             array_push($result, $array);
@@ -80,7 +80,7 @@ class Statistics_model extends CI_Model {
         $result = array();
         foreach($query as $q){
             $array = array(
-                'date'=>date('d/m/y', strtotime($q['date'])),
+                'date'=>date('d/m', strtotime($q['date'])),
                 'count'=>$q['count']
             );
             array_push($result, $array);
@@ -98,7 +98,7 @@ class Statistics_model extends CI_Model {
         $result = array();
         foreach($query as $q){
             $array = array(
-                'date'=>date('d/m/y', strtotime($q['date'])),
+                'date'=>date('d/m', strtotime($q['date'])),
                 'count'=>$q['count']
             );
             array_push($result, $array);

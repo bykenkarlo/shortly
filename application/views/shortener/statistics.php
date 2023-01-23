@@ -43,6 +43,11 @@
                             </div>
                         </div> 
                         <div class="col-lg-8">
+                            <?php if ($url_data['status'] == 'disabled'){?>
+                            <div class="alert alert-danger br-10" role="alert">
+                                <i class="uil-times-circle"></i>This URL has been <b>Disabled</b> for violating our Terms! If you think this was made by mistake <a href="<?=base_url('#contact_us')?>">contact us</a>!
+                            </div>
+                            <?php } ?>
                             <div class="card card-services-highlights pb-2  c-gray">
                                 <div class="card-body">
                                     <div id="_redirect_title"><span class="placeholder-glow"><span class="placeholder col-4"></span></span></div>

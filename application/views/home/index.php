@@ -106,10 +106,27 @@
                 </div>
             </div>
 
-            <div class="recommend-section padding-bottom-70 c-dwhite">
+            <div class="other-section padding-bottom-70 c-dwhite">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-6 col-12">
+                            <img class="img-fluid" src="<?=base_url()?>assets/images/other/check-url.webp" alt="checking URL status">
+                        </div>
+                        <div class="col-lg-5 col-md-6 col-12 mt-2">
+                            <h2 class="f-h2">Check URL Statistics</h2>
+                            <p class="p-text">
+                                Want to know your shortened URL statistics? Check your shortened URL statistics by clicking the button below. 
+                            </p>
+                            <button id="_check_url_stat_btn" class="btn btn-success rounded btn-lg pr-4 pl-4" type="button">Check</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recommend-section padding-bottom-70 c-dwhite" id="contact_us">
                 <div class="container">
                     <div class="text-center">
-                        <h2 class="f-h3 mb-2 c-white">Suggestions? We hear you!</h2>
+                        <h2 class="f-h3 mb-2 c-white">Suggestions? Would love to hear it!</h2>
                         <p class="p-text c-white font-15">We are open for suggestions for any possible features that can be added on the site. Let us know by contacting us using the button below.</p>
                         <button class="btn btn-lg btn-light rounded" type="button" id="_email_us">Email Us</button>
                     </div>
@@ -125,6 +142,19 @@
             </div>
         </div>
 
+        <div class="modal fade" id="_url_stat_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog modal-lg " >
+                <div class="modal-content br-10">
+                    <div class="modal-header ">
+                        <h4 class="modal-title " id="myLargeModalLabel"><i class="uil uil-chart-line "></i> Check URL Statistics</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                    </div>
+                    <div class="modal-body">
+                    
+                </div>
+                </div>
+            </div>
+         </div>
 
 
         <!-- End Container -->

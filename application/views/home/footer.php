@@ -46,8 +46,7 @@
 						<!-- <h3 class="font-16 footer-title">Website</h3> -->
 						<ul class="no-list-style ml-n-3 footer-text">
 							<li><a class="cursor-pointer" onclick="_accessPage('about')">About Us</a></li>
-							<li><a class="cursor-pointer" onclick="_accessPage('terms')">Terms & Conditions</a></li>
-							<li><a class="cursor-pointer" onclick="_accessPage('privacy')">Privacy Policy</a></li>
+							<li><a class="cursor-pointer" onclick="_accessPage('privacy-terms')">Terms of Use</a></li>
 						</ul>
 					</div>	
 
