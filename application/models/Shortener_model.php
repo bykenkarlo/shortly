@@ -50,15 +50,17 @@ class Shortener_model extends CI_Model {
    	}
    	public function accessLongURL($url_param) {
 		$long_url = "";
-		$data = $this->db->SELECT('long_url')->WHERE("short_url",$url_param)->GET('shortened_url_tbl')->row_array();
+		$data = $this->db->SELECT('long_url')->WHERE("short_url",$url_param)->WHERE('status','active')->GET('shortened_url_tbl')->row_array();
 		if(!empty($data)){
 			$long_url = $data['long_url'];
 		}
 		return $long_url;
 	}
 	public function checkURLData($param) {
-		$data = $this->db->WHERE('short_url',$param)->GET('shortened_url_tbl')->num_rows();
-		return $data;
+		return $this->db->WHERE('short_url',$param)->GET('shortened_url_tbl')->num_rows();
+	}
+	public function getURLDataByURLParam($url_param) {
+		return $this->db->WHERE('short_url',$url_param)->GET('shortened_url_tbl')->row_array();
 	}
 	public function getURLData() {
 		$url_param = $this->input->get('url_param');
@@ -468,6 +470,24 @@ class Shortener_model extends CI_Model {
 			$response['attribute'] = "";
 		}
 		return $response;
+	}
+	public function changeStatus(){
+		$status = $this->input->post('status');
+		$data_arr = array('status'=>$status);
 
+		$this->db->WHERE('short_url',$this->input->post('url_param'))->UPDATE('shortened_url_tbl',$data_arr);
+
+		if ($this->db->affected_rows() > 0) {
+			$response['status'] = 'success';
+			$response['message'] = "Status successfully updated to ".$status;
+			$response['attribute'] = "";
+		}else{
+			$response['status'] = 'error';
+			$response['message'] = "Row cannot be updated. Please try again!";
+			$response['attribute'] = "";
+		}
+ 
+		
+		return $response;
 	}
 }
