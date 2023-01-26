@@ -9,7 +9,7 @@ body[data-layout="detached"] .leftside-menu {
   box-shadow: 0 0 35px 0 rgba(154,161,171,.15);
   margin-top: 30px;
   padding-top: 0 !important;
-  z-index: 99999 !important;
+  z-index: 1003 !important;
 }
 body[data-layout="detached"] .leftbar-user {
   background: url(../images/waves.png) no-repeat;
@@ -328,4 +328,7 @@ a{
 }
 .breadcrumb-item + .breadcrumb-item::before {
   margin-top: .3em;
+}
+.swal2-container.swal2-center > .swal2-popup {
+  z-index: 9999;
 }

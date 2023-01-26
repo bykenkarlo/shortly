@@ -11,7 +11,7 @@ RewriteRule ^/?$ "https\:\/\/shortly\.at\/" [R=301,L]
 Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" env=HTTPS
 
 # Content-Security-Policy - all only used assets 
-Header set Content-Security-Policy "default-src 'self' 'unsafe-inline' *.googleapis.com *.gstatic.com *.iconscout.com *.imagekit.io *.ipinfo.io *.google-analytics.com *.doubleclick.net *.googlesyndication.com *.googletagmanager.com *.google.com; script-src 'self' 'unsafe-inline' *.google.com *.doubleclick.net *.googletagmanager.com *.googlesyndication.com *.google-analytics.com; manifest-src 'self'; frame-ancestors 'self'"
+# Header set Content-Security-Policy "default-src 'self' 'unsafe-inline' *.tiny.cloud *.googleapis.com *.gstatic.com *.iconscout.com *.imagekit.io *.tinymce.com *.ipinfo.io *.google-analytics.com *.doubleclick.net *.googlesyndication.com *.googletagmanager.com *.google.com; script-src 'self' 'unsafe-inline' *.tiny.cloud *.tinymce.com *.google.com *.doubleclick.net *.googletagmanager.com *.googlesyndication.com *.google-analytics.com; manifest-src 'self'; frame-ancestors 'self'; img-src 'self' 'unsafe-inline' *.tinymce.com;"
 
 # X-Frame-Options - allow or not for frames, embed and object html tags
 Header set X-Frame-Options "DENY"

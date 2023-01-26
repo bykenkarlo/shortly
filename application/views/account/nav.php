@@ -1,5 +1,5 @@
     
-    <body data-layout="detached" >
+
 
     <!-- Topbar Start -->
     <div class="navbar-custom topnav-navbar topnav-navbar-light">

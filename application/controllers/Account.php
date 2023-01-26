@@ -7,6 +7,9 @@ class Account extends CI_Controller {
 	function __construct(){
         parent::__construct();
         $this->load->model('Account_model');
+        $this->load->model('Site_settings_model');
+        $this->load->model('User_model');
+        $this->load->model('Csrf_model');
         $this->load->library('pagination');
     }
     public function getURLList() {
@@ -55,4 +58,5 @@ class Account extends CI_Controller {
         $data['count'] = $all_count;
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
    }
+  
 }
