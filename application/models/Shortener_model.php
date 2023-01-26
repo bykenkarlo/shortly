@@ -64,7 +64,7 @@ class Shortener_model extends CI_Model {
 	}
 	public function getURLData() {
 		$url_param = $this->input->get('url_param');
-		$data = $this->db->SELECT('sut.long_url, sut.short_url, COUNT(st.click_id) as total_click, sut.created_at')
+		$data = $this->db->SELECT('sut.long_url, sut.short_url, sut.status, COUNT(st.click_id) as total_click, sut.created_at')
 			->FROM('shortened_url_tbl as sut')
 			->JOIN('statistics_tbl as st','st.url_param=sut.short_url','left')
 			->WHERE('sut.short_url',$url_param)
@@ -76,6 +76,7 @@ class Shortener_model extends CI_Model {
 				'short_url'=> preg_replace("(^https?://)", "", base_url().$data['short_url'] ),
 				'redirect_url'=>$data['long_url'],
 				'url_param'=>$data['short_url'],
+				'status'=>$data['status'],
 				'total_click'=>$data['total_click'],
 				'logo_img'=>$logo_img,
 				'created_at'=>date('F d, Y h:i A', strtotime($data['created_at']))

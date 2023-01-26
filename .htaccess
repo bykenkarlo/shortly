@@ -2,8 +2,8 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php/$1 [L]
-RewriteCond %{HTTP_HOST} ^www\.shortly\.com$
-RewriteRule ^/?$ "https\:\/\/shortly\.com\/" [R=301,L]
+RewriteCond %{HTTP_HOST} ^www\.shortly\.at$
+RewriteRule ^/?$ "https\:\/\/shortly\.at\/" [R=301,L]
 
 # Security Headers 
 <IfModule mod_headers.c>
@@ -11,7 +11,7 @@ RewriteRule ^/?$ "https\:\/\/shortly\.com\/" [R=301,L]
 Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" env=HTTPS
 
 # Content-Security-Policy - all only used assets 
-# Header set Content-Security-Policy "default-src 'self' 'unsafe-inline' *.googleapis.com *.gstatic.com *.iconscout.com *.imagekit.io *.ipinfo.io *.google-analytics.com; script-src 'self' 'unsafe-inline' *.googletagmanager.com *.google-analytics.com; manifest-src 'self'; "
+Header set Content-Security-Policy "default-src 'self' 'unsafe-inline' *.googleapis.com *.gstatic.com *.iconscout.com *.imagekit.io *.ipinfo.io *.google-analytics.com *.doubleclick.net *.googlesyndication.com *.googletagmanager.com *.google.com; script-src 'self' 'unsafe-inline' *.google.com *.doubleclick.net *.googletagmanager.com *.googlesyndication.com *.google-analytics.com; manifest-src 'self'; frame-ancestors 'self'"
 
 # X-Frame-Options - allow or not for frames, embed and object html tags
 Header set X-Frame-Options "DENY"

@@ -36,7 +36,7 @@
                                                         </div>
                                                     </th>
                                                     <th>Shortened URL</th>
-                                                    <th width="400">Long URL</th>
+                                                    <th width="350">Long URL</th>
                                                     <th>Click Count</th>
                                                     <th>Status</th>
                                                     <th>Date Created</th>

@@ -117,8 +117,13 @@ const statistics = (_url_param) => {
 	})
 	.then(response => response.json())
 	.then(res => {
+       if(res.data.status == 'disabled'){
+            $("#_short_url").html(res.data.short_url+ ' <span id="_edit_url" class="font-16">');
+        }
+        else if(res.data.status == 'active'){
+            $("#_short_url").html(res.data.short_url+ ' <span id="_edit_url" class="pointer-cursor font-16"><i class="uil uil-edit-alt"></i></span>').attr('data-url_param',res.data.url_param).attr('onclick','changeURLModal()');
+        }
         generateQrCode(_url_param, res.data.logo_img);
-		$("#_short_url").html(res.data.short_url+ ' <span id="_edit_url" class="pointer-cursor font-16"><i class="uil uil-edit-alt"></i></span>').attr('data-url_param',res.data.url_param);
         $("#_referrer_title").html('Referrer'+' <small>(in the last 30 days)</small>');
         $("#_platform_title").html('Platform'+' <small>(in the last 30 days)</small>');
         $("#_browser_title").html('Browser'+' <small>(in the last 30 days)</small>');
@@ -130,8 +135,9 @@ const statistics = (_url_param) => {
         $("#_upload_btn_div").html('<button onclick="_upload_logo_btn()" class="btn btn-md rounded btn-light"><i class="uil uil-upload-alt"></i> Upload Logo</button>');
         $("#_qr_code_title").html('<i class="uil-qrcode-scan"></i> QR Code')
         $("#_redirect_title").text('Redirect')
-		$("#_created_div").html('<i class="uil uil-calendar-alt"></i> <span id="_created_at" class="font-14">'+res.data.created_at+'</span>');
-		$("#_redirect_url").html('<i class="uil uil-link"></i> <a target="_blank" rel="nofollow" class="font-14 c-gray" href="'+res.data.redirect_url+'">'+res.data.redirect_url+'</a>');
+        $("#_created_div").html('<i class="uil uil-calendar-alt"></i> <span id="_created_at" class="font-14">'+res.data.created_at+'</span>');
+        $("#_redirect_url").html('<i class="uil uil-link"></i> <a target="_blank" rel="nofollow" class="font-14 c-gray" href="'+res.data.redirect_url+'">'+res.data.redirect_url+'</a>');
+		
 	})
 	.catch((error) => {
 		console.error('Error:', error);
@@ -780,12 +786,12 @@ $("#_email_us").on('click', () => {
 		console.error('Error:', error);
 	});
 })
-$("#_short_url").on('click', () => {
+const changeURLModal = () => {
     const param = $("#_short_url").data("url_param");
     $("#_edit_url_modal").modal('show');
     $("#_edit_url_param").val(param);
     $("#_url_param_view").text(param)
-})
+}
 $("#_close_update_url_btn").on('click', () => {
     $("#_edit_url_modal").modal('hide');
 });

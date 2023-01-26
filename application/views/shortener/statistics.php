@@ -41,6 +41,23 @@
                                     </div> -->
                                 </div>
                             </div>
+                            <!-- <div class="card card-services-highlights pb-2">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-center mt-1 ">
+                                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9264139322313019" crossorigin="anonymous"></script>
+                                    <ins class="adsbygoogle"
+                                        style="display:block"
+                                        data-ad-client="ca-pub-9264139322313019"
+                                        data-ad-slot="6915775442"
+                                        data-ad-format="auto"
+                                        data-full-width-responsive="true"></ins>
+                                    <script>
+                                        (adsbygoogle = window.adsbygoogle || []).push({});
+                                    </script>
+                                    <small class="c-gray">Advertisement <i class="uil-question-circle" class="cursor-pointer"></i></small>
+                                    </div>
+                                </div>
+                            </div> -->
                         </div> 
                         <div class="col-lg-8">
                             <?php if ($url_data['status'] == 'disabled'){?>

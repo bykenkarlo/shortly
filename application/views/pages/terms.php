@@ -40,6 +40,11 @@
                                         Shortly use IP Geolocation API such as IPinfo.io to identify the Users' Country and City to track Users' location who click the shortened URL. This is to provide accurate monitoring statistics of each clicks. We don't save your IP Address on our database.
                                     </p>
 
+                                    <h2 class="font-20 c-gray mt-3 fw-700">Advertisement</h2>
+                                    <p class="p-text">
+                                        We may show ads as our main source of income to support the website's hosting cost. This ads are provided by Google Ads.
+                                    </p>
+
                                     <h2 class="font-20 c-gray mt-3 fw-700">Cookies</h2>
                                     <p class="p-text">
                                         We use cookies to record your preferences to our site, and for certain site functions. Cookie information is never passed to our database. 
