@@ -106,23 +106,22 @@
   }
 .tags-wrapper div a{
   color: #05cb62 !important;
-
 }
-#content p a {
+#content p a, .content p a {
     color:#05cb62 !important;
 }
-#content p {
-    font-size: 1.14em;
-    word-spacing: .24em;
+#content p, .content p {
+    font-size: 1.14em !important;
+    word-spacing: .24em !important;
 }
 .lead p {
-    word-spacing: .21em;
-    font-size: 1em;
-    font-style: italic;
+    word-spacing: .14em !important;
+    font-size: .97em !important;
+    font-style: italic !important;
 }
 #_recent_posts li a {
-    color:#05cb62;
+    color:#05cb62 !important;
 }
-#content h2, #content h3, #content h4 {
-    margin-top: 30px;
+#content h2, #content h3, #content h4, .content h2, .content h3, .content h4 {
+    margin-top: 30px !important;
 }

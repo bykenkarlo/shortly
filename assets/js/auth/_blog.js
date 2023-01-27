@@ -92,6 +92,11 @@ $('#_category_tbl_pagination').on('click','a',function(e){
     var page_no = $(this).attr('data-ci-pagination-page');
     _getCategoryTbl(page_no);
 });
+$('#_image_pagination').on('click','a',function(e){
+    e.preventDefault(); 
+    var page_no = $(this).attr('data-ci-pagination-page');
+    _showImages(page_no);
+});
 function _getCategoryTbl(page_no){
 	$("#_category_tbl").html("<tr class='text-center'><td colspan='3'>Loading data...</td></tr>");
 
@@ -291,7 +296,6 @@ function _statusCheckBox(id, page_no){
     else{
 		status = 'published';
     }
-
     $.ajax({
 		url: base_url+'api/v1/blog/_update_article_status',
 		type: 'POST',
@@ -304,7 +308,11 @@ function _statusCheckBox(id, page_no){
 		}
 	})
 	.done(function(res) {
-		_showArticles(page_no)
+		_showArticles(page_no);
+		_csrfNonce();
+	})
+	.fail(function() {
+		_csrfNonce();
 	})
 }
 $("#_update_blog_btn").on('click', function(e){
@@ -471,14 +479,14 @@ $("#_new_blog_btn").on('click', function(e){
 		return false;
 	}
 
-	if (!lead || lead == '') {
-		Swal.fire({
-			icon: 'error',
-		 	title: 'Error!',
-			html: "Lead should not be empty!",
-		})
-		return false;
-	}
+	// if (!lead || lead == '') {
+	// 	Swal.fire({
+	// 		icon: 'error',
+	// 	 	title: 'Error!',
+	// 		html: "Lead should not be empty!",
+	// 	})
+	// 	return false;
+	// }
 	
 	formData.append('content', content);
 	formData.append('lead', lead);
