@@ -277,6 +277,7 @@ class Blog extends CI_Controller {
             $dataArr = array (
                 'title'=>$title,
                 'url'=>$url,
+                'author'=>$this->session->user_id,
                 'lead'=>$lead,
                 'description'=>$description,
                 'category_id'=>$category,

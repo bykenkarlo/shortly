@@ -109,7 +109,7 @@
 
 }
 #content p a {
-    color:#05cb62;
+    color:#05cb62 !important;
 }
 #_recent_posts li a {
     color:#05cb62;
