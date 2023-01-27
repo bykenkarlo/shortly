@@ -112,7 +112,8 @@
 }
 #content p, .content p {
     font-size: 1.14em !important;
-    word-spacing: .24em !important;
+    word-spacing: .18em !important;
+    font-weight: 400;
 }
 .lead p {
     word-spacing: .14em !important;

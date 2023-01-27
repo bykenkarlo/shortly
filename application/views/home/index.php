@@ -41,7 +41,8 @@
                 <div class="container">
                     <div class="mt-5 text-center" id="features">
                         <h2 class="f-h2">Why Use Shortly?</h2>
-                        <p class="p-text">Shortly helps online businesses, marketers, internet users by transforming their links into <br> powerful tools and  create statistics that will provide insights to measure how marketing, content and products are performing relative to user engagement.</p>
+                        <p class="p-text">Shortly is a valuable tool for any business, marketer or internet users looking to optimize their online presence. <br>
+                            You can easily track and analyze the performance of your links, and make data-driven decisions to improve your campaigns and drive better results.</p>
                     </div>
 
                     <div class="row mt-3 ">
@@ -106,7 +107,7 @@
                 </div>
             </div>
 
-            <div class="other-section padding-bottom-70 c-dwhite">
+            <!-- <div class="other-section padding-bottom-70 c-dwhite">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-7 col-md-6 col-12">
@@ -121,13 +122,13 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="recommend-section padding-bottom-70 c-dwhite" id="contact_us">
                 <div class="container">
                     <div class="text-center">
-                        <h2 class="f-h3 mb-2 c-white">Suggestions? Would love to hear it!</h2>
-                        <p class="p-text c-white font-15">We are open for suggestions for any possible features that can be added on the site. Let us know by contacting us using the button below.</p>
+                        <h2 class="f-h3 mb-2 c-white">Questions? Suggestions? Would love to hear it!</h2>
+                        <p class="p-text c-white font-15">We are open for questions and suggestions for any possible features that can be added on the site. Let us know by contacting us using the button below.</p>
                         <button class="btn btn-lg btn-light rounded" type="button" id="_email_us">Email Us</button>
                     </div>
                 </div>

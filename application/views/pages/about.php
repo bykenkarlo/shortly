@@ -15,8 +15,11 @@
                                         Shortly is a FREE URL Shortener Tool with Premium Features without account registration. 
                                     </p>
                                     <p class="p-text">
-                                    Shortly helps online businesses, marketers, internet users by transforming their links into
-                                    powerful tools and create statistics that will provide insights to measure how marketing, content and products are performing relative to user engagement.
+                                    A valuable tool for any business or marketer looking to optimize their online presence. We provide several benefits, including increased click-through rates, improved analytics, 
+                                    increased security, branding opportunities, and ease of use. With the help of our tools you can easily track and analyze the performance of your links, and make data-driven decisions to improve your campaigns and drive better results.
+                                    </p>
+                                    <p class="p-text">
+                                        For more information, you can <a href="<?=base_url('#contact_us')?>">contact us</a>.
                                     </p>
                                     <!-- <h2 class="font-20 c-gray mt-3">Resources:</h2>
                                     <p  class="p-text">
