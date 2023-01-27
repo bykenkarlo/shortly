@@ -30,19 +30,19 @@
         <meta property="fb:app_id" content="103993588751492" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="<?=$siteSetting['website_name']?>" />
-        <meta property="og:description" content="<?= ($title == 'index') ? $siteSetting['description'].' link management software, QR Code features' : $description ?>" />
+        <meta property="og:description" content="<?=$article_data['description']?>" />
         <meta property="og:url" content="<?=$canonical_url;?>" />
         <meta property="og:site_name" content="<?=$siteSetting['website_name']?>" />
-        <meta property="og:image" content="" />
+        <meta property="og:image" content="<?=$article_data['article_image']?>" />
         <meta property="og:image:width" content="580" />
         <meta property="og:image:height" content="580" />
         <meta property="og:image:alt" content="" />
 
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:site" content="<?=base_url()?>">
-        <meta name="twitter:creator" content="shortly">
+        <meta name="twitter:creator" content="atShortly">
         <meta name="twitter:title" content="<?=$siteSetting['website_name']?>">
-        <meta name="twitter:image" content="<?= ($title == 'index') ? $siteSetting['description'].' link management software, QR Code features' : $description ?>">
+        <meta name="twitter:image" content="<?=$article_data['article_image']?>">
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-TREBS548CZ"></script>
         <!-- <?=($state=='statistics')?'<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9264139322313019" crossorigin="anonymous"></script>' : ''?> -->
         

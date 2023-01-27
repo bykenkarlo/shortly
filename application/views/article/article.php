@@ -1,12 +1,13 @@
 	<script type='application/ld+json'>
 	{
-	  "@context":"https:\/\/schema.org",
-	  "@type":"Organization",
-	  "url":"https:\/\/shortly.at\/",
-	  "sameAs":["https:\/\/www.facebook.com\/shortlyat","https:\/\/twitter.com\/atShortly"],
-	  "@id":"https://shortly.at/#Organization",
-	  "name":"Shortly"
-	}
+        "@context":"https:\/\/schema.org",
+        "@type":"Organization",
+        "url":"https:\/\/shortly.at\/",
+        "sameAs":["https:\/\/www.facebook.com\/profile.php?id=100089476980399\/"],
+        "@id":"https://shortly.at/#Organization",
+        "name":"Shortly",
+        "logo":"https://shortly.at/assets/images/logo/logo.png"
+    }
 	</script>		
 	<div id="_web_container">
 		<div class="body-container padding-top-30 padding-bottom-30 c-dwhite"  >

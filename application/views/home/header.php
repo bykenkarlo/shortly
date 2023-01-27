@@ -48,6 +48,19 @@
     </head>
 
     <body class="" >
+    <?php if($state=='index'){?><script type='application/ld+json'>
+        {
+          "@context":"https:\/\/schema.org",
+          "@type":"Organization",
+          "url":"https:\/\/shortly.at\/",
+          "sameAs":["https:\/\/www.facebook.com\/profile.php?id=100089476980399\/"],
+          "@id":"https://shortly.at/#Organization",
+          "name":"Shortly",
+          "logo":"https://shortly.at/assets/images/logo/logo.png"
+        }
+    </script>   
+    <?php }?>
+
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
