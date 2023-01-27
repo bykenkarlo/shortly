@@ -9,7 +9,18 @@
         <priority>1.0</priority>
     </url>
     <url>
-        <loc><?= base_url('privacy');?></loc>
+        <loc><?= base_url('privacy-terms');?></loc>
         <priority>1.0</priority>
     </url>
+    <url>
+        <loc><?= base_url('blog');?></loc>
+        <priority>1.0</priority>
+    </url>
+    <?php foreach($articles as $a) { ?>
+    <url>
+        <loc><?= base_url('article/').$a['url'];?></loc>
+        <priority>1.0</priority>
+    </url>
+    <?php } ?>
+    
 </urlset>

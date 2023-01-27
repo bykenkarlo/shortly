@@ -6,9 +6,11 @@ class Sitemap extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
+        $this->load->model('Blog_model');
 	}
 	public function index(){
 		header("Content-Type: text/xml;charset=iso-8859-1");
-		$this->load->view('sitemap/sitemap_view');
+		$data['articles'] = $this->Blog_model->getArticleForSitemap();
+		$this->load->view('sitemap/sitemap_view', $data);
 	}
 }

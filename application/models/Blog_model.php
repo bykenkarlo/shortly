@@ -621,4 +621,10 @@ class Blog_model extends CI_Model {
             ->GET('article_images_tbl')->num_rows();
         }
     }
+    public function getArticleForSitemap(){
+        return $this->db->SELECT('url')
+            ->FROM('article_tbl')
+            ->WHERE('status','published')
+            ->GET()->result_array();
+    }
 }
