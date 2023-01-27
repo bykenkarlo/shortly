@@ -197,12 +197,15 @@ class Page extends CI_Controller {
         $this->load->view('article/footer');
     }
     public function draft($url){
+        $data['social_media'] = $this->Site_settings_model->getSocialMedias();
         $data['article_data'] = $this->Blog_model->getArticleDataURL($url);
         $data['siteSetting'] = $this->Site_settings_model->siteSettings();
         if (!empty($data['article_data']['title']) && $data['article_data']['status'] == 'draft') {
             $data['canonical_url'] = $data['article_data']['url'];
-            $data['state'] = 'draft';
+            $data['state'] = 'article';
             $data['url_param'] = '';
+            $data['title'] = $data['article_data']['title'];
+            $data['description'] = $data['article_data']['description'];
             $data['nonce'] = $this->Site_settings_model->generateNonce();
             $this->load->view('article/header', $data);
             $this->load->view('article/navbar');
@@ -214,26 +217,21 @@ class Page extends CI_Controller {
         }
     }
     public function blog(){
-        if (isset($this->session->user_id)) {
-            $data['recent_blog_data'] = $this->Blog_model->getRecentArticleDataForPage();
-            $data['social_media'] = $this->Site_settings_model->getSocialMedias();
-            $data['siteSetting'] = $this->Site_settings_model->siteSettings();
-            $data['blog_data'] = $this->Blog_model->getArticleDataForPage();
-            $data['user_data'] = $this->User_model->getUserData(); 
-            $data['canonical_url'] = base_url('about');
-            $data['description'] = 'Learn more about Shorrtly for Link shortener, SHort URLs, Online Lending trivia, How-to, tips articles';
-            $data['title'] = 'Blog';
-            $data['state'] = 'blog';
-            $data['csrf_data'] = $this->Csrf_model->getCsrfData();
-            $data['url_param'] = "";
-            $this->load->view('home/header', $data);
-            $this->load->view('home/nav');
-            $this->load->view('home/blog');
-            $this->load->view('home/footer');
-        }
-        else{
-           header('location:'.base_url('login?return=').uri_string());
-        }
+        $data['recent_blog_data'] = $this->Blog_model->getRecentArticleDataForPage();
+        $data['social_media'] = $this->Site_settings_model->getSocialMedias();
+        $data['siteSetting'] = $this->Site_settings_model->siteSettings();
+        $data['blog_data'] = $this->Blog_model->getArticleDataForPage();
+        $data['user_data'] = $this->User_model->getUserData(); 
+        $data['canonical_url'] = base_url('about');
+        $data['description'] = 'Learn more about Shorrtly for Link shortener, SHort URLs, Online Lending trivia, How-to, tips articles';
+        $data['title'] = 'Blog';
+        $data['state'] = 'blog';
+        $data['csrf_data'] = $this->Csrf_model->getCsrfData();
+        $data['url_param'] = "";
+        $this->load->view('home/header', $data);
+        $this->load->view('home/nav');
+        $this->load->view('home/blog');
+        $this->load->view('home/footer');
     }
     public function blogList(){
         if (isset($this->session->user_id)) {

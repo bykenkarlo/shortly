@@ -111,6 +111,18 @@
 #content p a {
     color:#05cb62 !important;
 }
+#content p {
+    font-size: 1.14em;
+    word-spacing: .24em;
+}
+.lead p {
+    word-spacing: .21em;
+    font-size: 1em;
+    font-style: italic;
+}
 #_recent_posts li a {
     color:#05cb62;
+}
+#content h2, #content h3, #content h4 {
+    margin-top: 30px;
 }

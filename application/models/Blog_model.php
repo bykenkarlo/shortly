@@ -223,9 +223,15 @@ class Blog_model extends CI_Model {
         return $dataArr;
     }
     public function getArticleDataJS(){
-        $url_data = explode('article/', $this->input->get('url'));
-        $url = $url_data[1];   
-
+        $url = $this->input->get('url');
+        if (strpos($url , 'draft') !== false) { 
+            $url_data = explode('draft/',$url);
+            $url = $url_data[1]; 
+        }
+        else{
+            $url_data = explode('article/', $url);
+            $url = $url_data[1];  
+        }
         $query = $this->db->SELECT('article_id, article_pub_id, title, url, status, content, at.created_at, description, lead, article_image, category, status')
             ->FROM('article_tbl as at')
             ->WHERE('url', $url)

@@ -20,16 +20,19 @@ class Blog extends CI_Controller {
         $article_data = $this->Blog_model->getArticleDataJS();
         $article_tags = $this->Blog_model->getArticleTags($article_data['article_id']);
 
+        $lead = '';
+        if(!empty($article_data['lead'])){
+            $lead = '<div class="lead">
+            '.$article_data['lead'].'
+        </div>';
+        }
         if (empty($article_data['title'])) {
             $data['status'] = 'error';
             $data['message'] = 'No article found!';
         }
         else if($article_data['status'] == 'published'){
-            $data['status'] = 'success';
             $data['recent_posts'] = $this->blogRecentPosts($article_data['article_pub_id']);
-            // $data['related_posts'] = $this->blogRelatedPosts($article_data['category'], $article_data['article_pub_id']);
             $data['title'] = $article_data['title'];
-
             $tags = '';
             foreach ($article_tags as $t) {
                 $tags .= '<div class="mt-2 article-tags-wrapper">
@@ -37,7 +40,7 @@ class Blog extends CI_Controller {
                         </a>
                     </div>';
             }
-
+            
             $data['result'] = '
                     <div class="category-data text-left">
                         <a href="'.base_url('category/').''.str_replace(' ','-',strtolower($article_data['category'])).'">'.$article_data['category'].'</a>
@@ -67,15 +70,10 @@ class Blog extends CI_Controller {
                     </div>
 
                     <div class="content-data mt-">
-                      
-                        
                         <div class="content mt-3">
-                            <div class="lead">
-                                '.$article_data['lead'].'
-                            </div>
+                           '.$lead.' 
                             '.$article_data['content'].'
                         </div>
-
                         <div class="content mt-3">
                             <div class="tags-wrapper">
                             '.$tags.'
@@ -85,42 +83,53 @@ class Blog extends CI_Controller {
         }
 
         else if($article_data['status'] == 'draft'){
-            $data['status'] = 'success';
-            // $data['related_posts'] = $this->blogRelatedPosts($article_data['category'], $article_data['article_pub_id']);
             $data['recent_posts'] = $this->blogRecentPosts($article_data['article_pub_id']);
-            $data['message'] = $article_data['title'];
+            $data['title'] = $article_data['title'];
+            $tags = '';
+            foreach ($article_tags as $t) {
+                $tags .= '<div class="mt-2 article-tags-wrapper">
+                        <a href="'.base_url('tags/').str_replace(' ','-',strtolower($t['tags'])).'" class="article-tags ">#'.$t['tags'].'
+                        </a>
+                    </div>';
+            }
+            
             $data['result'] = '
-                    <div class="alert alert-secondary alert-dismissible fade show mb-3" role="alert">
-                        <a href="'.base_url('account/blog').'" type="button" class="btn-close" aria-label="Close"></a>
-                        This article will not show in Google Pages. Update the status to "Published" first. Back to <a class="text-black fw-500" href="'.base_url('account/blog').'">Blog List</a>.
-                    </div>
-
-                    <div class="category-data text-center">
+                    <div class="category-data text-left">
                         <a href="'.base_url('category/').''.str_replace(' ','-',strtolower($article_data['category'])).'">'.$article_data['category'].'</a>
                     </div>
 
-                    <div class="article-title text-center">
+                    <div class="article-title text-left">
                         <h1>'.$article_data['title'].'</h1>
                     </div>
 
-                    <div class="inline-block font-14 text-start">'.$article_data['created_at'].'</div>
-                    <div class="inline-block font-14 text-end">'.$article_data['min_read'].' min read</div>
+                    <div class="article-img mt-2 text-left">
+                        <img src="'.$article_data['article_image'].'" alt="'.$article_data['title'].'" class="img-fluid br-10" width="800" />
+                    </div>
 
-                    <div class="content-data mt-2">
+                    <div class="row mt-2">
+                        <div class="col-lg-6 col-6 font-14 text-start">'.$article_data['created_at'].' • '.$article_data['min_read'].' min read</div>
+                     </div>
 
-                        <div class="article-img mt-4 text-center">
-                            <img src="'.$article_data['article_image'].'" class="img-fluid br-10" width="800" />
-                        </div>
+                    <div class="mt-2 text-left ">
                         
+                        <div class=""> 
+                            <ul class="article-share-icon mt-1">
+                                <li class="facebook-icon"><a href="https://www.facebook.com/sharer/sharer.php?u='.$article_data['url'].'" rel="nofollow noopener noreferrer" target="_blank"><i class="uil uil-facebook-f"></i></a></li>
+                                <li class="twitter-icon"><a href="https://twitter.com/intent/tweet?original_referer='.$article_data['url'].'&text='.$article_data['description'].'&url='.$article_data['url'].'&hashtags=Shortly" rel="nofollow noopener noreferrer" target="_blank"><i class="uil uil-twitter"></i></a></li>
+                                <li class="linkedin-icon"><a href="https://www.linkedin.com/shareArticle?mini=true&url='.$article_data['url'].'&title='.$article_data['title'].'" rel="nofollow noopener noreferrer" target="_blank"><i class="uil uil-linkedin"></i></a></li>
+                            </ul>
+                         </div>
+                    </div>
+
+                    <div class="content-data mt-">
                         <div class="content mt-3">
-                            <div class="lead">
-                                '.$article_data['lead'].'
-                            </div>
+                           '.$lead.' 
                             '.$article_data['content'].'
                         </div>
-                        <div class="mt-4">
-                            <h4 class="font-20 fw-600 text-secondary">Recent Posts</h4>
-                            
+                        <div class="content mt-3">
+                            <div class="tags-wrapper">
+                            '.$tags.'
+                            </div>
                         </div>
                     </div>';
         }
