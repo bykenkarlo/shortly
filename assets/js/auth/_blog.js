@@ -496,7 +496,7 @@ $("#_new_blog_btn").on('click', function(e){
 		type: 'canvas',
 		size: { width: 800, height: 500 },
 		format: 'webp',
-		quality: 0.8,
+		quality: 0.9,
 	}).then(function (cropped_img) {
 		formData.append('article_image', cropped_img);
 			if (!cropped_img || cropped_img == '') {
@@ -581,7 +581,7 @@ $("#_update_image_form").on('submit', function(e){
 		type: 'canvas',
 		size: { width: 800, height: 500 },
 		format: 'webp',
-		quality: 0.8,
+		quality: 0.9,
 	}).then(function (cropped_img) {
 		formData.append('id', id);
 		formData.append('article_img', cropped_img);

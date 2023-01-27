@@ -27,9 +27,9 @@
 	<?php if ($state == 'article' || $state == 'new_blog') {?><link href="<?=base_url()?>assets/css/blog.css?v=<?=filemtime('assets/css/blog.css')?>" rel="stylesheet" type="text/css" /><?php } ?>
 
 
-        <meta property="fb:app_id" content="103993588751492" />
+        <meta property="fb:app_id" content="576747789395855" />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="<?=$siteSetting['website_name']?>" />
+        <meta property="og:title" content="<?=$article_data['title']?>" />
         <meta property="og:description" content="<?=$article_data['description']?>" />
         <meta property="og:url" content="<?=$canonical_url;?>" />
         <meta property="og:site_name" content="<?=$siteSetting['website_name']?>" />
@@ -41,7 +41,7 @@
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:site" content="<?=base_url()?>">
         <meta name="twitter:creator" content="atShortly">
-        <meta name="twitter:title" content="<?=$siteSetting['website_name']?>">
+        <meta name="twitter:title" content="<?=$article_data['title']?>">
         <meta name="twitter:image" content="<?=$article_data['article_image']?>">
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-TREBS548CZ"></script>
         <!-- <?=($state=='statistics')?'<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9264139322313019" crossorigin="anonymous"></script>' : ''?> -->
@@ -49,6 +49,73 @@
     </head>
 
     <body class="" >
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "NewsArticle",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "<?=$canonical_url;?>"
+          },
+          "headline": "<?=$article_data['title']?>",
+          "image": "https://kwartzlending.com/assets/images/blog/1648597154.webp",
+          "datePublished": "<?=$article_data['created_at']?>",
+          "dateModified": "<?=$article_data['updated_at']?>:",
+          "author": {
+            "@type": "Person",
+            "name": "Staff"
+          },
+           "publisher": {
+            "@type": "Organization",
+            "name": "<?=$siteSetting['website_name']?>",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "<?=base_url('assets/images/logo/logo.png')?>"
+            }
+          },
+          "description": "<?=$article_data['description']?>"
+        }
+   </script>
+   <script type='application/ld+json'>
+        {
+        "@context":"https://schema.org",
+        "@type":"BreadcrumbList",
+        "itemListElement":[{
+          "@type":"ListItem",
+          "position":1,
+          "item":
+            {
+              "@id":"<?=base_url()?>",
+              "name":"Home"
+            }
+          },
+            {
+              "@type":"ListItem",
+              "position":2,
+              "item":{
+                "@id":"<?=base_url('blog')?>",
+                "name":"Blog"
+              }
+            },
+            {
+              "@type":"ListItem",
+              "position":3,
+              "item":{
+                "@id":"<?=base_url('category/').strtolower($article_data['category'])?>",
+                "name":"<?=$article_data['category']?>"
+              }
+            },
+            {
+              "@type":"ListItem",
+              "position":4,
+              "item":{
+                "@id":"<?=$article_data['url']?>",
+                "name":"<?=$article_data['title']?>"
+              }
+            }
+          ]
+        }
+    </script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}

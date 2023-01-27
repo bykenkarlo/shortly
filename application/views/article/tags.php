@@ -10,7 +10,7 @@
                                 <h4 class="card-title placeholder-glow"><span class="placeholder col-3"></span></h4>
                             </div>
                             <div id="_tags_data" class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="card shadow mb-0" aria-hidden="true">
                                         <img src="<?=base_url()?>assets/images/thumbnail.webp" class="card-img-top" alt="...">
                                         <div class="card-body">
@@ -28,7 +28,25 @@
                                     </div> 
                                 </div> 
 
-                                <div class="col-md-4">
+                                <div class="col-md-3">
+                                    <div class="card shadow mb-0" aria-hidden="true">
+                                        <img src="<?=base_url()?>assets/images/thumbnail.webp" class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title placeholder-glow">
+                                                <span class="placeholder col-6"></span>
+                                            </h5>
+                                            <p class="card-text placeholder-glow">
+                                                <span class="placeholder col-7"></span>
+                                                <span class="placeholder col-4"></span>
+                                                <span class="placeholder col-4"></span>
+                                                <span class="placeholder col-6"></span>
+                                                <span class="placeholder col-8"></span>
+                                            </p>
+                                        </div> 
+                                    </div> 
+                                </div>
+
+                                <div class="col-md-3">
                                     <div class="card shadow mb-0" aria-hidden="true">
                                         <img src="<?=base_url()?>assets/images/thumbnail.webp" class="card-img-top" alt="...">
                                         <div class="card-body">
@@ -46,7 +64,7 @@
                                     </div> 
                                 </div> 
 
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="card shadow mb-0" aria-hidden="true">
                                         <img src="<?=base_url()?>assets/images/thumbnail.webp" class="card-img-top" alt="...">
                                         <div class="card-body">

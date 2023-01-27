@@ -48,7 +48,7 @@
     </head>
 
     <body class="" >
-    <?php if($state=='index'){?><script type='application/ld+json'>
+    <script type='application/ld+json'>
         {
           "@context":"https:\/\/schema.org",
           "@type":"Organization",
@@ -59,7 +59,6 @@
           "logo":"https://shortly.at/assets/images/logo/logo.png"
         }
     </script>   
-    <?php }?>
 
     <script>
     window.dataLayer = window.dataLayer || [];
