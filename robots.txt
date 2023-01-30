@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: / 
+Disallow: 
+
+Sitemap: https://shortly.at/sitemap.xml

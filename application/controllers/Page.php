@@ -46,7 +46,7 @@ class Page extends CI_Controller {
         $data['social_media'] = $this->Site_settings_model->getSocialMedias();
         $data['title'] = 'Terms and Conditions';
         $data['description'] = 'By using the Shortly website, you consent to the data practices described in this statement.';
-        $data['canonical_url'] = base_url('terms');
+        $data['canonical_url'] = base_url('privacy-terms');
         $data['url_param'] = "";
         $data['state'] = "terms";
         $data['csrf_data'] = $this->Csrf_model->getCsrfData();
@@ -222,7 +222,7 @@ class Page extends CI_Controller {
         $data['siteSetting'] = $this->Site_settings_model->siteSettings();
         $data['blog_data'] = $this->Blog_model->getArticleDataForPage();
         $data['user_data'] = $this->User_model->getUserData(); 
-        $data['canonical_url'] = base_url('about');
+        $data['canonical_url'] = base_url('blog');
         $data['description'] = 'Learn more about Shorrtly for Link shortener, SHort URLs, Online Lending trivia, How-to, tips articles';
         $data['title'] = 'Blog';
         $data['state'] = 'blog';
@@ -237,7 +237,7 @@ class Page extends CI_Controller {
         if (isset($this->session->user_id)) {
             $data['user_data'] = $this->User_model->getUserData(); 
             $data['siteSetting'] = $this->Site_settings_model->siteSettings();
-            $data['canonical_url'] = base_url('about');
+            $data['canonical_url'] = base_url('account/blog');
             $data['nonce'] = $this->Site_settings_model->generateNonce();
             $data['description'] = '';
             $data['title'] = 'Blog List';
@@ -257,7 +257,7 @@ class Page extends CI_Controller {
         if (isset($this->session->user_id)) {
             $data['user_data'] = $this->User_model->getUserData(); 
             $data['siteSetting'] = $this->Site_settings_model->siteSettings();
-            $data['canonical_url'] = base_url('about');
+            $data['canonical_url'] = base_url('account/blog/new');
             $data['nonce'] = $this->Site_settings_model->generateNonce();
             $data['csrf_data'] = $this->Csrf_model->getCsrfData();
             $data['blog_category'] = $this->Blog_model->getCategorySelect();
@@ -278,7 +278,7 @@ class Page extends CI_Controller {
         if (isset($this->session->user_id)) {
             $data['user_data'] = $this->User_model->getUserData(); 
             $data['siteSetting'] = $this->Site_settings_model->siteSettings();
-            $data['canonical_url'] = base_url('about');
+            $data['canonical_url'] = base_url('account/blog/edit/'.$article_pub_id);
             $data['nonce'] = $this->Site_settings_model->generateNonce();
             $data['csrf_data'] = $this->Csrf_model->getCsrfData();
             $data['article_data'] = $this->Blog_model->getArticleDataID($article_pub_id);
