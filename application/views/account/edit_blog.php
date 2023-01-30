@@ -69,7 +69,7 @@
                                                 </div>
 
                                                 <div class="form-floating mb-3">
-                                                    <textarea class="form-control" name="description" id="_article_desc"  required><?=$article_data['description']?></textarea>
+                                                    <textarea class="form-control" name="description" id="_article_desc" style="height:100px;"><?=$article_data['description']?></textarea>
                                                     <label for="_article_desc">Description</label>
                                                 </div>
 

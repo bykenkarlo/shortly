@@ -31,7 +31,7 @@
 						</div>
 					</div>
 					<div class="col-lg-4 col-md-4 col-12">
-						<h2 class="text-muted font-20">Recent Post</h2>
+						<h2 class="recent-post-h font-20">Recent Post</h2>
 						<div id="_recent_posts">
 							<p class="card-text placeholder-glow mt-2">
 								<span class="placeholder col-9"></span>

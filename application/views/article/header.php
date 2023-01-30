@@ -43,6 +43,7 @@
         <meta name="twitter:creator" content="atShortly">
         <meta name="twitter:title" content="<?=$article_data['title']?>">
         <meta name="twitter:image" content="<?=$article_data['article_image']?>">
+        <script async src="https://cdn.ampproject.org/v0.js"></script>
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-TREBS548CZ"></script>
         <!-- <?=($state=='statistics')?'<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9264139322313019" crossorigin="anonymous"></script>' : ''?> -->
         

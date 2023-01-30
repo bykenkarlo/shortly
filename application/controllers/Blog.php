@@ -268,7 +268,7 @@ class Blog extends CI_Controller {
         $lead = $this->input->post('lead');
         $description = $this->input->post('description');
         $category = $this->input->post('category');
-        $content = $this->input->post('content');
+        $content = $this->Blog_model->ampify($this->input->post('content'));
 
         $check_url = $this->Blog_model->checkBlogURL($url);
         if ($check_url > 0){
@@ -321,7 +321,7 @@ class Blog extends CI_Controller {
         $lead = $this->input->post('lead');
         $description = $this->input->post('description');
         $category = $this->input->post('category');
-        $content = $this->input->post('content');
+        $content = $this->Blog_model->ampify($this->input->post('content'));
         $article_id = $this->input->post('article_id');
 
         $check_url = $this->Blog_model->checkBlogURLID($url, $article_id);

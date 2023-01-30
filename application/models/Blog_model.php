@@ -260,6 +260,7 @@ class Blog_model extends CI_Model {
         $query = $this->db->SELECT('article_pub_id, title, url, status, at.created_at, content, category, description, article_image')
             ->FROM('article_tbl as at')
             ->WHERE('status','published')
+            ->ORDER_BY('created_at','desc')
             ->LIMIT(20, 1)
             ->JOIN('article_category_tbl as act','act.id=at.category_id')
             ->GET()->result_array();
@@ -302,6 +303,7 @@ class Blog_model extends CI_Model {
         $query = $this->db->SELECT('article_pub_id, title, url, status, at.created_at, content, category, description, article_image')
             ->FROM('article_tbl as at')
             ->WHERE('status','published')
+            ->ORDER_BY('created_at','desc')
             ->LIMIT(1)
             ->JOIN('article_category_tbl as act','act.id=at.category_id')
             ->GET()->result_array();
@@ -633,4 +635,32 @@ class Blog_model extends CI_Model {
             ->WHERE('status','published')
             ->GET()->result_array();
     }
+    public function ampify($html) {
+		# Add tooltip to all anchor
+		$html = preg_replace('/<a(.*?)\/?>/', '<a data-toggle="tooltip" data-placement="top" $1>',$html);
+		
+	  # Replace img, audio, and video elements with amp custom elements
+	  $html = str_ireplace(
+	    ['<img','<video','<audio','/audio>'],
+	    ['<amp-img','<amp-youtube','<amp-audio','/amp-audio>'],
+	    $html
+	  );
+
+	  #remove span style=400 copypasting from word
+	  $html = str_ireplace(
+	    ['<span style="font-weight: 400;">', '</span>', 'style="font-weight: 400;"','aria-level="1"','’'],
+	    ["", "", "", "", "'"],
+	    $html
+	  );
+
+	  # Add closing tags to amp-img custom element
+		$html = preg_replace('/<amp-img(.*?)\/?>/', '<amp-img layout="responsive" $1></amp-img>',$html);
+		$html = preg_replace('/<amp-youtube(.*?)\/?>/', '<amp-youtube layout="responsive" $1></amp-youtube>',$html);
+		
+
+	  # Whitelist of HTML tags allowed by AMP
+	  $html = strip_tags($html,'<h1><h2><h3><h4><h5><h6><a><p><ul><ol><li><blockquote><q><cite><ins><del><strong><em><code><pre><svg><table><thead><tbody><tfoot><th><tr><td><dl><dt><dd><article><section><header><footer><aside><figure><time><abbr><div><span><hr><small><br><amp-img><amp-audio><amp-video><amp-ad><amp-anim><amp-carousel><amp-fit-rext><amp-image-lightbox><amp-instagram><amp-lightbox><amp-twitter><amp-youtube>');
+	  return $html;
+	}
+	
 }
