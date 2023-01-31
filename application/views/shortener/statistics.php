@@ -60,17 +60,32 @@
                             </div> -->
                         </div> 
                         <div class="col-lg-8">
+                            
                             <?php if ($url_data['status'] == 'disabled'){?>
                             <div class="alert alert-danger br-10" role="alert">
                                 <i class="uil-times-circle"></i>This URL has been <b>Disabled</b> for violating our Terms! If you think this was made by mistake <a href="<?=base_url('#contact_us')?>">contact us</a>!
                             </div>
                             <?php } ?>
+
+                            
+                            <div class="row">
+                                <div class="col-lg-6  mt-2 ">
+                                </div>
+                                <div class="col-lg-6 mt-2 float-end">
+                                    <div for="_select_date" class="d-flex align-items-center mb-2">
+                                        <input value="<?=date('m/d/Y', strtotime('-7 days'))?> - <?=date('m/t/Y')?>" type="text" class="form-control date me-2 rounded" id="_select_date" data-toggle="date-picker" data-cancel-class="btn-light">
+                                        <button class="btn btn-success c-white btn-md rounded" id="_sort_by_date">Sort</button>
+                                     </div>
+                                 </div>
+                            </div>
+                            
                             <div class="card card-services-highlights pb-2  c-gray">
                                 <div class="card-body">
                                     <div id="_redirect_title"><span class="placeholder-glow"><span class="placeholder col-4"></span></span></div>
                                     <div id="_redirect_url" class="redirect-link custom-tooltip"><span class="placeholder-glow"><span class="placeholder col-12"></span></span></div>
                                 </div>
                             </div>
+
                             <div class="card card-services-highlights pt-1 pb-2  c-gray">
                                 <div class="card-body placeholder-glow">
                                     <div class="dropdown float-end">

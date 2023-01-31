@@ -143,9 +143,9 @@ const statistics = (_url_param) => {
 		console.error('Error:', error);
 	});
 }
-const clickStats = (_url_param, range) => {
+const clickStats = (_url_param, from, to) => {
     
-	let params = new URLSearchParams({'url_param':_url_param, 'range':range});
+	let params = new URLSearchParams({'url_param':_url_param, 'from':from, 'to':to});
 	fetch(base_url+'api/v1/shortener/_get_click_stats?' + params, {
   		method: "GET",
 		  	headers: {
@@ -158,15 +158,15 @@ const clickStats = (_url_param, range) => {
 		let dates = [];
         let clicks = [];
 
-        if(range == '7_days'){
-            $("#_engagement_overview_title").html('Engagement Overview'+' <small> (in the last 7 days)</small>');
-        }
-        else if(range == '30_days'){
-            $("#_engagement_overview_title").html('Engagement Overview'+' <small> (in the last 30 days)</small>');
-        }
-        else if(range == '1_year'){
-            $("#_engagement_overview_title").html('Engagement Overview'+' <small> (in the last 1 year)</small>');
-        }
+        // if(range == '7_days'){
+        //     $("#_engagement_overview_title").html('Engagement Overview'+' <small> (in the last 7 days)</small>');
+        // }
+        // else if(range == '30_days'){
+        //     $("#_engagement_overview_title").html('Engagement Overview'+' <small> (in the last 30 days)</small>');
+        // }
+        // else if(range == '1_year'){
+        //     $("#_engagement_overview_title").html('Engagement Overview'+' <small> (in the last 1 year)</small>');
+        // }
         
         stats = res.data.click_statistics;
         for(var i in stats){
@@ -179,8 +179,8 @@ const clickStats = (_url_param, range) => {
 		console.error('Error:', error);
 	});
 }
-const referrerStat = (_url_param, range) => {
-	let params = new URLSearchParams({'url_param':_url_param, 'range':range});
+const referrerStat = (_url_param, from, to) => {
+	let params = new URLSearchParams({'url_param':_url_param, 'from':from, 'to':to});
 	fetch(base_url+'api/v1/shortener/_get_referrer_stats?' + params, {
   		method: "GET",
 		  	headers: {
@@ -193,15 +193,15 @@ const referrerStat = (_url_param, range) => {
 		let count = [];
         let referrer = [];
 
-        if(range == '7_days'){
-            $("#_referrer_title").html('Referrer'+' <small> (in the last 7 days)</small>');
-        }
-        else if(range == '30_days'){
-            $("#_referrer_title").html('Referrer'+' <small> (in the last 30 days)</small>');
-        }
-        else if(range == '1_year'){
-            $("#_referrer_title").html('Referrer'+' <small> (in the last 1 year)</small>');
-        }
+        // if(range == '7_days'){
+        //     $("#_referrer_title").html('Referrer'+' <small> (in the last 7 days)</small>');
+        // }
+        // else if(range == '30_days'){
+        //     $("#_referrer_title").html('Referrer'+' <small> (in the last 30 days)</small>');
+        // }
+        // else if(range == '1_year'){
+        //     $("#_referrer_title").html('Referrer'+' <small> (in the last 1 year)</small>');
+        // }
 
         stats = res.data.referrer_statistics;
         for(var i in stats){
@@ -214,8 +214,8 @@ const referrerStat = (_url_param, range) => {
 		console.error('Error:', error);
 	});
 }
-const browserStat = (_url_param, range) => {
-	let params = new URLSearchParams({'url_param':_url_param, 'range':range});
+const browserStat = (_url_param, from, to) => {
+	let params = new URLSearchParams({'url_param':_url_param, 'from':from, 'to':to});
 	fetch(base_url+'api/v1/shortener/_get_browser_stats?' + params, {
   		method: "GET",
 		  	headers: {
@@ -228,15 +228,15 @@ const browserStat = (_url_param, range) => {
 		let count = [];
         let browser = [];
 
-        if(range == '7_days'){
-            $("#_browser_title").html('Browser'+' <small> (in the last 7 days)</small>');
-        }
-        else if(range == '30_days'){
-            $("#_browser_title").html('Browser'+' <small> (in the last 30 days)</small>');
-        }
-        else if(range == '1_year'){
-            $("#_browser_title").html('Browser'+' <small> (in the last 1 year)</small>');
-        }
+        // if(range == '7_days'){
+        //     $("#_browser_title").html('Browser'+' <small> (in the last 7 days)</small>');
+        // }
+        // else if(range == '30_days'){
+        //     $("#_browser_title").html('Browser'+' <small> (in the last 30 days)</small>');
+        // }
+        // else if(range == '1_year'){
+        //     $("#_browser_title").html('Browser'+' <small> (in the last 1 year)</small>');
+        // }
 
         stats = res.data.browser_statistics;
         for(var i in stats){
@@ -249,8 +249,8 @@ const browserStat = (_url_param, range) => {
 		console.error('Error:', error);
 	});
 }
-const platformStat = (_url_param, range) => {
-	let params = new URLSearchParams({'url_param':_url_param, 'range':range});
+const platformStat = (_url_param, from, to) => {
+	let params = new URLSearchParams({'url_param':_url_param,'from':from, 'to':to});
 	fetch(base_url+'api/v1/shortener/_get_platform_stats?' + params, {
   		method: "GET",
 		  	headers: {
@@ -263,15 +263,15 @@ const platformStat = (_url_param, range) => {
 		let count = [];
         let platform = [];
 
-        if(range == '7_days'){
-            $("#_platform_title").html('Platform'+' <small> (in the last 7 days)</small>');
-        }
-        else if(range == '30_days'){
-            $("#_platform_title").html('Platform'+' <small> (in the last 30 days)</small>');
-        }
-        else if(range == '1_year'){
-            $("#_platform_title").html('Platform'+' <small> (in the last 1 year)</small>');
-        }
+        // if(range == '7_days'){
+        //     $("#_platform_title").html('Platform'+' <small> (in the last 7 days)</small>');
+        // }
+        // else if(range == '30_days'){
+        //     $("#_platform_title").html('Platform'+' <small> (in the last 30 days)</small>');
+        // }
+        // else if(range == '1_year'){
+        //     $("#_platform_title").html('Platform'+' <small> (in the last 1 year)</small>');
+        // }
 
         stats = res.data.platform_statistics;
         for(var i in stats){
@@ -284,10 +284,10 @@ const platformStat = (_url_param, range) => {
 		console.error('Error:', error);
 	});
 }
-const locationStat = (_url_param, range) => {
+const locationStat = (_url_param, from, to) => {
     const loc_chart = _placeholder();
     $("#_location_chart").html(loc_chart);
-	let params = new URLSearchParams({'url_param':_url_param, 'range':range});
+	let params = new URLSearchParams({'url_param':_url_param, 'from':from, 'to':to});
 	fetch(base_url+'api/v1/shortener/_get_location_stats?' + params, {
   		method: "GET",
 		  	headers: {
@@ -301,15 +301,15 @@ const locationStat = (_url_param, range) => {
         let country = [];
         let string = "";
 
-        if(range == '7_days'){
-            $("#_location_title").html('Location'+' <small> (in the last 7 days)</small>');
-        }
-        else if(range == '30_days'){
-            $("#_location_title").html('Location'+' <small> (in the last 30 days)</small>');
-        }
-        else if(range == '1_year'){
-            $("#_location_title").html('Location'+' <small> (in the last 1 year)</small>');
-        }
+        // if(range == '7_days'){
+        //     $("#_location_title").html('Location'+' <small> (in the last 7 days)</small>');
+        // }
+        // else if(range == '30_days'){
+        //     $("#_location_title").html('Location'+' <small> (in the last 30 days)</small>');
+        // }
+        // else if(range == '1_year'){
+        //     $("#_location_title").html('Location'+' <small> (in the last 1 year)</small>');
+        // }
         stats = res.data.country_statistics;
         for(var i in stats){
             count.push(stats[i].count);
@@ -637,17 +637,20 @@ const downloadQr = (image) => {
         type: "png",
         data: base_url+''+_url_param,
         image: _img,
+       
         dotsOptions: {
             color: "#000",
-            type: "classy-rounded"
+            type: "rounded"
+        },
+        cornersSquareOptions: {
+            type: "rounded"
         },
         backgroundOptions: {
             color: "#fff",
         },
         imageOptions: {
             crossOrigin: "anonymous",
-            margin: 10,
-            imageSize: .5,
+            margin: 5
         }
     });
     qrCode.download({ name: "shortly_"+_url_param, extension: "png" });
@@ -659,13 +662,27 @@ var platform_stat_chart;
 var location_stat_chart;
 var _logo_img;
 
+$("#_sort_by_date").on('click', () => {
+    from = $('#_select_date').data('daterangepicker').startDate;
+	to = $('#_select_date').data('daterangepicker').endDate;
+    clickStats(_url_param, from, to );
+    referrerStat(_url_param, from, to );
+    platformStat(_url_param, from, to );
+    locationStat(_url_param, from, to );
+    browserStat(_url_param, from, to );
+})
 if(_state == 'statistics'){
     statistics(_url_param);
-    clickStats(_url_param, '30_days');
-    referrerStat(_url_param, '30_days');
-    platformStat(_url_param, '30_days');
-    locationStat(_url_param, '30_days');
-    browserStat(_url_param, '30_days');
+    
+    from = $('#_select_date').data('daterangepicker').startDate;
+	to = $('#_select_date').data('daterangepicker').endDate;
+
+    clickStats(_url_param, from, to );
+    referrerStat(_url_param, from, to );
+    platformStat(_url_param, from, to );
+    locationStat(_url_param, from, to );
+    browserStat(_url_param, from, to );
+
     _logo_img = $("#_logo_thumbnail").croppie({
         viewport: {
             width: 200,
@@ -679,10 +696,7 @@ if(_state == 'statistics'){
     });
 
 }
-const _browserPlatformStat = (_url_param, range) =>{
-    platformStat(_url_param, range);
-    browserStat(_url_param, range);
-}
+
 
 const readImageURL = (input) => {
 	if (input.files && input.files[0]) {

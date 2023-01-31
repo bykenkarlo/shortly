@@ -148,66 +148,35 @@ class Shortener_model extends CI_Model {
     }
 	public function getClickStat() {
 		$url_param = $this->input->get('url_param');
-		$range = $this->input->get('range');
-		if($range == '7_days') {
-			$start_date = date('Y-m-d 00:00:00', strtotime('-7 day', strtotime(date('Y-m-d 00:00:00'))));
-			$end_date = date('Y-m-d 23:59:59');
-			$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
-			$groupBy = 'DATE(created_at)';
-		}
-
-			else if($range == '30_days') {
-				$start_date = date('Y-m-d 00:00:00', strtotime('-30 day', strtotime(date('Y-m-d 00:00:00'))));
-				$end_date = date('Y-m-d 23:59:59');
-				$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
-				$groupBy = 'DATE(created_at)';
-			}
-			else if($range == '1_year') {
-				$start_date = date('Y-m-d 00:00:00', strtotime('-365 day', strtotime(date('Y-m-d 00:00:00'))));
-				$end_date = date('Y-m-d 23:59:59');
-				$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
-				$groupBy = 'DATE(created_at)';
-			}
-	 
-			$click_stat_data = $this->db->SELECT('DATE(created_at) as date, COUNT(click_id) as clicks')
-				->WHERE($date_range)
-				->WHERE('url_param',$url_param)
-				->GROUP_BY($groupBy)
-				->ORDER_BY('created_at','asc')
-				->GET('statistics_tbl')->result_array();
+		$start_date = date('Y-m-d 00:00:00',strtotime($this->input->get('from')));
+		$end_date = date('Y-m-d H:i:s',strtotime($this->input->get('to')));
+		$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+		$groupBy = 'DATE(created_at)';
+		
+		$click_stat_data = $this->db->SELECT('DATE(created_at) as date, COUNT(click_id) as clicks')
+			->WHERE($date_range)
+			->WHERE('url_param',$url_param)
+			->GROUP_BY($groupBy)
+			->ORDER_BY('created_at','asc')
+			->GET('statistics_tbl')->result_array();
 	
-			$result = array();
-			foreach($click_stat_data as $q){
-				$array = array(
-					'date'=>date('M d, Y', strtotime($q['date'])),
-					'clicks'=>$q['clicks']
-				);
-				array_push($result, $array);
-			}
-			$data['click_statistics'] = $result;
-			return $data;
+		$result = array();
+		foreach($click_stat_data as $q){
+			$array = array(
+				'date'=>date('M d, Y', strtotime($q['date'])),
+				'clicks'=>$q['clicks']
+			);
+			array_push($result, $array);
+		}
+		$data['click_statistics'] = $result;
+		return $data;
 	}
 	public function getReferrerStat() {
 		$url_param = $this->input->get('url_param');
-		$range = $this->input->get('range');
-		if($range == '7_days') {
-			$start_date = date('Y-m-d 00:00:00', strtotime('-7 day', strtotime(date('Y-m-d 00:00:00'))));
-			$end_date = date('Y-m-d 23:59:59');
-			$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
-			$groupBy = 'referrer';
-		}
-		else if($range == '30_days') {
-			$start_date = date('Y-m-d 00:00:00', strtotime('-30 day', strtotime(date('Y-m-d 00:00:00'))));
-			$end_date = date('Y-m-d 23:59:59');
-			$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
-			$groupBy = 'referrer';
-		}
-		else if($range == '1_year') {
-			$start_date = date('Y-m-d 00:00:00', strtotime('-365 day', strtotime(date('Y-m-d 00:00:00'))));
-			$end_date = date('Y-m-d 23:59:59');
-			$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
-			$groupBy = 'referrer';
-		}
+		$start_date = date('Y-m-d 00:00:00',strtotime($this->input->get('from')));
+		$end_date = date('Y-m-d H:i:s',strtotime($this->input->get('to')));
+		$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+		$groupBy = 'DATE(created_at)';
 		$click_stat_data = $this->db->SELECT('count(referrer) as count, referrer')
 			->WHERE($date_range)
 			->WHERE('url_param',$url_param)
@@ -236,121 +205,71 @@ class Shortener_model extends CI_Model {
 	}
 	public function getLocationStat() {
 		$url_param = $this->input->get('url_param');
-		$range = $this->input->get('range');
-		if($range == '7_days') {
-			$start_date = date('Y-m-d 00:00:00', strtotime('-7 day', strtotime(date('Y-m-d 00:00:00'))));
-			$end_date = date('Y-m-d 23:59:59');
-			$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
-			$groupBy = 'country';
-		}
-
-			else if($range == '30_days') {
-				$start_date = date('Y-m-d 00:00:00', strtotime('-30 day', strtotime(date('Y-m-d 00:00:00'))));
-				$end_date = date('Y-m-d 23:59:59');
-				$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
-				$groupBy = 'country';
-			}
-			else if($range == '1_year') {
-				$start_date = date('Y-m-d 00:00:00', strtotime('-365 day', strtotime(date('Y-m-d 00:00:00'))));
-				$end_date = date('Y-m-d 23:59:59');
-				$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
-				$groupBy = 'country';
-			}
+		$start_date = date('Y-m-d 00:00:00',strtotime($this->input->get('from')));
+		$end_date = date('Y-m-d H:i:s',strtotime($this->input->get('to')));
+		$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+		$groupBy = 'DATE(created_at)';
 	 
-			$click_stat_data = $this->db->SELECT('count(country) as count, country')
-				->WHERE($date_range)
-				->WHERE('url_param',$url_param)
-				->GROUP_BY($groupBy)
-				->ORDER_BY('count','desc')
-				->ORDER_BY('country','asc')
-				->GET('statistics_tbl')->result_array();
-
-			$total_count = $this->db->SELECT('count(country) as total_count')
-				->WHERE($date_range)
-				->WHERE('url_param',$url_param)
-				->GET('statistics_tbl')->row_array();
-
-			$result = array();
-			foreach($click_stat_data as $q){
-				if($q['country'] == '' || !$q['country']){
-					$q['country'] = 'Other';
-				}
-				$array = array(
-					'count'=>$q['count'],
-					'percentage' => round(($q['count'] / $total_count['total_count']) * 100, 2),
-					'country'=>$q['country']
-				);
-				array_push($result, $array);
+		$click_stat_data = $this->db->SELECT('count(country) as count, country')
+			->WHERE($date_range)
+			->WHERE('url_param',$url_param)
+			->GROUP_BY($groupBy)
+			->ORDER_BY('count','desc')
+			->ORDER_BY('country','asc')
+			->GET('statistics_tbl')->result_array();
+			
+		$total_count = $this->db->SELECT('count(country) as total_count')
+			->WHERE($date_range)
+			->WHERE('url_param',$url_param)
+			->GET('statistics_tbl')->row_array();
+		$result = array();
+		foreach($click_stat_data as $q){
+			if($q['country'] == '' || !$q['country']){
+				$q['country'] = 'Other';
 			}
-			$data['total_count'] = $total_count['total_count'];
-			$data['country_statistics'] = $result;
-			return $data;
+			$array = array(
+				'count'=>$q['count'],
+				'percentage' => round(($q['count'] / $total_count['total_count']) * 100, 2),
+				'country'=>$q['country']
+			);
+			array_push($result, $array);
+		}
+		$data['total_count'] = $total_count['total_count'];
+		$data['country_statistics'] = $result;
+		return $data;
 	}
 	public function getBrowserStat() {
 		$url_param = $this->input->get('url_param');
-		$range = $this->input->get('range');
-		if($range == '7_days') {
-			$start_date = date('Y-m-d 00:00:00', strtotime('-7 day', strtotime(date('Y-m-d 00:00:00'))));
-			$end_date = date('Y-m-d 23:59:59');
-			$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
-			$groupBy = 'browser';
-		}
-
-			else if($range == '30_days') {
-				$start_date = date('Y-m-d 00:00:00', strtotime('-30 day', strtotime(date('Y-m-d 00:00:00'))));
-				$end_date = date('Y-m-d 23:59:59');
-				$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
-				$groupBy = 'browser';
-			}
-			else if($range == '1_year') {
-				$start_date = date('Y-m-d 00:00:00', strtotime('-365 day', strtotime(date('Y-m-d 00:00:00'))));
-				$end_date = date('Y-m-d 23:59:59');
-				$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
-				$groupBy = 'browser';
-			}
+		$start_date = date('Y-m-d 00:00:00',strtotime($this->input->get('from')));
+		$end_date = date('Y-m-d H:i:s',strtotime($this->input->get('to')));
+		$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+		$groupBy = 'DATE(created_at)';
 	 
-			$click_stat_data = $this->db->SELECT('count(browser) as count, browser')
-				->WHERE($date_range)
-				->WHERE('url_param',$url_param)
-				->GROUP_BY($groupBy)
-				->ORDER_BY('created_at','asc')
-				->GET('statistics_tbl')->result_array();
+		$click_stat_data = $this->db->SELECT('count(browser) as count, browser')
+			->WHERE($date_range)
+			->WHERE('url_param',$url_param)
+			->GROUP_BY($groupBy)
+			->ORDER_BY('created_at','asc')
+			->GET('statistics_tbl')->result_array();
 	
-			$result = array();
-			foreach($click_stat_data as $q){
+		$result = array();
+		foreach($click_stat_data as $q){
 				
-				$array = array(
-					'count'=>$q['count'],
-					'browser'=>$q['browser']
-				);
-				array_push($result, $array);
-			}
-			$data['browser_statistics'] = $result;
-			return $data;
+			$array = array(
+				'count'=>$q['count'],
+				'browser'=>$q['browser']
+			);
+			array_push($result, $array);
+		}
+		$data['browser_statistics'] = $result;
+		return $data;
 	}
 	public function getPlatformStat() {
 		$url_param = $this->input->get('url_param');
-		$range = $this->input->get('range');
-		if($range == '7_days') {
-			$start_date = date('Y-m-d 00:00:00', strtotime('-7 day', strtotime(date('Y-m-d 00:00:00'))));
-			$end_date = date('Y-m-d 23:59:59');
-			$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
-			$groupBy = 'platform';
-		}
-
-		else if($range == '30_days') {
-			$start_date = date('Y-m-d 00:00:00', strtotime('-30 day', strtotime(date('Y-m-d 00:00:00'))));
-			$end_date = date('Y-m-d 23:59:59');
-			$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
-			$groupBy = 'platform';
-		}
-		else if($range == '1_year') {
-			$start_date = date('Y-m-d 00:00:00', strtotime('-365 day', strtotime(date('Y-m-d 00:00:00'))));
-			$end_date = date('Y-m-d 23:59:59');
-			$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
-			$groupBy = 'platform';
-		}
-	 
+		$start_date = date('Y-m-d 00:00:00',strtotime($this->input->get('from')));
+		$end_date = date('Y-m-d H:i:s',strtotime($this->input->get('to')));
+		$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+		$groupBy = 'DATE(created_at)';
 		$click_stat_data = $this->db->SELECT('count(platform) as count, platform')
 			->WHERE($date_range)
 			->WHERE('url_param',$url_param)

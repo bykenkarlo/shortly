@@ -24,7 +24,8 @@
         <link href="<?=base_url()?>assets/css/styles.css?v=<?=filemtime('assets/css/styles.css')?>" rel="stylesheet" type="text/css" />
         <link href="<?=base_url()?>assets/css/default.css?v=<?=filemtime('assets/css/default.css')?>" rel="stylesheet" type="text/css" />
         <link href="<?=base_url()?>assets/css/theme.css?v=<?=filemtime('assets/css/theme.css')?>" rel="stylesheet" type="text/css" />
-		<?php if ($state == 'statistics') {?><link href="<?=base_url()?>assets/css/croppie.css?v=<?=filemtime('assets/css/croppie.css')?>" rel="stylesheet" type="text/css" /><?php } ?>
+		<?php if ($state == 'statistics') {?><link href="<?=base_url()?>assets/css/croppie.css?v=<?=filemtime('assets/css/croppie.css')?>" rel="stylesheet" type="text/css" />
+        <link href="<?=base_url()?>assets/css/daterangepicker.css?v=<?=filemtime('assets/css/daterangepicker.css')?>" rel="stylesheet" type="text/css" /><?php } ?>
 
         <meta property="fb:app_id" content="103993588751492" />
         <meta property="og:type" content="website" />

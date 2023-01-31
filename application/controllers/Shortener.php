@@ -40,6 +40,7 @@ class Shortener extends CI_Controller {
             $data['canonical_url'] = base_url();
             $data['csrf_data'] = $this->Csrf_model->getCsrfData();
             $data['state'] = "statistics";
+            
             $data['url_param'] = $param;
             $data['url_data'] =  $this->Shortener_model->getURLDataByURLParam($param);
             $this->load->view('home/header', $data);
