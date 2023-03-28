@@ -85,14 +85,20 @@
 		<script src="<?=base_url()?>assets/js/sweetalert2.all.min.js"></script>
 		<script src="<?=base_url()?>assets/js/auth/_csrf.js?v=<?=filemtime('assets/js/auth/_csrf.js')?>"></script>
 		
-		<?php if ($state == 'statistics') {?><script src="<?=base_url()?>assets/js/vendor/qr_code_styling.js"></script>
+		<?php if ($state == 'statistics' || $state == 'account_dashboard') {?><script src="<?=base_url()?>assets/js/vendor/qr_code_styling.js"></script>
 		<script src="<?=base_url()?>assets/js/vendor/croppie.js"></script>
 		<script src="<?=base_url()?>assets/js/vendor/Chart.bundle.min.js"></script>
 		<script src="<?=base_url()?>assets/js/vendor/moment.min.js"></script>
 		<script src="<?=base_url()?>assets/js/vendor/daterangepicker.min.js"></script> <?php } ?>
-		<?= ($state == 'statistics') ? "
+
+		<?= ($state == 'statistics' || $state == 'account_dashboard') ? "
 		<script>
 		$('#_select_date').daterangepicker();
+		</script>
+		" : ''?>
+		<?= ($state == 'account_dashboard') ? "
+		<script>
+		var skey = '".$this->session->secret_key."';
 		</script>
 		" : ''?>
 		<?php if ($state == 'login') {?><script src="<?=base_url()?>assets/js/auth/_login.js"></script>
@@ -100,14 +106,11 @@
 
 		<script src="<?=base_url()?>assets/js/auth/app.js?v=<?=filemtime('assets/js/auth/app.js')?>"></script>
 		
-		<script>
-			<?php if ($state == 'statistics') {?>var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		
+		<?php if ($state == 'statistics') {?><script>var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl)
-            });
-			
-			<?php } ?>
-
-		</script>
+            });</script>
+		<?php } ?>
 	</body>
 </html>

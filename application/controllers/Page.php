@@ -55,6 +55,57 @@ class Page extends CI_Controller {
     	$this->load->view('pages/terms');
     	$this->load->view('home/footer');
     }
+    public function userLogin(){
+        if(isset($_COOKIE['remember_login'])) {
+            $userCookieData = $this->User_model->checkCookie($_COOKIE['remember_login']); //check if cookie token is the same on server
+            $last_url = $this->input->get('return');
+            if (isset($userCookieData)) {
+                $this->session->set_userdata('user_id', $userCookieData['user_id']);
+                $this->session->set_userdata($userCookieData['user_type'], $userCookieData['user_type']);
+                $this->session->set_userdata('username', $userCookieData['username']);
+
+                $message = 'Logged in using remember token cookie.';
+                $this->User_model->insertActivityLog($message); 
+
+
+                if ($last_url != '') {
+                    header('location:'.base_url( ).$last_url);
+                }
+                else{
+                    header('location:'.base_url('account/dashboard'));
+                }
+
+            }
+            else{
+                unset($_COOKIE['remember_login']); 
+                setcookie('remember_login', '', time() - 3600, '/');
+                $session = array(
+                    'user_id', 
+                    'username',
+                );
+                $this->session->unset_userdata($session);
+                header('location:'.base_url('login?return=').uri_string());
+            }
+        }
+        else if (!isset($this->session->user_id)) {
+            $data['siteSetting'] = $this->Site_settings_model->siteSettings();
+            $data['social_media'] = $this->Site_settings_model->getSocialMedias();
+            $data['title'] = 'Login';
+            $data['description'] = 'Login your account.';
+            $data['canonical_url'] = base_url('login');
+            $data['url_param'] = "";
+            $data['state'] = "login";
+            $data['login_token'] = base64_encode( openssl_random_pseudo_bytes(32)); /* generated token */
+            $data['csrf_data'] = $this->Csrf_model->getCsrfData();
+            $this->load->view('account/header', $data);
+            $this->load->view('home/nav');
+            $this->load->view('shortener/login');
+            $this->load->view('home/footer');
+        }
+        else{
+           header('location:'.base_url('account/dashboard')); 
+        }
+    }
     public function login(){
         if(isset($_COOKIE['remember_login'])) {
             $userCookieData = $this->User_model->checkCookie($_COOKIE['remember_login']); //check if cookie token is the same on server

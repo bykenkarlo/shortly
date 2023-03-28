@@ -1,6 +1,6 @@
-        <!-- Container -->
-        
-        <div id="_web_container" class="">
+        <?php if (!isset($this->session->reg_acct) || isset($this->session->admin)) { ?>
+            <!-- Container -->
+            <div id="_web_container" class="">
             <div class=" other-section padding-bottom-30 c-dwhite"  >
                 <div class="container">
                     <div class="row mt-sm-2 mb-3">
@@ -70,10 +70,11 @@
                             
                             <div class="row">
                                 <div class="col-lg-6  mt-2 ">
+                                    <button class="btn btn-success rounded web-view" type="button" id="_create_account_btn">Create Account</button>
                                 </div>
                                 <div class="col-lg-6 mt-2 float-end">
                                     <div for="_select_date" class="d-flex align-items-center mb-2">
-                                        <input value="<?=date('m/d/Y', strtotime('-7 days'))?> - <?=date('m/t/Y')?>" type="text" class="form-control date me-2 rounded" id="_select_date" data-toggle="date-picker" data-cancel-class="btn-light">
+                                        <input value="<?=date('m/d/Y', strtotime('-7 days', strtotime($url_data['created_at'])))?> - <?=date('m/t/Y')?>" type="text" class="form-control date me-2 " id="_select_date" data-toggle="date-picker" data-cancel-class="btn-light">
                                         <button class="btn btn-success c-white btn-md rounded" id="_sort_by_date">Sort</button>
                                      </div>
                                  </div>
@@ -88,16 +89,6 @@
 
                             <div class="card card-services-highlights pt-1 pb-2  c-gray">
                                 <div class="card-body placeholder-glow">
-                                    <div class="dropdown float-end">
-                                        <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="uil-ellipsis-v"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <a class="dropdown-item" onclick="clickStats('<?=$url_param?>','7_days')" href="#clickStats">Last 7 days</a>
-                                            <a class="dropdown-item" onclick="clickStats('<?=$url_param?>','30_days')" href="#clickStats">Last 30 days</a>
-                                            <a class="dropdown-item" onclick="clickStats('<?=$url_param?>','1_year')" href="#clickStats">1 year</a>
-                                        </div>
-                                    </div>
                                     
                                     <h4 class="card-title mb-3" id="_engagement_overview_title"><span class="placeholder-glow"><span class="placeholder col-4"></span></span></h4>
                                     <div dir="ltr">
@@ -107,16 +98,6 @@
                             </div>
                             <div class="card card-services-highlights pt-1 pb-2 c-gray">
                                 <div class="card-body">
-                                    <div class="dropdown float-end">
-                                        <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="uil-ellipsis-v"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <a class="dropdown-item" onclick="locationStat('<?=$url_param?>','7_days')" href="#locationStat">Last 7 days</a>
-                                            <a class="dropdown-item" onclick="locationStat('<?=$url_param?>','30_days')" href="#locationStat">Last 30 days</a>
-                                            <a class="dropdown-item" onclick="locationStat('<?=$url_param?>','1_year')" href="#locationStat">1 year</a>
-                                        </div>
-                                    </div>
                                     <h4 class="card-title mb-3" id="_location_title"><span class="placeholder-glow"><span class="placeholder col-4"></span></span></h4> 
                                     <div class="row">
                                         <div class="col-lg-12">
@@ -128,16 +109,6 @@
                             </div> 
                             <div class="card card-services-highlights pt-1 pb-2 c-gray">
                                 <div class="card-body">
-                                    <div class="dropdown float-end">
-                                        <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="uil-ellipsis-v"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <a class="dropdown-item" onclick="_browserPlatformStat('<?=$url_param?>','7_days')" href="#_browserPlatformStat">Last 7 days</a>
-                                            <a class="dropdown-item" onclick="_browserPlatformStat('<?=$url_param?>','30_days')" href="#_browserPlatformStat">Last 30 days</a>
-                                            <a class="dropdown-item" onclick="_browserPlatformStat('<?=$url_param?>','1_year')" href="#_browserPlatformStat">1 year</a>
-                                        </div>
-                                    </div>
                                     <div class="row">
                                         <div class="col-lg-6 mb-2 mt-2">
                                         <h4 class="card-title mb-3" id="_browser_title"><span class="placeholder-glow"><span class="placeholder col-4"></span></span></h4>
@@ -158,16 +129,6 @@
                             
                             <div class="card card-services-highlights pt-1 pb-2 c-gray">
                                 <div class="card-body">
-                                    <div class="dropdown float-end">
-                                        <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="uil-ellipsis-v"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <a class="dropdown-item" onclick="referrerStat('<?=$url_param?>','7_days')" href="#referrerStat">Last 7 days</a>
-                                            <a class="dropdown-item" onclick="referrerStat('<?=$url_param?>','30_days')" href="#referrerStat">Last 30 days</a>
-                                            <a class="dropdown-item" onclick="referrerStat('<?=$url_param?>','1_year')" href="#referrerStat">1 year</a>
-                                        </div>
-                                    </div>
                                     <h4 class="card-title mb-3" id="_referrer_title"><span class="placeholder-glow"><span class="placeholder col-4"></span></span></h4>
                                     <div class="row">
                                         <div class="col-lg-12 mb-2 mt-2">
@@ -188,7 +149,42 @@
                 </div>
             </div>
         </div>
-
+        <div class="modal fade margin-top-10" id="_create_account_modal" data-bs-backdrop="static" data-bs-keyboard="false"  tabindex="-1"  aria-labelledby="_add_user_modal" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content br-10">
+                    <div class="modal-body">
+                        <div class="container-fluid">   
+                            <h3 class="text-left text-capitalize margin-top-20 fw-300"> <i class="uil uil-user-plus"></i> Create Account</h3>
+                                                
+                            <form id="_registration_form" class="mb-3">
+                                <div class="row">
+                                    <div class="col-lg-12 mt-2">
+                                        <p class="font-14">Manage your multiple short URLs in an account. <br>You only need your <b>Secret Key</b> when you log in. 
+                                            Keep it safe, make a copy of it and avoid sharing it to anyone you didn't trust!
+                                        </p>
+                                        <div>
+                                            <label for="">Secret Key</label>
+                                            <input type="text" class="form-control" value="" id="_secret_key" name="secret_key" required readonly>
+                                        </div>
+                                        <div class="mt-3">
+                                            <label for="">Email Address <small>(Optional)</small></label>
+                                            <input type="text" class="form-control" value="" id="_email_address" name="email_address">  
+                                            <small>(For recovery purposes only)</small>
+                                        </div>
+                                        <input type="hidden" name="url_param" value="<?= ($url_param) ? $url_param : ''?>">
+                                        <input type="hidden" name="<?=$csrf_data['name']?>" value="<?=$csrf_data['hash']?>">
+                                        <div class="text-end mt-2">
+                                            <button class="btn btn-md btn-success rounded" id="_register_btn" type="submit">Create</button>
+                                            <button class="btn btn-md btn-secondary rounded" id="_close_register_btn" type="button">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal fade margin-top-10" id="_upload_custom_logo_modal" data-bs-backdrop="static" data-bs-keyboard="false"  tabindex="-1"  aria-labelledby="_add_user_modal" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content br-10">
@@ -250,7 +246,16 @@
                 </div>
             </div>
          </div>
-
-
         <!-- End Container -->
+    <?php } else if (isset($this->session->reg_acct) && isset($this->session->admin) ){?>
+        <div id="_web_container" class="">
+            <div class=" other-section padding-bottom-30 c-dwhite"  >
+                <div class="container">
+                    <div class="row mt-sm-2 mb-3">
         
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+    

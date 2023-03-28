@@ -12,7 +12,6 @@ class Login extends CI_Controller {
         $this->load->model('Login_model');
     }
     public function loginProcess() {
-
         $username = $this->input->post('username');
         $password = $this->input->post('password');
         $remember_login = $this->input->post('remember_login');
@@ -33,21 +32,41 @@ class Login extends CI_Controller {
                 $response['status'] = 'error';
                 $response['message'] = 'User status is Disabled! Contact our Support to enable your account!';
             }
-            else if (password_verify($password, $checkUser['password'])) {
-                $this->session->set_userdata('user_id', $checkUser['user_id']);
-                $this->session->set_userdata($checkUser['user_type'], $checkUser['user_type']);
-                $this->session->set_userdata('username', $checkUser['username']);
-
-                /* INSERT new remember token */ 
+            else if ($checkUser['user_type'] == 'user') {
+                $this->session->set_userdata('secret_key', $checkUser['secret_key']);
+               /* INSERT new remember token */ 
                 $this->Login_model->insertNewRememberLogin($remember_login);
-                
-                $message = 'Logged in.';
+                    
+                $message = 'User Logged in.';
                 $this->User_model->insertActivityLog($message); 
-
+                $response['status'] = 'success';
+                $response['message'] = 'Logging in! Please wait...';
+                $response['url'] = base_url('logged/dashboard');
+            }
+            else if (password_verify($password, $checkUser['password'])) {
                 if ($last_url != '') {
                     $response['url'] = base_url().$last_url;
                 }
-                else{
+                // else if($checkUser['user_type'] == 'user'){
+                //     $this->session->set_userdata('secret_key', $checkUser['secret_key']);
+                //      /* INSERT new remember token */ 
+                //      $this->Login_model->insertNewRememberLogin($remember_login);
+                    
+                //      $message = 'User Logged in.';
+                //      $this->User_model->insertActivityLog($message); 
+                //     $response['url'] = base_url('logged/dashboard');
+                // }
+                else  if($checkUser['user_type'] == 'admin'){
+                    $this->session->set_userdata('user_id', $checkUser['user_id']);
+                    $this->session->set_userdata($checkUser['user_type'], $checkUser['user_type']);
+                    $this->session->set_userdata('username', $checkUser['username']);
+
+                    /* INSERT new remember token */ 
+                    $this->Login_model->insertNewRememberLogin($remember_login);
+                    
+                    $message = 'Logged in.';
+                    $this->User_model->insertActivityLog($message); 
+
                     $response['url'] = base_url('account/dashboard');
                 }
 

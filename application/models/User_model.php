@@ -49,38 +49,169 @@ class User_model extends CI_Model {
 	}
     public function generateWebsiteVisitorID($length = 15) {
 		$characters = '0123456789abcdef';
-	   $charactersLength = strlen($characters);
-	   $views_id = '';
-	   for ($i = 0; $i < $length; $i++) {
-	      $views_id .= $characters[rand(0, $charactersLength - 1)];
-	   }
-    	return $views_id;
+        $charactersLength = strlen($characters);
+        $views_id = '';
+        for ($i = 0; $i < $length; $i++) {
+            $views_id .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $views_id;
    }
+    public function generateSecretKey () {
+        $url_param = $this->input->get('url_param');
 
+        $check = $this->db->WHERE('url_param',$url_param)->GET('account_url_tbl')->num_rows();
 
+        if($check <= 0) {
+            $key = sprintf( '%04x-%04x-%04x-%04x%04x',
+                mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
+                mt_rand( 0, 0xffff ),
+                mt_rand( 0, 0x0C2f ) | 0x4000,
+                mt_rand( 0, 0x3fff ) | 0x8000,
+                mt_rand( 0, 0x2Aff ), mt_rand( 0, 0xffD3 ), mt_rand( 0, 0xff4B )
+            );
+            $check = $this->db->WHERE('secret_key',$key)->GET('users_tbl')->num_rows();
+            if ($check > 1) {
+                $this->generateSecretKey();
+            }
+            else{
+                $response['status'] = 'success';
+                $response['message'] = 'Successfully generated!';
+                $response['key'] = $key;
+                return $response;
+            }
+        }
+        else{
+            $response['status'] = 'error';
+            $response['message'] = 'The custom link has already been assigned to an account!';
+            return $response;
+        }
+        
+    }
+    public function generateEmailToken($length = 32) {
+		$characters = '0123456789abcdefQWERTYUIOPASDFGHJKLZXCVBNM';
+        $charactersLength = strlen($characters);
+        $token = '';
+        for ($i = 0; $i < $length; $i++) {
+            $token .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $token;
+   }
+    public function accountRegistration ($email_token) {
+        $password = $this->generateUserPassword();
+        $user_id = $this->generateUserID();
+        $secret_key = $this->input->post('secret_key');
+        $data_arr1 = array(
+            'user_id'=>$user_id,
+            'user_type'=>'user',
+            'username'=>$this->generateUsername(),
+            'password'=> $this->hash_password($password) ,
+            'status'=> 'active' ,
+            'email_token'=> $email_token,
+            'email_verified'=> 'pending' ,
+            'secret_key'=>$this->input->post('secret_key'),
+            'email_address'=>($this->input->post('email_address'))?$this->input->post('email_address'):'',
+            'created_at'=>date('Y-m-d H:i:s')
+        );
+        $data_arr2 = array(
+            'secret_key'=>$secret_key,
+            'url_param'=>$this->input->post('url_param'),
+            'created_at'=>date('Y-m-d H:i:s')
+        );
 
+        $this->db->INSERT('users_tbl',$data_arr1);
+        $this->db->INSERT('account_url_tbl',$data_arr2);
 
-
-
-
-
-
-
-    public function insertActivityLogResetPass ($message) {
-        if (isset($this->session->recovery_user_id)) {
-            $activity_log = array(
-                'user_id'=>$this->session->recovery_user_id, 
-                'message_log'=>$message, 
-                'ip_address'=>$this->input->ip_address(), 
-                'platform'=>$this->agent->platform(), 
-                'browser'=>$this->agent->browser(), 
-                'created_at'=>date('Y-m-d H:i:s')
-            ); 
-
-            $this->db->INSERT('activity_logs_tbl', $activity_log);
+        $this->session->set_userdata('secret_key', $secret_key); // registered account id session
+        $response['status'] = 'success';
+        $response['message'] = 'Succesfully Registered!';
+        $response['url'] = base_url() . 'logged/dashboard';
+        return $response;
+    }
+    public function generateUserID ($length = 9) {
+        $characters = '0123456789';
+        $charactersLength = strlen($characters);
+        $temp_id = '';
+        for ($i = 0; $i < $length; $i++) {
+            $temp_id .= $characters[rand(0, $charactersLength - 1)];
+        }
+        $rand = rand(1, 100);
+        $user_id = '100'.$rand.$temp_id;
+        $check = $this->db->WHERE('user_id',$user_id)->GET('users_tbl')->num_rows();
+        if($check > 0){
+            $this->generateUserID();
+        }
+        else{
+            return $user_id;
         }
     }
-    
+    public function generateUsername ($length = 9) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $username = '';
+        for ($i = 0; $i < $length; $i++) {
+            $username .= $characters[rand(0, $charactersLength - 1)];
+        }
+        $check = $this->db->WHERE('username',$username)->GET('users_tbl')->num_rows();
+        if($check > 0){
+            $this->generateUsername();
+        }
+        else{
+            return $username;
+        }
+    }
+    public function checkAccountSecretKey($secret_key){
+		return $this->db->WHERE('secret_key',$secret_key)->GET('users_tbl')->row_array();
+	}
+    public function getAccountURLs(){
+        $result = array();
+		$query = $this->db->WHERE('secret_key',$this->session->secret_key)
+            ->ORDER_BY('created_at','desc')
+            ->GET('account_url_tbl')->result_array();
+
+        foreach($query as $q){
+            $arr = array(
+                'url_param'=>$q['url_param'],
+                'short_url'=>str_replace(array('http://','https://'),'',base_url().$q['url_param']),
+                'title'=>$q['title'],
+                'status'=>$q['status'],
+                'created_at'=>date('F d, y h:i A', strtotime($q['created_at'])),
+            );
+            array_push($result, $arr);
+        }
+        return array('result'=>$result);
+	}
+    public function getAccountData(){
+		$query = $this->db->WHERE('secret_key',$this->session->secret_key)->GET('users_tbl')->row_array();
+
+        $data = array(
+            'username'=>$query['username'],
+            'secret_key'=>substr($query['secret_key'],0 , 4).'...'.substr($query['secret_key'],-5),
+            'email_address'=>$query['email_address'],
+            'profile_image'=>$query['profile_image'],
+            'status'=>$query['status'],
+            'created_at'=>$query['created_at'],
+        );
+        return $data;
+	}
+    public function saveEmailAddress($email_token){
+        $data = array(
+            'email_address'=>$this->input->post('email_address'),
+            'email_token'=>$email_token,
+            'email_verified'=>'pending',
+        );
+        $this->db->WHERE('secret_key',$this->session->secret_key)->UPDATE('users_tbl',$data);
+	}
+    public function verifyEmailAddress ($token) {
+        return $this->db->WHERE('email_token',$token)->WHERE('email_verified','pending')->GET('users_tbl')->row_array();
+    }
+    public function updateEmailVerification () {
+        $data_arr = array(
+            'email_token'=> '',
+            'email_verified'=>'yes',
+            'updated_at'=>date('Y-m-d H:i:s'),            
+        );
+        $this->db->WHERE('secret_key',$this->session->secret_key)->UPDATE('users_tbl', $data_arr);
+    }
     public function checkCookie($cookie){
         if ($this->agent->is_mobile()) {
             return $this->db->WHERE('mobile_rem_token', $cookie)
@@ -205,18 +336,7 @@ class User_model extends CI_Model {
         $this->insertActivityLog($message); 
        }
     }
-    public function generateUserID ($id, $length = 9) {
-        $characters = '0123456789';
-        $charactersLength = strlen($characters);
-        $temp_id = '';
-        for ($i = 0; $i < $length; $i++) {
-            $temp_id .= $characters[rand(0, $charactersLength - 1)];
-        }
-        $rand = rand(1, 100);
-        $user_id = '100'.$rand.$id.$temp_id;
-        $dataArr = array('user_id'=>$user_id);
-        $this->db->WHERE('id',$id)->UPDATE('users_tbl',$dataArr);
-    }
+    
     public function deleteUser() {
         if (isset($this->session->admin) || isset($this->session->staff) || isset($this->session->sys_admin)) {
             $user_data = $this->db->SELECT('user_id, username, user_type')->WHERE('user_id', $this->input->post('id'))->GET('users_tbl')->row_array();
@@ -502,5 +622,6 @@ class User_model extends CI_Model {
             $this->db->INSERT('activity_logs_tbl', $activity_log);
         }
     }
+
 }
 

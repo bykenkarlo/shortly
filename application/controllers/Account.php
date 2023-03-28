@@ -10,6 +10,7 @@ class Account extends CI_Controller {
         $this->load->model('Site_settings_model');
         $this->load->model('User_model');
         $this->load->model('Csrf_model');
+        $this->load->library('form_validation');
         $this->load->library('pagination');
     }
     public function getURLList() {
@@ -57,6 +58,86 @@ class Account extends CI_Controller {
         $data['row'] = $row_no;
         $data['count'] = $all_count;
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
-   }
+    }
+    public function generateSecretKey(){
+        $data = $this->User_model->generateSecretKey();
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+    }
+    public function accountRegistration(){
+        $email_address = $this->input->post('email_address');
+        $email_token = '';
+        if(empty($email_address)){
+            $response = $this->User_model->accountRegistration('');
+        }
+        else if(!empty($email_address)){
+            $this->form_validation->set_rules('email_address', 'Email Address', 'valid_email|trim|is_unique[users_tbl.email_address]',
+                array(
+                    'is_unique'     => 'This %s already exists.',
+                )
+            );
+            if ($this->form_validation->run() == FALSE) {
+                $response['status'] = 'error';
+                $response['message'] = $this->form_validation->error_array();
+            }
+            else{
+                $email_token = $this->User_model->generateEmailToken();
+                $response = $this->User_model->accountRegistration($email_token);
+                $this->sendVerificationEnail($email_token, $email_address);
+            }
+
+            // send verification code
+
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$response)));
+       }
   
+       public function sendVerificationEnail($email_token, $email_address){
+            $config['mailtype'] = 'html';
+            $config['charset'] = 'utf-8';
+            $config['priority']= '1';
+            // $config['protocol'] = 'smtp';
+            $config['smtp_host'] = 'shortly.at ';
+            $config['smtp_crypto'] = 'tls';
+            $config['smtp_port'] = '465';
+            $config['smtp_user']  = 'info@shortly.at';
+            $config['smtp_pass'] = '@Kenkarlo-01';
+            $config['newline'] = "\r\n";
+            $config['validation'] = FALSE;
+            $config['smtp_timeout']='30';
+
+            $subject = 'Email Verification!';
+            
+            $data['verification_url'] = base_url('verify/').$email_token;
+            $data['header_image'] = base_url().'assets/images/logo/hh-logo.png';
+            $data['header_image_url'] = base_url().'?utm_source=shortly&utm_medium=email_verification&utm_campaign=email';
+
+            $this->email->initialize($config);
+            $this->email->from('info@shortly.at', 'Shortly');
+            $this->email->reply_to('info@shortly.at', 'Shortly');
+            $this->email->to($email_address); 
+            $this->email->subject($subject);
+            $body = $this->load->view('email/email_verification', $data, TRUE);
+            $this->email->message($body);
+            $this->email->send();
+        }
+        public function saveEmailAddress(){
+            $email_address = $this->input->post('email_address');
+            $this->form_validation->set_rules('email_address', 'Email Address', 'valid_email|trim|is_unique[users_tbl.email_address]',
+                array(
+                    'is_unique'     => 'This %s already exists.',
+                )
+            );
+            if ($this->form_validation->run() == FALSE) {
+                $response['status'] = 'error';
+                $response['message'] = $this->form_validation->error_array();
+            }
+            else{
+                $email_token = $this->User_model->generateEmailToken();
+                $this->User_model->saveEmailAddress($email_token);
+                $this->sendVerificationEnail($email_token, $email_address);
+                $response['status'] = 'success';
+                $response['message'] = "Email sent for verification!";
+            }
+            $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$response)));
+       }
 }

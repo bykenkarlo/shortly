@@ -36,7 +36,9 @@
                                 <li class="page_menu_item menu_mm cursor-pointer"><a onclick="_accessPage('blog')">Blog</a></li>
                                 <li class="page_menu_item menu_mm cursor-pointer"><a onclick="_accessPage('about')">About Us</a></li>
                                 <li class="page_menu_item menu_mm cursor-pointer"><a onclick="_accessPage('privacy-terms')">Terms</a></li>
-                                <?php if (isset($this->session->user_id)) {?><li class="page_menu_item menu_mm cursor-pointer"><a onclick="_accessPage('account/dashboard')">Account</a></li><?php } ?>
+                                <?php if(isset($this->session->user_id) || isset($this->session->secret_key)) {?>
+                                <li class="page_menu_item menu_mm cursor-pointer"><a onclick="_accessPage('<?=($this->session->secret_key)?'logged/dashboard':'account/dashboard'?>')">Account</a></li>
+                                <?php }?>
                                 <!-- <li class="page_menu_item menu_mm cursor-pointer mt-3 install-app-btn-container"><button id="_install_app" class="btn rounded btn-warning c-white ">Install App</button></li> -->
                             </ul>
                         </div>
@@ -77,12 +79,12 @@
                                 </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
-                                <a href="<?=base_url('account/dashboard')?>" class="dropdown-item notify-item">
+                                <a href="<?=base_url()?><?=(isset($this->session->secret_key))?'logged/dashboard':'account/dashboard'?>" class="dropdown-item notify-item">
                                     <i class="mdi mdi-account-circle me-1"></i>
                                     <span>My Account</span>
                                 </a>
 
-                                <a href="<?=base_url('account/settings')?>" class="dropdown-item notify-item">
+                                <a href="<?=base_url()?><?=(isset($this->session->secret_key))?'logged/settings':'account/settings'?>" class="dropdown-item notify-item">
                                     <i class="mdi mdi-cog me-1"></i>
                                     <span>Settings</span>
                                 </a>

@@ -52,6 +52,61 @@ class Shortener extends CI_Controller {
             $this->Site_settings_model->error404();
         }
     }
+    public function accountDashboard(){ // user account's dashboard
+        if(isset($this->session->secret_key)){
+            $secret_key = $this->session->secret_key;
+            $user_data = $this->User_model->checkAccountSecretKey($secret_key);
+            if(!empty($user_data)){
+                $data['siteSetting'] = $this->Site_settings_model->siteSettings();
+                $data['social_media'] = $this->Site_settings_model->getSocialMedias();
+                $data['title'] = 'Account Link Management';
+                $data['description'] = 'Account dashboard where you can manage your multiple URLs';
+                $data['canonical_url'] = base_url('logged/').$secret_key;
+                $data['url_param'] = "";
+                $data['user_data'] = $user_data;
+                $data['state'] = "account_dashboard";
+                $data['csrf_data'] = $this->Csrf_model->getCsrfData();
+                $this->load->view('shortener/header', $data);
+                $this->load->view('shortener/nav');
+                $this->load->view('shortener/account_dashboard');
+                $this->load->view('shortener/footer');
+            }
+            else{
+                header('Location: '.base_url('login'));
+            }
+        }
+        else{
+            $this->Site_settings_model->error404();
+        }
+    }
+    public function accountSettings(){
+        if(isset($this->session->secret_key)){
+            $secret_key = $this->session->secret_key;
+            $user_data = $this->User_model->checkAccountSecretKey($secret_key);
+            if(!empty($user_data)){
+                $data['siteSetting'] = $this->Site_settings_model->siteSettings();
+                $data['social_media'] = $this->Site_settings_model->getSocialMedias();
+                $data['title'] = 'Account Settings';
+                $data['description'] = 'Account settings where you can change your password, update your email and etc.';
+                $data['canonical_url'] = base_url('logged/').$secret_key;
+                $data['url_param'] = "";
+                $data['user_data'] = $user_data;
+                $data['state'] = "settings";
+                $data['csrf_data'] = $this->Csrf_model->getCsrfData();
+                $this->load->view('shortener/header', $data);
+                $this->load->view('shortener/nav');
+                $this->load->view('shortener/settings');
+                $this->load->view('shortener/footer');
+            }
+            else{
+                header('Location: '.base_url('login'));
+            }
+        }
+        else{
+            $this->Site_settings_model->error404();
+        }
+        
+    }
     public function getURLData(){
         $data = $this->Shortener_model->getURLData();
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
@@ -133,5 +188,40 @@ class Shortener extends CI_Controller {
     public function changeStatus(){
         $data = $this->Shortener_model->changeStatus();
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+    }
+    public function getAccountURLs(){
+        $data = $this->User_model->getAccountURLs();
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+    }
+    public function getAccountURLData(){
+        $data = $this->Shortener_model->getAccountURLData();
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+    }
+    public function getAccountURLDataV2(){
+        $data = $this->Shortener_model->getAccountURLDataV2();
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+    }
+    public function saveCustomURL(){
+        $data = $this->Shortener_model->saveCustomURL();
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+    }
+    public function newShortURL(){
+        $data = $this->Shortener_model->newShortURL();
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+    }
+    public function getAccountData(){
+        $data = $this->User_model->getAccountData();
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+    }
+    public function verifyEmailAddress($token){
+        $checkUser = $this->User_model->verifyEmailAddress($token);
+        if(!empty($checkUser)){
+           $this->session->set_userdata('secret_key', $checkUser['secret_key']);
+           $this->User_model->updateEmailVerification();
+           header('Location: '.base_url('logged/dashboard?verify=email_verified'));
+        }
+        else{
+           header('Location: '.base_url('?verify=invalid'));
+        }
     }
 }

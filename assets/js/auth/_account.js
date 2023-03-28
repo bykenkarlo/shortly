@@ -3,7 +3,7 @@ function _getUrlList(page_no, search, opt_status){
 	// from = _select_date.substring(0, 10);
 	// to = _select_date.substring(_select_date.length, 13);
 
-	$("#_url_tbl").html("<tr class='text-center'><td colspan='6'>Loading data...</td></tr>");
+	$("#_url_tbl").html("<tr class='text-center'><td colspan='7'>Loading data...</td></tr>");
 	let params = new URLSearchParams({'page_no':page_no, 'search':search});
 	fetch(base_url+'api/v1/account/_url_list?' + params, {
   		method: "GET",
@@ -76,7 +76,7 @@ function _displayDataList(page_no, result, pagination, count){
 		$('#_url_tbl').html(string);
 	}
 	else{
-		$("#_url_tbl").html("<tr class='text-center'><td colspan='6'>No records found!</td></tr>");
+		$("#_url_tbl").html("<tr class='text-center'><td colspan='7'>No records found!</td></tr>");
 	}
 }
 $('#_url_pagination').on('click','a',function(e){

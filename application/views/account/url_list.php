@@ -23,7 +23,21 @@
                             <div class="col-xl-12 col-lg-12 col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                    
+                                    <div class="row mb-2">
+                                        <div class="col-lg-5 mt-2">
+                                           <form class=" gy-2 gx-2 align-items-center justify-content-xl-start justify-content-between" id="_search_disb_form">
+                                            <div class="col-auto">
+                                                <label for="_keyword" class="visually-hidden">Search</label>
+                                                <input type="search" class="form-control" name="search" id="_search" placeholder="URL parameter, website. etc.">
+                                            </div>
+                                            </form>  
+                                        </div>
+                                        <div class="col-lg-7 mt-2">
+                                            <div class="mt-xl-0 text-end">
+                                                <button type="button" class="btn rounded btn-light mb-2" onclick="_getUrlList(1,'','')"><i class="uil-redo"></i> Refresh</button>
+                                            </div>
+                                        </div>  
+                                    </div>
                                         <h1 class="card-title mb-3">Link of Shortened URLs</h1>
                                         <div class="table-responsive">
                                         <table class="table table-c_refreshTxListentered table-hover mb-0 font-12">

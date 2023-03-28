@@ -2115,6 +2115,9 @@ body{
 .mt--28{
   margin-top: -28px;
 }
+.mt--5{
+  margin-top: -5px;
+}
 #_products_tbl .disabled {
     background-color: transparent;
     opacity: 1;

@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <title><?=($title == 'index') ? $siteSetting['website_name'] .' - URL Shortener, Short URLs & Free Custom Link Shortener' : $title." | ".$siteSetting['website_name'] ?> </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="<?= ($title == 'index') ? $siteSetting['description'].' URL shortener, link management software, QR Code features, link shortener' : $description.' , link shortener' ?>"/>
+        <meta name="description" content="<?= ($title == 'index') ? $siteSetting['description'].' link management software, QR Code features, link shortener' : $description.' , link shortener' ?>"/>
         <meta name="keywords" content=""/>
         <meta name="theme-color" content="#05cb62" />
         <meta name="mobile-web-app-capable" content="yes">
@@ -19,13 +19,18 @@
         <link rel="canonical" href="<?=$canonical_url;?>">
         
         <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet" >
+        <link href="<?=base_url()?>assets/css/all.css?v=<?=filemtime('assets/css/all.css')?>" rel="stylesheet" type="text/css" />
+        <link href="<?=base_url()?>assets/css/mdi.css" rel="stylesheet" type="text/css" />
         <link href="<?=base_url()?>assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style" />
-        <link href="<?=base_url()?>assets/css/mdi.css" rel="stylesheet" type="text/css" id="light-style" />
+        <?=($state  == 'new_blog' || $state == 'edit_blog') ? '<link href="'.base_url().'assets/css/select2.min.css" rel="stylesheet" type="text/css" />
+        <link href="'.base_url().'assets/css/croppie.css" rel="stylesheet" type="text/css" />':''?>
+
         <link href="<?=base_url()?>assets/css/styles.css?v=<?=filemtime('assets/css/styles.css')?>" rel="stylesheet" type="text/css" />
         <link href="<?=base_url()?>assets/css/default.css?v=<?=filemtime('assets/css/default.css')?>" rel="stylesheet" type="text/css" />
         <link href="<?=base_url()?>assets/css/theme.css?v=<?=filemtime('assets/css/theme.css')?>" rel="stylesheet" type="text/css" />
-		<?php if ($state == 'statistics') {?><link href="<?=base_url()?>assets/css/croppie.css?v=<?=filemtime('assets/css/croppie.css')?>" rel="stylesheet" type="text/css" />
-        <link href="<?=base_url()?>assets/css/daterangepicker.css?v=<?=filemtime('assets/css/daterangepicker.css')?>" rel="stylesheet" type="text/css" /><?php } ?>
+        <link href="<?=base_url()?>assets/css/croppie.css?v=1672729858" rel="stylesheet" type="text/css" />
+        <link href="<?=base_url()?>assets/css/daterangepicker.css?v=<?=filemtime('assets/css/daterangepicker.css')?>" rel="stylesheet" type="text/css" />
+        <?=($state  == 'new_blog' || $state == 'edit_blog') ? '<link href="'.base_url().'assets/css/blog.css?v='.filemtime('assets/css/theme.css').'?>" rel="stylesheet" type="text/css" />':''?>
 
         <meta property="fb:app_id" content="103993588751492" />
         <meta property="og:type" content="website" />
@@ -44,23 +49,11 @@
         <meta name="twitter:title" content="<?=$siteSetting['website_name']?>">
         <meta name="twitter:image" content="<?= ($title == 'index') ? $siteSetting['description'].' link management software, QR Code features' : $description ?>">
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-TREBS548CZ"></script>
-        <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9264139322313019" crossorigin="anonymous"></script> -->
-        
+        <?=($state  == 'new_blog' || $state == 'edit_blog' ) ? '<script src="https://cdn.tiny.cloud/1/g1blia2o88rxqgmga9veyff1ifba6j8a2uy9gj1va25lthdn/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>' : '' ?>
+
     </head>
 
-    <body class="" >
-    <script type='application/ld+json'>
-        {
-          "@context":"https:\/\/schema.org",
-          "@type":"Organization",
-          "url":"https:\/\/shortly.at\/",
-          "sameAs":["https:\/\/www.facebook.com\/profile.php?id=100089476980399\/"],
-          "@id":"https://shortly.at/#Organization",
-          "name":"Shortly",
-          "logo":"https://shortly.at/assets/images/logo/logo.png"
-        }
-    </script>   
-
+    <body data-layout="detached" >
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}

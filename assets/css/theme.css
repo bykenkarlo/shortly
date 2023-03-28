@@ -332,3 +332,29 @@ a{
 .swal2-container.swal2-center > .swal2-popup {
   z-index: 9999;
 }
+.list-group-item {
+  z-index: 2;
+  color: #515659;
+  background-color: #fff;
+  border-color: #fff;
+}
+.list-group-item.active {
+  z-index: 2;
+  color: #515659;
+  background-color: #f1f3fa;
+  border-color: #fff;
+}
+.list-group-item {
+  border-bottom-color: #e2e2e2 !important;
+}
+/* background-color: #f1f3fa; */
+
+.account .form-input{
+  height: 45px !important;
+}
+body[data-layout="detached"] .leftside-menu .side-nav .active {
+  color: #05cb62 !important;
+}
+p{
+  word-spacing: .1rem;
+}

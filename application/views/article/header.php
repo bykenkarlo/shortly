@@ -59,7 +59,7 @@
             "@id": "<?=$canonical_url;?>"
           },
           "headline": "<?=$article_data['title']?>",
-          "image": "https://kwartzlending.com/assets/images/blog/1648597154.webp",
+          "image": "<?=$article_data['article_image']?>",
           "datePublished": "<?=$article_data['created_at']?>",
           "dateModified": "<?=$article_data['updated_at']?>:",
           "author": {

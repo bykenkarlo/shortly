@@ -52,7 +52,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $route['about'] = 'Page/about';
 $route['privacy-terms'] = 'Page/terms';
-$route['login'] = 'Page/login';
+$route['login'] = 'Page/userLogin';
+$route['account/login'] = 'Page/login';
 $route['logout'] = 'Page/logout';
 $route['account'] = 'Page/dashboard';
 $route['blog'] = 'Page/blog';
@@ -63,6 +64,11 @@ $route['draft/(:any)'] = 'Page/draft/$1';
 $route['stat/(:any)'] = 'Shortener/checkURLStat/$1';
 $route['(:any)-'] = 'Shortener/checkURLStat/$1';
 $route['(:any)'] = 'Shortener/accessLongURL/$1';
+$route['verify/(:any)'] = 'Shortener/verifyEmailAddress/$1';
+
+# USER
+$route['logged/dashboard'] = 'Shortener/accountDashboard';
+$route['logged/settings'] = 'Shortener/accountSettings';
 
 #ACCOUNT 
 $route['account/dashboard'] = 'Page/dashboard';
@@ -119,6 +125,14 @@ $route['api/v1/shortener/_upload_logo'] = 'Shortener/uploadCustomLogo';
 $route['api/v1/shortener/_customize_url'] = 'Shortener/customizeUrl';
 $route['api/v1/shortener/_change_status'] = 'Shortener/changeStatus';
 $route['api/v1/account/_url_list'] = 'Account/getURLList';
+$route['api/v1/account/_secret_key_generator'] = 'Account/generateSecretKey';
+$route['api/v1/account/_register'] = 'Account/accountRegistration';
+$route['api/v1/account/_get_urls'] = 'Shortener/getAccountURLs';
+$route['api/v1/account/_get_url_data'] = 'Shortener/getAccountURLData';
+$route['api/v1/shortener/_get_url_data_v2'] = 'Shortener/getAccountURLDataV2';
+$route['api/v1/shortener/_new_url'] = 'Shortener/newShortURL';
+$route['api/v1/shortener/_save_custom_url'] = 'Shortener/saveCustomURL';
+$route['api/v1/shortener/_save_email_address'] = 'Account/saveEmailAddress';
 
 $route['api/v1/email/_get'] = 'Shortener/getEmailAddress';
 $route['api/v1/xss/_get_csrf_data'] = 'App/getCsrfData';
