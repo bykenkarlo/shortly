@@ -10,14 +10,31 @@ class Shortener extends CI_Controller {
 	function __construct(){
         parent::__construct();
         $this->load->library('user_agent');
+        $this->load->library('google_app_api');
         $this->load->model('Shortener_model');
         $this->load->model('Site_settings_model');
         $this->load->model('Csrf_model');
         $this->load->model('User_model');
+        $this->load->model('GoogleApi_model');
     }
     public function processUrl() {
-        $data = $this->Shortener_model->processUrl();
-        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+
+        $check_blocklist = $this->Shortener_model->checkBlocklistSites();
+        // $googleapi_data = $this->GoogleApi_model->safeBrowsingApi();
+        // if($google_data['matches']['threatType'] == 'MALWARE'){
+        //     $response['status'] = 'error';
+		// 	$response['message'] = "This URL is considered as malicious!";
+		// 	$response['attribute'] = $google_data;
+        // }
+        // else 
+        if($check_blocklist > 0){
+            $response['status'] = 'error';
+            $response['message'] = "This URL is considered as malicious and is blocklisted! Contact us if you think this is a mistake!";
+        }
+        else{
+            $response = $this->Shortener_model->processUrl();
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$response)));
     }
     public function accessLongURL($url_param){
         $data = $this->Shortener_model->accessLongURL($url_param);
@@ -223,5 +240,17 @@ class Shortener extends CI_Controller {
         else{
            header('Location: '.base_url('?verify=invalid'));
         }
+    }
+    public function deleteURL(){
+        $data = $this->Shortener_model->deleteURL();
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+    }
+    public function blocklistURL() {
+        $data = $this->Shortener_model->blocklistURL();
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+    }
+    public function unblocklistURL() {
+        $data = $this->Shortener_model->unblocklistURL();
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
 }

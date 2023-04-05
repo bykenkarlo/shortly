@@ -84,4 +84,20 @@ class Login extends CI_Controller {
         }
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$response)));
     }
+    public function loggedUserByAdmin($username) {
+        if(isset($this->session->admin)){
+            $check_user = $this->User_model->getUserDataByUsername($username);
+            if(!empty($check_user)){
+                $this->session->set_userdata('secret_key', $check_user['secret_key']);
+                /* INSERT new remember token */ 
+                            
+                $message = 'User Logged in by Admin.';
+                $this->User_model->insertActivityLog($message); 
+                header('Location:'. base_url('logged/dashboard'));
+            }
+            else{
+                $this->Site_settings_model->error404();
+            }
+        }
+    }
 }

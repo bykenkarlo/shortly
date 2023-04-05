@@ -31,6 +31,7 @@ body[data-layout="detached"].sidebar-enable .leftside-menu {
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
   line-height: 1.4;
 }
+
 .btn-xs {
   font-size: 1.1em;
   padding: 5px 8px;
@@ -349,12 +350,15 @@ a{
 }
 /* background-color: #f1f3fa; */
 
-.account .form-input{
+.account input{
+  height: 45px !important;
+}
+.account .input-btn{
   height: 45px !important;
 }
 body[data-layout="detached"] .leftside-menu .side-nav .active {
   color: #05cb62 !important;
 }
 p{
-  word-spacing: .1rem;
+  word-spacing: .12rem;
 }

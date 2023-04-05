@@ -45,7 +45,7 @@
                             You can easily track and analyze the performance of your links, and make data-driven decisions to improve your campaigns and drive better results.</p>
                     </div>
 
-                    <div class="row mt-3 ">
+                    <div class="row mt-3 mb-4">
                         <div class="col-lg-4 col-md-6 col-sm-6 col-12 text-center mt-2">
                             <div class="avatar-md m-auto">
                                 <span class="avatar-title bg-success-lighten rounded-circle">
@@ -78,6 +78,17 @@
                             <div class="c-gray">
                                 <h4>Customized QR Code</h4>
                                 <p>Generate a customizable QR code and upload your business' logo image.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-12 text-center mt-2">
+                             <div class="avatar-md m-auto">
+                                <span class="avatar-title bg-success-lighten rounded-circle">
+                                    <i class="uil uil-files-landscapes-alt text-success font-28"></i>
+                                </span>
+                            </div>
+                            <div class="c-gray">
+                                <h4>Multiple Links Management</h4>
+                                <p>Manage muiltiple Links in a dashboard with optional registration.</p>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-6 col-12 text-center mt-2">

@@ -31,7 +31,10 @@ class Shortener_model extends CI_Model {
 		}
 		
 		return $response;
-
+	}
+	public function checkBlocklistSites(){
+		$url = trim($this->input->post('long_url')," ");
+		return $this->db->WHERE('url',$url)->GET('blocklisted_urls_tbl')->num_rows();
 	}
 	public function shortURLGenerator($length = 5) {
 		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -505,12 +508,12 @@ class Shortener_model extends CI_Model {
 				$response['short_url'] = "";
 				$response['message'] = "Custom URL already exist!";
 			}
-			else if(strlen($custom_link) < 4 ){
+			else if(!empty($custom_link) && strlen($custom_link) < 4 ){
 				$response['status'] = 'error';
 				$response['short_url'] = "";
 				$response['message'] = "Custom URL should be at least 4 characters";
 			}
-			else if(strlen($custom_link) > 30){
+			else if(!empty($custom_link) && strlen($custom_link) > 30){
 				$response['status'] = 'error';
 				$response['short_url'] = "";
 				$response['message'] = "Custom URL should not be more than 30 characters";
@@ -606,6 +609,39 @@ class Shortener_model extends CI_Model {
 			$response['short_url'] = "";
 			$response['message'] = "Something went wrong! Refresh the page and try again!";
 		}
+	}
+	public function deleteURL(){
+		$url_param = $this->input->post('url_param');
+		$get_data = $this->db->WHERE('short_url',$url_param)->GET('shortened_url_tbl')->row_array();
+		$data_arr = array(
+			'long_url'=>$get_data['long_url'],
+			'short_url'=>$get_data['short_url'],
+			'status'=>'disabled',
+			'created_at'=>date('Y-m-d H:i:s'),
+		);
+		$this->db->INSERT('removed_urls_tbl',$data_arr);
+		$this->db->WHERE('short_url',$url_param)->DELETE('shortened_url_tbl');
+		$response['status'] = 'success';
+		$response['message'] = "URL has been removed!";
+		return $response;
+	}
+	public function blocklistURL(){
+		$data_arr = array(
+			'url'=>$this->input->post('url'),
+			'note'=>'',
+			'created_at'=>date('Y-m-d H:i:s'),
+		);
+		$this->db->INSERT('blocklisted_urls_tbl',$data_arr);
+		$response['status'] = 'success';
+		$response['message'] = "URL has been Blocklisted!";
+		return $response;
+	}
+	public function unblocklistURL(){
+		$url = $this->input->post('url');
+		$this->db->WHERE('url',$url)->DELETE('blocklisted_urls_tbl');
+		$response['status'] = 'success';
+		$response['message'] = "URL has been Unblocklisted!";
+		return $response;
 	}
 	
 }

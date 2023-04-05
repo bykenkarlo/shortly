@@ -3,8 +3,14 @@
             <div id="_web_container" class="">
             <div class=" other-section padding-bottom-30 c-dwhite"  >
                 <div class="container">
+                    <?php if ($this->agent->is_mobile() && $url_data['status'] == 'disabled'){?>
+                    <div class="alert alert-danger br-10 mobile-view inline-block-view mt-3" role="alert">
+                        <i class="uil-times-circle"></i>This URL has been <b>Disabled</b> for violating our Terms! If you think this was made by mistake <a href="<?=base_url('#contact_us')?>">contact us</a>!
+                    </div>
+                    <?php } ?>
                     <div class="row mt-sm-2 mb-3">
-                        <div class="col-lg-4">
+                        <div class="col-lg-4  mt-2">
+                            <button class="btn btn-success rounded mobile-view" type="button" id="_mb_create_account_btn">Create Account</button>
                             <div class="card card-services-highlights pt-1 pb-2  c-gray">
                                 <div class="card-body">
                                     <div class="float-end" id="_copy_url_div">
@@ -61,8 +67,8 @@
                         </div> 
                         <div class="col-lg-8">
                             
-                            <?php if ($url_data['status'] == 'disabled'){?>
-                            <div class="alert alert-danger br-10" role="alert">
+                            <?php if (!$this->agent->is_mobile && $url_data['status'] == 'disabled'){?>
+                            <div class="alert alert-danger br-10 " role="alert">
                                 <i class="uil-times-circle"></i>This URL has been <b>Disabled</b> for violating our Terms! If you think this was made by mistake <a href="<?=base_url('#contact_us')?>">contact us</a>!
                             </div>
                             <?php } ?>

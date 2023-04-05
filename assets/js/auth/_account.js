@@ -1,8 +1,17 @@
-function _getUrlList(page_no, search, opt_status){
-	// _select_date = $('#_select_date').val();
-	// from = _select_date.substring(0, 10);
-	// to = _select_date.substring(_select_date.length, 13);
+if (_state == 'url_list'){
+    _getUrlList(1, '', '')
+}
+else if(_state == 'users_list'){
+    _getUsersList(1, '', '')
+}
+$("#_search_url_form").on('submit', function(e){
+	e.preventDefault();
+	keyword = $("#_search").val();
+	page_no = 1;
+	_getUrlList(page_no, keyword, '');
+})
 
+function _getUrlList(page_no, search, opt_status){
 	$("#_url_tbl").html("<tr class='text-center'><td colspan='7'>Loading data...</td></tr>");
 	let params = new URLSearchParams({'page_no':page_no, 'search':search});
 	fetch(base_url+'api/v1/account/_url_list?' + params, {
@@ -27,18 +36,29 @@ function _displayDataList(page_no, result, pagination, count){
 	url_status_text = '';
 	url_ddlist = ''; // dropdown list
 	stat_btn_bg = "";
+	blocklisted = "";
+	url_status = "";
 	$('#_url_pagination').html(pagination);
 	$('#_url_count').text('Total count: '+count);
 	if (result.length > 0) {
 		for(var i = 0; i < result.length; i++){
-			if (result[i].status == 'active') {
+
+			if(result[i].blocklisted == 'yes'){
+				stat_btn_bg = "danger";
+                url_ddlist = '<span class="dropdown-item cursor-pointer text-capitalize" onclick="UnblockURL(\''+result[i].long_url+'\',\'disabled\',\''+page_no+'\')">Unblock</span>';
+				url_status = "Blocklisted"
+			}
+			else if (result[i].status == 'active') {
 				stat_btn_bg = "success";
-                url_ddlist = '<span class="dropdown-item cursor-pointer text-capitalize" onclick="changeStats(\''+result[i].url_param+'\',\'disabled\',\''+page_no+'\')">Disabled</span>';
+                url_ddlist += '<span class="dropdown-item cursor-pointer text-capitalize" onclick="changeStats(\''+result[i].url_param+'\',\'disabled\',\''+page_no+'\')">Disabled</span>';
+				url_status = "Active"
 			}
 			else if (result[i].status == 'disabled') {
-				stat_btn_bg = "danger";
+				stat_btn_bg = "warning";
                 url_ddlist = '<span class="dropdown-item cursor-pointer text-capitalize" onclick="changeStats(\''+result[i].url_param+'\',\'active\',\''+page_no+'\')">Active</span>';
+				url_status = "Disabled";
 			}
+			
 			string +='<tr>'
 				+'<td>'
                     +'<div class="form-check ">'
@@ -51,8 +71,8 @@ function _displayDataList(page_no, result, pagination, count){
 				+'<td>'+result[i].click_count+'</td>'
 				+'<td>'
 					+'<div class="dropdown font-10"">'
-					    +'<button class="btn btn-'+stat_btn_bg+' rounded btn-xs dropdown-toggle text-capitalize" type="button" id="_url_stat_dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
-					        +result[i].status
+					    +'<button class="btn btn-'+stat_btn_bg+' rounded btn-xs dropdown-toggle c-white text-capitalize" type="button" id="_url_stat_dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
+					        +url_status
 					    +'</button>'
 					    +'<div class="dropdown-menu" aria-labelledby="_url_stat_dropdown">'
 						    +url_ddlist
@@ -68,6 +88,8 @@ function _displayDataList(page_no, result, pagination, count){
 					    +'<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">'
 						    +'<a class="dropdown-item" href="'+base_url+'" target="_blank" rel="noopener">View More</a>'
 						    +'<span class="dropdown-item cursor-pointer" href="#edit_loan_details"  rel="noopener" >Edit details</span>'
+						    +'<span class="dropdown-item cursor-pointer" onclick="blocklistURL(\''+result[i].long_url+'\',\''+page_no+'\')" >Blocklist</span>'
+						    +'<span class="dropdown-item cursor-pointer" onclick="deleteURL(\''+result[i].url_param+'\',\''+page_no+'\')" >Delete</span>'
 						+'</div>'
 					+'</div>'
                 +'</td>'
@@ -86,9 +108,7 @@ $('#_url_pagination').on('click','a',function(e){
     _getUrlList(page_no, '', opt_status);
 });
 
-if (_state == 'url_list'){
-    _getUrlList(1, '', '')
-}
+
 const changeStats = (url_param,status, page_no) => {
 	csrf_token = $("#_global_csrf").val();
 	$.ajax({
@@ -103,7 +123,7 @@ const changeStats = (url_param,status, page_no) => {
 	})
 	.done( (res) => {
 		if (res.data.status == 'success') {
-            _getUrlList(page_no, 'search', '')
+            _getUrlList(page_no, '', '')
 		}
 		else{
 			Swal.fire({
@@ -113,6 +133,7 @@ const changeStats = (url_param,status, page_no) => {
 			});
 	        $("#_shorten_url_btn").text('Shorten URL').removeAttr('disabled', 'disabled');
 		}
+		_csrfNonce();
 	})
     .fail(() => {
         Swal.fire({
@@ -123,3 +144,237 @@ const changeStats = (url_param,status, page_no) => {
     })
 	_csrfNonce();
 }
+$("#_search_user_form").on('submit', function(e){
+	e.preventDefault();
+	keyword = $("#_search").val();
+	page_no = 1;
+	_getUsersList(page_no, keyword, '');
+})
+$('#_user_pagination').on('click','a',function(e){
+    e.preventDefault(); 
+    var page_no = $(this).attr('data-ci-pagination-page');
+    _getUsersList(page_no, '', '');
+});
+
+function _getUsersList(page_no, search, opt_status){
+	$("#_user_tbl").html("<tr class='text-center'><td colspan='7'>Loading data...</td></tr>");
+	let params = new URLSearchParams({'page_no':page_no, 'search':search});
+	fetch(base_url+'api/v1/account/_users_list?' + params, {
+  		method: "GET",
+		  	headers: {
+		    	'Accept': 'application/json',
+		    	'Content-Type': 'application/json'
+		  	},
+	})
+	.then(response => response.json())
+	.then(res => {
+		_displayUserDataList(page_no, res.data.result, res.data.pagination, res.data.count);
+	})
+	.catch((error) => {
+		$("#_user_tbl").html("<tr class='text-center'><td colspan='7'>No record found!</td></tr>");
+		console.error('Error:', error);
+	});
+}
+function _displayUserDataList(page_no, result, pagination, count){
+	string ='';
+	verified = ''; 
+	user_type = "";
+	$('#_user_pagination').html(pagination);
+	$('#_user_count').text('Total count: '+count);
+	if (result.length > 0) {
+		for(var i = 0; i < result.length; i++){
+			if (result[i].user_type == 'admin') {
+                user_type = '<span class="cursor-pointer badge font-12 text-capitalize bg-success c-white">Admin</span>';
+			}
+			else if (result[i].user_type == 'user') {
+                user_type = '<span class="cursor-pointer badge font-12 bg-primary c-white text-capitalize">User</span>';
+			}
+
+			if (result[i].email_verified == 'yes') {
+                verified = '<span class="cursor-pointer badge font-12 text-capitalize bg-success c-white">Yes</span>';
+			}
+			else if (result[i].email_verified == 'no') {
+                verified = '<span class="cursor-pointer badge font-12 text-capitalize bg-warning c-white">No</span>';
+			}
+			else if (result[i].email_verified == 'pending') {
+                verified = '<span class="cursor-pointer badge font-12 text-capitalize bg-info c-white">Pending</span>';
+			}
+			
+			string +='<tr>'
+				+'<td>'
+                    +'<div class="form-check ">'
+                        +'<input type="checkbox" name="loan_checkbox[]" class="form-check-input loan-checkbox cursor-pointer " id="'+result[i].id+'" >'
+                        +'<label class="form-check-label" for="_tx_check_box">&nbsp;</label>'
+                    +'</div>'
+                +'</td>'
+				+'<td>'+result[i].username+'</td>'
+				+'<td>'+user_type+'</td>'
+				+'<td>'+result[i].email_address+'</td>'
+				+'<td>'+verified+'</td>'
+				
+				+'<td>'+result[i].created_at+'</td>'
+				+'<td>'
+                    +'<div class="dropdown font-10"">'
+					    +'<button class="btn btn-light btn-sm dropdown-toggle font-12 rounded" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
+					        +'Action'
+					    +'</button>'
+					    +'<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">'
+						    +'<a class="dropdown-item" href="'+base_url+'logged/user/'+result[i].username+'" target="_blank" rel="noopener">Login</a>'
+						    +'<span class="dropdown-item cursor-pointer" href="#edit_loan_details"  rel="noopener" >Edit details</span>'
+						+'</div>'
+					+'</div>'
+                +'</td>'
+			+'</tr>'
+		}
+		$('#_user_tbl').html(string);
+	}
+	else{
+		$("#_user_tbl").html("<tr class='text-center'><td colspan='7'>No records found!</td></tr>");
+	}
+}
+function deleteURL(url_param,page_no){
+	csrf_token = $("#_global_csrf").val();
+	Swal.fire({
+		title: 'Delete?',
+	 	icon: 'warning',
+	 	text: 'Are you sure to delete this URL?',
+		showCancelButton: true,
+		confirmButtonText: 'Yes, proceed!',
+	}).then((result) => {
+	  	if (result.isConfirmed) {
+	  		$.ajax({
+				url: base_url+'api/v1/shortener/_delete_url',
+				type: 'POST',
+				dataType: 'JSON',
+				data: {'url_param':url_param,'csrf_token':csrf_token},
+		        statusCode: {
+				403: function() {
+					  	_error403();
+					}
+				}
+			})
+			.done(function(res) {
+				if (res.data.status == 'success') {
+					Swal.fire('Success!', res.data.message, 'success');
+				}
+				else{
+					Swal.fire('Error!', 'Something went wrong! Please Try again!', 'error');
+				}
+				_getUrlList(page_no,'','');
+				_csrfNonce();
+
+			})
+	  	} 
+	})
+}
+
+function blocklistURL(long_url,page_no){
+	csrf_token = $("#_global_csrf").val();
+	Swal.fire({
+		title: 'Blocklist URL?',
+	 	icon: 'warning',
+	 	text: 'Are you sure to Blocklist this URL?',
+		showCancelButton: true,
+		confirmButtonText: 'Yes, proceed!',
+	}).then((result) => {
+	  	if (result.isConfirmed) {
+	  		$.ajax({
+				url: base_url+'api/v1/shortener/_blocklist_url',
+				type: 'POST',
+				dataType: 'JSON',
+				data: {'url':long_url,'csrf_token':csrf_token},
+		        statusCode: {
+				403: function() {
+					  	_error403();
+					}
+				}
+			})
+			.done(function(res) {
+				if (res.data.status == 'success') {
+					Swal.fire('Success!', res.data.message, 'success');
+				}
+				else{
+					Swal.fire('Error!', 'Something went wrong! Please Try again!', 'error');
+				}
+				_getUrlList(page_no,'','');
+				_csrfNonce();
+
+			})
+	  	} 
+	})
+}
+function UnblockURL(long_url,page_no){
+	csrf_token = $("#_global_csrf").val();
+	Swal.fire({
+		title: 'Unblocklist URL?',
+	 	icon: 'warning',
+	 	text: 'Are you sure to Unblocklist this URL?',
+		showCancelButton: true,
+		confirmButtonText: 'Yes, proceed!',
+	}).then((result) => {
+	  	if (result.isConfirmed) {
+	  		$.ajax({
+				url: base_url+'api/v1/shortener/_unblocklist_url',
+				type: 'POST',
+				dataType: 'JSON',
+				data: {'url':long_url,'csrf_token':csrf_token},
+		        statusCode: {
+				403: function() {
+					  	_error403();
+					}
+				}
+			})
+			.done(function(res) {
+				if (res.data.status == 'success') {
+					Swal.fire('Success!', res.data.message, 'success');
+				}
+				else{
+					Swal.fire('Error!', 'Something went wrong! Please Try again!', 'error');
+				}
+				_getUrlList(page_no,'','');
+				_csrfNonce();
+
+			})
+	  	} 
+	})
+}
+
+function checkLink(){
+	var apiKey =  ""; //My actual key is in here
+	var googleURL = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=AIzaSyCm_T4r1vS1qL-db7RKqjc22xg9OaYo-a8";
+	googleURL = googleURL + apiKey;
+	console.log(googleURL);
+	var payload =
+	{
+		"client": {
+		  "clientId":      "shortlyapp382402",
+		  "clientVersion": "382402"
+		},
+		"threatInfo": {
+		  "threatTypes":      ["MALWARE", "SOCIAL_ENGINEERING"],
+		  "platformTypes":    ["WINDOWS"],
+		  "threatEntryTypes": ["URL"],
+		  "threatEntries": [
+			{"url": "https://testsafebrowsing.appspot.com/s/malware.html"},
+		  ]
+		}
+	};
+	$.ajax({
+		 url: googleURL,
+		 dataType: "json",
+		 type: 'POST',
+		contentType: "applicaiton/json; charset=utf-8",
+		 data: JSON.stringify(payload),
+		 statusCode: {
+			 403: () => {
+				 _error403();
+			 }
+		 }
+	 })
+	 .done( (res) => {
+		 console.log(res)
+		 if(res.matches[0].threatType == 'MALWARE'){
+			return 'malware';
+		 }
+	 })
+  }

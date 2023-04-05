@@ -169,11 +169,13 @@ class User_model extends CI_Model {
             ->GET('account_url_tbl')->result_array();
 
         foreach($query as $q){
+            $total_click = $this->db->SELECT('COUNT(click_id) as total_click')->WHERE('url_param',$q['url_param'])->GET('statistics_tbl')->row_array();
             $arr = array(
                 'url_param'=>$q['url_param'],
                 'short_url'=>str_replace(array('http://','https://'),'',base_url().$q['url_param']),
                 'title'=>$q['title'],
                 'status'=>$q['status'],
+                'total_click'=>$total_click['total_click'],
                 'created_at'=>date('F d, y h:i A', strtotime($q['created_at'])),
             );
             array_push($result, $arr);
@@ -620,6 +622,11 @@ class User_model extends CI_Model {
             ); 
 
             $this->db->INSERT('activity_logs_tbl', $activity_log);
+        }
+    }
+    public function getUserDataByUsername($username){
+        if (isset($this->session->admin)) {
+            return $this->db->WHERE('username', $username)->GET('users_tbl')->row_array();
         }
     }
 

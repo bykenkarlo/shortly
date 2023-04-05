@@ -5,7 +5,7 @@
         <nav class="navbar navbar-expand navbar-dark home-index-default bg-nav k-header" id="_home_navbar">
             <div class="container nav-container">
                 <!-- logo -->
-                <div class="web-view">
+                <div class="web-view flex-view">
                     <div class="navbar-brand me-lg-5 cursor-pointer" >
                         <a onclick="_accessPage('')" class="cursor-pointer"><img src="<?=base_url('assets/images/logo/hh-logo.webp')?>" alt="<?=$siteSetting['website_name']?> Logo" class="hh-logo"></a>
                     </div>

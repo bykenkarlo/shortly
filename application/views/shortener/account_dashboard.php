@@ -1,5 +1,6 @@
                 <div class="content-page account">
                     <div class="content">
+                        <a href="#" class="back-to-top"><i class="uil uil-arrow-up"></i></a>
                         <!-- start page title -->
                         <div class="row">
                             <div class="col-12">
@@ -19,35 +20,54 @@
                         <div class="row">
                             <div class="col-lg-4 mb-2">
                                 <div class="d-grid">
-                                    <button class="btn btn-success rounded text-center" type="button" id="_new_url_btn">Create New</button>
+                                    <button class="btn btn-success rounded text-center input-btn" type="button" id="_new_url_btn">Create New</button>
                                 </div>
                              </div>
                             <div class="col-lg-2"></div>
                             <div class="col-lg-6 float-end mb-2">
                                 <div for="_select_date" class="d-flex align-items-center mb-2">
                                     <input value="<?=date('m/d/Y', strtotime('-60 days'))?> - <?=date('m/t/Y')?>" id="_select_date" type="text" class="form-control date me-2 select-date" data-toggle="date-picker" data-cancel-class="btn-light">
-                                    <button class="btn btn-success c-white btn-md rounded" id="_su_sort_by_date" data-param="">Sort</button>
+                                    <button class="btn btn-success c-white btn-md rounded input-btn" id="_su_sort_by_date" data-param="">Sort</button>
                                  </div>
                             </div>
                             
                             <div class="col-xl-4 col-lg-4">
+                                <div class="mobile-view">
+                                    <h2 id="link_title" class=" font-20 fw-700"><i class="uil uil-link-alt"></i> Links</h2>
+                                 </div>
                                 <div class="card tilebox-one">
                                     <div id="url_list" class="list-group">
                                         
                                     </div> 
                                 </div>
                             </div> <!-- end col -->
-                            <div class="col-xl-8 col-lg-8 col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="float-end">
-                                            <button class="arrow-none card-drop cursor-pointer btn rounded btn-light font-14 me-1 fw-500" id="_edit_url_btn">
+                            <div class="col-xl-8 col-lg-8 col-12 mb-4">
+                                    <div class="mobile-view">
+                                    <h2 id="link_details" class=" font-20 fw-700"><i class="uil uil-chart-line"></i> Link Statistics</h2>
+                                 </div>
+                                <div class="card" id="stat_view">
+                                    <div class="card-body" >
+                                        <div class="dropdown float-end mobile-view">
+                                            <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="mdi mdi-dots-vertical"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <span class="dropdown-item acct_copy_url_btn cursor-pointer" href="#copy_url"><i class="uil uil-copy"></i> Copy </span>
+                                                <span class="dropdown-item edit_url_btn cursor-pointer" ><i class="uil uil-pen"></i> Edit </span>
+                                                <span class="dropdown-item cursor-pointer qr_url" ><i class="uil uil-qrcode-scan"></i> Show QR </span>
+                                            </div>
+                                        </div>
+                                        <div class="float-end web-view">
+                                            <button class="arrow-none card-drop cursor-pointer btn rounded btn-light font-13 me-1 fw-500 acct_copy_url_btn" id="_acct_copy_url_btn">
+                                                <i class="uil uil-copy"></i> Copy 
+                                            </button>
+                                            <button class="arrow-none card-drop cursor-pointer btn rounded btn-light font-13 me-1 fw-500 edit_url_btn" id="_edit_url_btn">
                                                 <i class="uil uil-pen"></i> Edit 
                                             </button>
                                             <!-- <button class="arrow-none card-drop cursor-pointer btn rounded btn-light font-14 me-1 fw-500" id="_edit_url_btn">
                                                 <i class="uil uil-trash"></i> Delete 
                                             </button> -->
-                                            <span href="#" id="qr_url" data-param="" class="arrow-none card-drop cursor-pointer" aria-expanded="false">
+                                            <span href="#" id="qr_url" data-param="" class="arrow-none card-drop cursor-pointer qr_url" aria-expanded="false">
                                                 <i class="uil uil-qrcode-scan"></i>
                                             </span>
                                             <input type="hidden" id="_img_logo">
@@ -55,7 +75,7 @@
 
                                         <div class="short-summary">
                                             <div class="su-title">
-                                                <h1 class="card-title mb-3 font-20 fw-700" id="_su_title">Title Here</h1>    
+                                                <h1 class="card-title mb-3 font-20 fw-700 text-success" id="_su_title">Title Here</h1>    
                                             </div>
                                             <div id="_created_div" class="mt--10">
                                                 <i class="uil uil-calendar-alt"></i> <span id="_su_created_at" class="font-14">Created Date</span>

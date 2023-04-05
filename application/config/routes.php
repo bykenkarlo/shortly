@@ -69,10 +69,12 @@ $route['verify/(:any)'] = 'Shortener/verifyEmailAddress/$1';
 # USER
 $route['logged/dashboard'] = 'Shortener/accountDashboard';
 $route['logged/settings'] = 'Shortener/accountSettings';
+$route['logged/user/(:any)'] = 'Login/loggedUserByAdmin/$1';
 
 #ACCOUNT 
 $route['account/dashboard'] = 'Page/dashboard';
 $route['account/url-list'] = 'Page/urlList';
+$route['account/users-list'] = 'Page/usersList';
 $route['account/blog'] = 'Page/blogList';
 $route['account/blog/new'] = 'Page/newBlog';
 $route['account/blog/edit/(:any)'] = 'Page/editBlog/$1';
@@ -125,6 +127,7 @@ $route['api/v1/shortener/_upload_logo'] = 'Shortener/uploadCustomLogo';
 $route['api/v1/shortener/_customize_url'] = 'Shortener/customizeUrl';
 $route['api/v1/shortener/_change_status'] = 'Shortener/changeStatus';
 $route['api/v1/account/_url_list'] = 'Account/getURLList';
+$route['api/v1/account/_users_list'] = 'Account/getUserList';
 $route['api/v1/account/_secret_key_generator'] = 'Account/generateSecretKey';
 $route['api/v1/account/_register'] = 'Account/accountRegistration';
 $route['api/v1/account/_get_urls'] = 'Shortener/getAccountURLs';
@@ -133,6 +136,9 @@ $route['api/v1/shortener/_get_url_data_v2'] = 'Shortener/getAccountURLDataV2';
 $route['api/v1/shortener/_new_url'] = 'Shortener/newShortURL';
 $route['api/v1/shortener/_save_custom_url'] = 'Shortener/saveCustomURL';
 $route['api/v1/shortener/_save_email_address'] = 'Account/saveEmailAddress';
+$route['api/v1/shortener/_delete_url'] = 'Shortener/deleteURL';
+$route['api/v1/shortener/_blocklist_url'] = 'Shortener/blocklistURL';
+$route['api/v1/shortener/_unblocklist_url'] = 'Shortener/unblocklistURL';
 
 $route['api/v1/email/_get'] = 'Shortener/getEmailAddress';
 $route['api/v1/xss/_get_csrf_data'] = 'App/getCsrfData';

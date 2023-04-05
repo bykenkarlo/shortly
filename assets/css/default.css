@@ -21,6 +21,9 @@ body {
   -webkit-text-size-adjust: 100%;
   letter-spacing: .012em;
 }
+.footer-link-by {
+  text-align: right;
+}
 .topnav-navbar-light{
   background-color: #fff;
 }
@@ -1344,6 +1347,10 @@ input[type=number] {
   }
 }
 @media only screen and (max-width: 515px) {
+  .footer-link-by {
+    text-align: center;
+  }
+
   /*.registration-section::after {
     top: -60px !important;
   }
@@ -2352,4 +2359,21 @@ body{
 }
 .position-relative{
   position:relative;
+}
+.back-to-top{
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border-radius: 100%;
+  background-color: #05cb62;
+  color: #fff;
+  padding: 8px 10px;
+  z-index: 99999;
+  font-size: 29px;
+}
+.back-to-top:hover {
+  color:#fff;
+}
+.back-to-top:active{
+  color:#fff;
 }
