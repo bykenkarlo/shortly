@@ -340,8 +340,8 @@ function UnblockURL(long_url,page_no){
 }
 
 function checkLink(){
-	var apiKey =  ""; //My actual key is in here
-	var googleURL = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=AIzaSyCm_T4r1vS1qL-db7RKqjc22xg9OaYo-a8";
+	var api_key =  ""; //My actual key is in here
+	var googleURL = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key="+api_key;
 	googleURL = googleURL + apiKey;
 	console.log(googleURL);
 	var payload =

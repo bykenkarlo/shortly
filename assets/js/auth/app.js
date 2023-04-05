@@ -67,7 +67,7 @@ $("#_url_shortener_form").on('submit', function(e) {
     $("#_shorten_url_btn").text('Processing...').attr('disabled', 'disabled');
 })
 function _checkLink(long_url, formData){
-    let api_key =  "AIzaSyCm_T4r1vS1qL-db7RKqjc22xg9OaYo-a8"; 
+    let api_key =  ""; 
         let googleURL = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key="+api_key;
         let payload =
         {
