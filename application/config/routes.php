@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-
+$route['qr-code-generator'] = 'Page/QrCodegenerator';
 $route['about'] = 'Page/about';
 $route['privacy-terms'] = 'Page/terms';
 $route['login'] = 'Page/userLogin';
@@ -139,6 +139,7 @@ $route['api/v1/shortener/_save_email_address'] = 'Account/saveEmailAddress';
 $route['api/v1/shortener/_delete_url'] = 'Shortener/deleteURL';
 $route['api/v1/shortener/_blocklist_url'] = 'Shortener/blocklistURL';
 $route['api/v1/shortener/_unblocklist_url'] = 'Shortener/unblocklistURL';
+$route['api/v1/account/_blocklist_url_list'] = 'Shortener/getBlocklistURL';
 
 $route['api/v1/email/_get'] = 'Shortener/getEmailAddress';
 $route['api/v1/xss/_get_csrf_data'] = 'App/getCsrfData';

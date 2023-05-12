@@ -1,5 +1,6 @@
 if (_state == 'url_list'){
     _getUrlList(1, '', '')
+    _getBlocklistUrlList(1, '', '')
 }
 else if(_state == 'users_list'){
     _getUsersList(1, '', '')
@@ -34,10 +35,11 @@ function _displayDataList(page_no, result, pagination, count){
 	string ='';
 	url_status = '';
 	url_status_text = '';
-	url_ddlist = ''; // dropdown list
 	stat_btn_bg = "";
 	blocklisted = "";
 	url_status = "";
+	to_change_stat = "";
+	func = "";
 	$('#_url_pagination').html(pagination);
 	$('#_url_count').text('Total count: '+count);
 	if (result.length > 0) {
@@ -45,18 +47,25 @@ function _displayDataList(page_no, result, pagination, count){
 
 			if(result[i].blocklisted == 'yes'){
 				stat_btn_bg = "danger";
-                url_ddlist = '<span class="dropdown-item cursor-pointer text-capitalize" onclick="UnblockURL(\''+result[i].long_url+'\',\'disabled\',\''+page_no+'\')">Unblock</span>';
-				url_status = "Blocklisted"
+				url_status = "Blocklisted";
+				to_change_stat = 'unblock'
+				func = "UnblockURL";
+				first_param = result[i].long_url;
 			}
 			else if (result[i].status == 'active') {
 				stat_btn_bg = "success";
-                url_ddlist += '<span class="dropdown-item cursor-pointer text-capitalize" onclick="changeStats(\''+result[i].url_param+'\',\'disabled\',\''+page_no+'\')">Disabled</span>';
 				url_status = "Active"
+				to_change_stat = "disabled";
+				func = "changeStats";
+				first_param = result[i].url_param;
 			}
+			
 			else if (result[i].status == 'disabled') {
 				stat_btn_bg = "warning";
-                url_ddlist = '<span class="dropdown-item cursor-pointer text-capitalize" onclick="changeStats(\''+result[i].url_param+'\',\'active\',\''+page_no+'\')">Active</span>';
-				url_status = "Disabled";
+				url_status = "disabled";
+				to_change_stat = "active";
+				func = "changeStats";
+				first_param = result[i].url_param;
 			}
 			
 			string +='<tr>'
@@ -75,7 +84,7 @@ function _displayDataList(page_no, result, pagination, count){
 					        +url_status
 					    +'</button>'
 					    +'<div class="dropdown-menu" aria-labelledby="_url_stat_dropdown">'
-						    +url_ddlist
+						    +'<span class="dropdown-item cursor-pointer text-capitalize" onclick="'+func+'(\''+first_param+'\',\''+to_change_stat+'\',\''+page_no+'\')">'+to_change_stat+'</span>'
 						+'</div>'
 					+'</div>'
 				+'</td>'
@@ -88,7 +97,7 @@ function _displayDataList(page_no, result, pagination, count){
 					    +'<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">'
 						    +'<a class="dropdown-item" href="'+base_url+'" target="_blank" rel="noopener">View More</a>'
 						    +'<span class="dropdown-item cursor-pointer" href="#edit_loan_details"  rel="noopener" >Edit details</span>'
-						    +'<span class="dropdown-item cursor-pointer" onclick="blocklistURL(\''+result[i].long_url+'\',\''+page_no+'\')" >Blocklist</span>'
+						    +'<span class="dropdown-item cursor-pointer" onclick="blocklistURL(\''+result[i].long_url+'\',\''+page_no+'\', \''+''+'\')" >Blocklist</span>'
 						    +'<span class="dropdown-item cursor-pointer" onclick="deleteURL(\''+result[i].url_param+'\',\''+page_no+'\')" >Delete</span>'
 						+'</div>'
 					+'</div>'
@@ -105,7 +114,8 @@ $('#_url_pagination').on('click','a',function(e){
     e.preventDefault(); 
     var page_no = $(this).attr('data-ci-pagination-page');
 	opt_status = $('#_select_status').val();
-    _getUrlList(page_no, '', opt_status);
+	search = $("#_search").val();
+    _getUrlList(page_no, search, opt_status);
 });
 
 
@@ -123,7 +133,8 @@ const changeStats = (url_param,status, page_no) => {
 	})
 	.done( (res) => {
 		if (res.data.status == 'success') {
-            _getUrlList(page_no, '', '')
+			search = $("#_search").val();
+            _getUrlList(page_no, search, '')
 		}
 		else{
 			Swal.fire({
@@ -268,7 +279,7 @@ function deleteURL(url_param,page_no){
 	})
 }
 
-function blocklistURL(long_url,page_no){
+function blocklistURL(long_url, page_no, note){
 	csrf_token = $("#_global_csrf").val();
 	Swal.fire({
 		title: 'Blocklist URL?',
@@ -282,7 +293,7 @@ function blocklistURL(long_url,page_no){
 				url: base_url+'api/v1/shortener/_blocklist_url',
 				type: 'POST',
 				dataType: 'JSON',
-				data: {'url':long_url,'csrf_token':csrf_token},
+				data: {'url':long_url,'csrf_token':csrf_token, note:note},
 		        statusCode: {
 				403: function() {
 					  	_error403();
@@ -297,7 +308,9 @@ function blocklistURL(long_url,page_no){
 					Swal.fire('Error!', 'Something went wrong! Please Try again!', 'error');
 				}
 				_getUrlList(page_no,'','');
+				_getBlocklistUrlList(page_no,'','');
 				_csrfNonce();
+				$("#_add_blocklist_modal").modal('hide');
 
 			})
 	  	} 
@@ -332,6 +345,7 @@ function UnblockURL(long_url,page_no){
 					Swal.fire('Error!', 'Something went wrong! Please Try again!', 'error');
 				}
 				_getUrlList(page_no,'','');
+				_getBlocklistUrlList(page_no,'','');
 				_csrfNonce();
 
 			})
@@ -340,7 +354,7 @@ function UnblockURL(long_url,page_no){
 }
 
 function checkLink(){
-	var api_key =  ""; //My actual key is in here
+	var api_key =  "AIzaSyCm_T4r1vS1qL-db7RKqjc22xg9OaYo-a8"; //My actual key is in here
 	var googleURL = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key="+api_key;
 	googleURL = googleURL + apiKey;
 	console.log(googleURL);
@@ -378,3 +392,69 @@ function checkLink(){
 		 }
 	 })
   }
+$("#add_blocklist_url").on('click', function(){
+	$("#_add_blocklist_modal").modal('toggle');
+})
+function _getBlocklistUrlList(page_no, search, opt_status){
+	$("#_blocklist_url_tbl").html("<tr class='text-center'><td colspan='5'>Loading data...</td></tr>");
+	let params = new URLSearchParams({'page_no':page_no, 'search':search});
+	fetch(base_url+'api/v1/account/_blocklist_url_list?' + params, {
+  		method: "GET",
+		  	headers: {
+		    	'Accept': 'application/json',
+		    	'Content-Type': 'application/json'
+		  	},
+	})
+	.then(response => response.json())
+	.then(res => {
+		_displayBlocklistURLDataList(page_no, res.data.result, res.data.pagination, res.data.count);
+	})
+	.catch((error) => {
+		$("#_blocklist_url_tbl").html("<tr class='text-center'><td colspan='5'>No record found!</td></tr>");
+		console.error('Error:', error);
+	});
+}
+function _displayBlocklistURLDataList(page_no, result, pagination, count){
+	string ='';
+	$('#_blocklist_url_pagination').html(pagination);
+	$('#_blocklist_url_count').text('Total count: '+count);
+	if (result.length > 0) {
+		for(var i = 0; i < result.length; i++){
+			string +='<tr>'
+				+'<td>'
+                    +'<div class="form-check ">'
+                        +'<input type="checkbox" name="loan_checkbox[]" class="form-check-input loan-checkbox cursor-pointer " id="'+result[i].id+'" >'
+                        +'<label class="form-check-label" for="_tx_check_box">&nbsp;</label>'
+                    +'</div>'
+                +'</td>'
+				+'<td><a target="_blank" href="'+result[i].url+'">'+result[i].url+'</a></td>'
+				+'<td>'+result[i].note+'</td>'
+				+'<td>'+result[i].created_at+'</td>'
+				+'<td>'
+                    +'<div class="dropdown font-10"">'
+					    +'<button class="btn btn-light btn-sm dropdown-toggle font-12 rounded" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
+					        +'Action'
+					    +'</button>'
+					    +'<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">'
+						    +'<span class="dropdown-item cursor-pointer text-capitalize" onclick="UnblockURL(\''+result[i].url+'\',\'active\',\''+page_no+'\')">Unblock</span>'
+						+'</div>'
+					+'</div>'
+                +'</td>'
+			+'</tr>'
+		}
+		$('#_blocklist_url_tbl').html(string);
+	}
+	else{
+		$("#_blocklist_url_tbl").html("<tr class='text-center'><td colspan='5'>No records found!</td></tr>");
+	}
+}
+$('#_blocklist_url_pagination').on('click','a',function(e){
+    e.preventDefault(); 
+    var page_no = $(this).attr('data-ci-pagination-page');
+    _getBlocklistUrlList(page_no, '', '');
+});
+$("#_save_blocklist_url").on('click', function(){
+	url = $("#_blocklist_url").val();
+	note = $("#_note").val();
+	blocklistURL(url, 1, note);
+})

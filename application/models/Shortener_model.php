@@ -34,7 +34,17 @@ class Shortener_model extends CI_Model {
 	}
 	public function checkBlocklistSites(){
 		$url = trim($this->input->post('long_url')," ");
-		return $this->db->WHERE('url',$url)->GET('blocklisted_urls_tbl')->num_rows();
+		$query =  $this->db->SELECT('url')
+		// ->WHERE("(url LIKE '%".$url."%' OR url LIKE '".$url."%' OR url LIKE '%".$url."' OR url = '".$url."')", NULL, FALSE)
+		->GET('blocklisted_urls_tbl')->result_array();
+
+		$is_blacklisted = false;
+		foreach($query as $q){
+			if(strpos($url, $q['url']) !== false){
+				$is_blacklisted = true;
+			}
+		}
+		return $is_blacklisted;
 	}
 	public function shortURLGenerator($length = 5) {
 		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -628,7 +638,7 @@ class Shortener_model extends CI_Model {
 	public function blocklistURL(){
 		$data_arr = array(
 			'url'=>$this->input->post('url'),
-			'note'=>'',
+			'note'=>$this->input->post('note'),
 			'created_at'=>date('Y-m-d H:i:s'),
 		);
 		$this->db->INSERT('blocklisted_urls_tbl',$data_arr);
@@ -643,5 +653,35 @@ class Shortener_model extends CI_Model {
 		$response['message'] = "URL has been Unblocklisted!";
 		return $response;
 	}
+	public function getBlocklistURL($row_per_page, $row_no){
+        if (isset($this->session->admin)) {
+            $search = $this->input->get('search');
+            $query = $this->db->SELECT('sut.*')
+                 ->FROM('blocklisted_urls_tbl as sut')
+                 ->LIMIT($row_per_page, $row_no)
+                 ->ORDER_BY('created_at','desc')
+                 ->GET()->result_array();
+            $result = array();
+
+            foreach($query as $q){
+                $array = array(
+                    'url'=>$q['url'],
+                    'note'=>$q['note'],
+                    'created_at'=>date('d/m/Y h:i A', strtotime($q['created_at'])),
+                );
+                array_push($result, $array);
+            }
+            return $result;
+        }
+    }
+    public function getBlocklistURLCount(){
+        if (isset($this->session->admin)) {
+            $search = $this->input->get('search');
+            $query = $this->db
+                ->ORDER_BY('created_at','desc')
+                ->GET('blocklisted_urls_tbl as sut')->num_rows();
+            return $query;
+        }
+    }
 	
 }

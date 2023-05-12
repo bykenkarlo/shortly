@@ -12,10 +12,18 @@ function _getWebsiteVisitsStatistics(range){
         site_visit = res.data.site_visit;
         link_created_stat = res.data.link_created_stat;
         link_click_stat = res.data.link_click_stat;
+        location_stat = res.data.location_stat;
+        browser_stat = res.data.browser_stat;
+        platform_stat = res.data.platform_stat;
+        referrer_stat = res.data.referrer_stat;
         
         _siteVisitChart(site_visit);
         _linkCreatedChart(link_created_stat);
         _linkCountChart(link_click_stat);
+        _locationChart(location_stat);
+        _browserStatChart(browser_stat)
+        _platformStatChart(platform_stat)
+        _referrerStatChart(referrer_stat)
     })
     .catch((error) => {
         console.error('Error:', error);
@@ -199,10 +207,266 @@ const _getWebsiteStatistics = (range) => {
         $("#_visits_today").text(res.data.visits_today);
         $("#_links_created").text(res.data.link_created)
         $("#_link_clicks").text(res.data.link_click)
-
     })
     .catch((error) => {
         console.error('Error:', error);
+    });
+}
+const _locationChart = (data) => {
+    let count = [];
+    let country = [];
+    let string = "";
+
+    stats = data.country_statistics;
+    for(var i in stats){
+        count.push(stats[i].count);
+        country.push(stats[i].country);
+
+        string +='<div class="col-2 col-lg-1 col-md-1 " style="margin-top:-2px;">'
+                +'<label class="font-13" for="">'+stats[i].count+'</label>'
+            +'</div>'
+            +'<div class="col-10 col-lg-3 col-md-3 " style="margin-top:-2px;">'
+            +'<label class="font-13" for="">'+stats[i].country+'</label>'
+        +'</div>'
+        +'<div class="col-12 col-lg-8 col-md-8  mb-2">'
+            +'<div class="progress progress-lg">'
+                +'<div class="progress-bar bg-success" role="progressbar" style="width: '+stats[i].percentage+'%" aria-valuenow="'+stats[i].country+'" aria-valuemin="0" aria-valuemax="100"></div>'
+            +'</div>'
+       +' </div>';
+    }
+    $("#_location_chart").html(string);
+}
+var browser_stat_chart;
+const _browserStatChart = (data) => {
+    let count = [];
+    let browser = [];
+
+    stats = data.browser_statistics;
+    for(var i in stats){
+        count.push(stats[i].count);
+        browser.push(stats[i].browser);
+    }
+
+    if (browser_stat_chart) {
+        browser_stat_chart.destroy();
+    }  
+    color = [];
+    
+    color = [
+        'rgb(5, 138, 215)',
+        'rgb(28, 215, 156)',
+        'rgb(5, 203, 98)',
+        'rgb(28, 125, 215)',
+        'rgb(28, 125, 215)',
+        'rgb(203, 28, 215)',
+        'rgb(215, 28, 151)',
+        'rgb(28, 215, 76)',
+        'rgb(5, 215, 213)',
+        'rgb(215, 28, 54)',
+        'rgb(28, 208, 215)',
+        'rgb(28, 182, 215)',
+        'rgb(28, 125, 215)',
+        'rgb(138, 28, 215)',
+        'rgb(203, 28, 215)',
+        'rgb(215, 28, 98)',
+        'rgb(215, 59, 28)',
+        'rgb(215, 129, 28)',
+        'rgb(215, 178, 28)',
+        'rgb(195, 215, 28)',
+        'rgb(89, 215, 28)',
+    ];
+
+    for (var i=0;i<browser.length;i++) {
+        color.push(browser[i].browser); 
+    }
+    const ctx = document.getElementById('_browser_overview');
+    browser_stat_chart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: browser,
+            datasets: [{
+                label: '',
+                data: count,
+                backgroundColor: color,
+                borderColor: '#fff',
+                hoverOffset: 4
+            }],
+        },
+        options: {
+            layout: {
+                padding: 20
+            },
+           
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: 'circle'
+                    }
+
+                }
+            },
+        }
+    });
+    $("#loader").attr('hidden','hidden');
+}
+var platform_stat_chart;
+const _platformStatChart = (data) => {
+    let count = [];
+    let platform = [];
+    stats = data.platform_statistics;
+    for(var i in stats){
+        count.push(stats[i].count);
+        platform.push(stats[i].platform);
+    }
+    if (platform_stat_chart) {
+        platform_stat_chart.destroy();
+    }  
+    color = [];
+    
+    color = [
+        'rgb(28, 215, 156)',
+        'rgb(5, 203, 98)',
+        'rgb(28, 125, 215)',
+        'rgb(5, 215, 213)',
+        'rgb(5, 138, 215)',
+        'rgb(5, 203, 98)',
+        'rgb(28, 215, 156)',
+        'rgb(195, 215, 28)',
+        'rgb(215, 28, 151)',
+        'rgb(5, 138, 215)',
+        'rgb(89, 215, 28)',
+        'rgb(28, 215, 76)',
+        'rgb(28, 215, 156)',
+        'rgb(75, 192, 192)',
+        'rgb(54, 162, 235)',
+        'rgb(255, 159, 64)',
+        'rgb(255, 205, 86)',
+        'rgb(153, 102, 25)',
+        'rgb(138, 28, 215)',
+        'rgb(215, 28, 151)',
+        'rgb(203, 28, 215)',
+        'rgb(215, 28, 98)',
+        'rgb(215, 28, 54)',
+        'rgb(215, 59, 28)',
+        'rgb(215, 129, 28)',
+        'rgb(215, 178, 28)',
+        'rgb(201, 203, 207)',
+    ];
+
+    for (var i=0;i<platform.length;i++) {
+        color.push(platform[i].platform); 
+    }
+    const ctx = document.getElementById('_platform_overview');
+    platform_stat_chart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: platform,
+            datasets: [{
+                label: 'Platform',
+                data: count,
+                backgroundColor: color,
+                borderColor: '#fff',
+                borderWidth: 1,
+                hoverOffset: 4
+            }],
+        },
+        options: {
+            layout: {
+                padding: 20
+            },
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: 'circle'
+                    }
+
+                }
+            },
+        }
+    });
+}
+var referrer_stat_chart;
+const _referrerStatChart = (data) => {
+    let count = [];
+    let referrer = [];
+    stats = data.referrer_statistics;
+    for(var i in stats){
+        count.push(stats[i].count);
+        referrer.push(stats[i].referrer);
+    }
+    
+    if (referrer_stat_chart) {
+        referrer_stat_chart.destroy();
+    }  
+    color = [];
+    color = [
+        'rgb(5, 203, 98)',
+        'rgb(28, 125, 215)',
+        'rgb(5, 215, 213)',
+        'rgb(5, 138, 215)',
+        'rgb(5, 203, 98)',
+        'rgb(28, 215, 156)',
+        'rgb(75, 192, 192)',
+        'rgb(215, 28, 151)',
+        'rgb(89, 215, 28)',
+        'rgb(28, 215, 76)',
+        'rgb(28, 215, 156)',
+        'rgb(54, 162, 235)',
+        'rgb(255, 159, 64)',
+        'rgb(255, 205, 86)',
+        'rgb(153, 102, 25)',
+        'rgb(138, 28, 215)',
+        'rgb(215, 28, 151)',
+        'rgb(203, 28, 215)',
+        'rgb(215, 28, 98)',
+        'rgb(215, 28, 54)',
+        'rgb(215, 59, 28)',
+        'rgb(215, 129, 28)',
+        'rgb(215, 178, 28)',
+        'rgb(201, 203, 207)',
+    ];
+    for (var i=0;i<referrer.length;i++) {
+        color.push(referrer[i].referrer); 
+    }
+    const ctx = document.getElementById('_referrer_overview');
+    referrer_stat_chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: referrer,
+            datasets: [{
+                label: 'Referrer',
+                data: count,
+                backgroundColor: color,
+                borderColor: color,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            scales: {
+                x: {
+                    grid: {
+                      display: false,
+                    }
+                },
+                y: {
+                    grid: {
+                      display: false
+                    }
+                },
+            },
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: 'circle'
+                    }
+
+                }
+            },
+        }
     });
 }
 if (_state == 'dashboard'){

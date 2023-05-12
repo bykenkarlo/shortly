@@ -36,9 +36,19 @@ class Statistics_model extends CI_Model {
         $site_visit = $this->getWebsiteVisitStat($date_range);
         $link_created_stat = $this->getLinkCreatedStat($date_range);
         $link_click_stat = $this->getLinkClickStat($date_range);
+        $location_stat = $this->getLocationStat($date_range);
+        $browser_stat = $this->getBrowserStat($date_range);
+        $platform_stat = $this->getPlatformStat($date_range);
+        $referer_stat = $this->getRefererStat($date_range);
+
         $data['site_visit'] = $site_visit;
         $data['link_created_stat'] = $link_created_stat;
         $data['link_click_stat'] = $link_click_stat;
+        $data['location_stat'] = $location_stat;
+        $data['browser_stat'] = $browser_stat;
+        $data['platform_stat'] = $platform_stat;
+        $data['referrer_stat'] = $referer_stat;
+
         return $data;
     }
     public function generateDateTime($range){
@@ -124,5 +134,113 @@ class Statistics_model extends CI_Model {
     }
     public function getLinkClicks () {
         return $this->db->GET('statistics_tbl')->num_rows();
+    }
+    public function getLocationStat($date_range){
+		$groupBy = 'country';
+		$click_stat_data = $this->db->SELECT('count(country) as count, country')
+			->WHERE($date_range)
+			->GROUP_BY($groupBy)
+            ->LIMIT(15)
+			->ORDER_BY('count','desc')
+			->ORDER_BY('country','asc')
+			->GET('statistics_tbl')->result_array();
+
+		$total_count = $this->db->SELECT('count(country) as total_count')
+			->WHERE($date_range)
+			->GET('statistics_tbl')->row_array();
+		$result = array();
+		foreach($click_stat_data as $q){
+			if($q['country'] == '' || !$q['country']){
+				$q['country'] = 'Other';
+			}
+			$array = array(
+				'count'=>$q['count'],
+				'percentage' => round(($q['count'] / $total_count['total_count']) * 100, 2),
+				'country'=>$q['country']
+			);
+			array_push($result, $array);
+		}
+		$data['total_count'] = $total_count['total_count'];
+		$data['country_statistics'] = $result;
+		return $data;
+    }
+    public function getBrowserStat($date_range){
+		$groupBy = 'browser';
+		$click_stat_data = $this->db->SELECT('count(browser) as count, browser')
+			->WHERE($date_range)
+			->GROUP_BY($groupBy)
+			->ORDER_BY('created_at','asc')
+			->GET('statistics_tbl')->result_array();
+		$result = array();
+		foreach($click_stat_data as $q){
+			$array = array(
+				'count'=>$q['count'],
+				'browser'=>$q['browser']
+			);
+			array_push($result, $array);
+		}
+		$data['browser_statistics'] = $result;
+		return $data;
+    }
+    public function getPlatformStat($date_range){
+		$groupBy = 'platform';
+		$click_stat_data = $this->db->SELECT('count(platform) as count, platform')
+			->WHERE($date_range)
+			->GROUP_BY($groupBy)
+			->ORDER_BY('created_at','asc')
+			->GET('statistics_tbl')->result_array();
+	
+		$result = array();
+		foreach($click_stat_data as $q){
+			
+			$array = array(
+				'count'=>$q['count'],
+				'platform'=>$q['platform']
+			);
+			array_push($result, $array);
+		}
+		$data['platform_statistics'] = $result;
+		return $data;
+    }
+    public function getRefererStat($date_range){
+		$groupBy = 'referrer';
+		$click_stat_data = $this->db->SELECT('count(referrer) as count, referrer')
+			->WHERE($date_range)
+			->GROUP_BY($groupBy)
+			->ORDER_BY('count','desc')
+			->ORDER_BY('referrer','asc')
+			->GET('statistics_tbl')->result_array();
+		$result = array();
+		foreach($click_stat_data as $q){
+			if(!empty($q['referrer'])) {
+				$parse = parse_url($q['referrer']);
+				$q['referrer'] = $parse['host'];
+			}
+			
+
+			if($q['referrer'] == '' || !$q['referrer']){
+				$q['referrer'] = 'Direct';
+			}
+			else if(strpos($q['referrer'], 'google') !== false){
+				$q['referrer'] = 'Google';
+			}
+			else if(strpos($q['referrer'], 'youtube') !== false){
+				$q['referrer'] = 'Youtube';
+			}
+			else if(strpos($q['referrer'], 'facebook') !== false || strpos($q['referrer'], 'fb') !== false ){
+				$q['referrer'] = 'Facebook';
+			}
+			else if(strpos($q['referrer'], 'mail.google') !== false){
+				$q['referrer'] = 'Gmail';
+			}
+			$referrer = ucfirst(preg_replace("(^https?://)", "", $q['referrer'] ));
+			$array = array(
+				'count'=>$q['count'],
+				'referrer'=>$referrer
+			);
+			array_push($result, $array);
+		}
+		$data['referrer_statistics'] = $result;
+		return $data;
     }
 }

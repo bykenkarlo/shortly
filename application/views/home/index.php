@@ -138,8 +138,8 @@
             <div class="recommend-section padding-bottom-70 c-dwhite" id="contact_us">
                 <div class="container">
                     <div class="text-center">
-                        <h2 class="f-h3 mb-2 c-white">Questions? Suggestions? Would love to hear it!</h2>
-                        <p class="p-text c-white font-15">We are open for questions and suggestions for any possible features that can be added on the site. Let us know by contacting us using the button below.</p>
+                        <h2 class="f-h3 mb-2 c-white">Questions? Suggestions? Reports? Would love to hear it!</h2>
+                        <p class="p-text c-white font-15">We are open for questions and suggestions for any possible features that can be added on the site. You can also report us malicious URLs. Let us know by contacting us using the button below.</p>
                         <button class="btn btn-lg btn-light rounded" type="button" id="_email_us">Email Us</button>
                     </div>
                 </div>

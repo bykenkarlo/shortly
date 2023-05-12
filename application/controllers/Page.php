@@ -163,7 +163,7 @@ class Page extends CI_Controller {
         $data['social_media'] = $this->Site_settings_model->getSocialMedias();
         $data['title'] = 'Dashboard';
         $data['description'] = 'Login your account.';
-        $data['canonical_url'] = base_url('dashboard');
+        $data['canonical_url'] = base_url('account/dashboard');
         $data['url_param'] = "";
         $data['state'] = "dashboard";
         $data['csrf_data'] = $this->Csrf_model->getCsrfData();
@@ -386,6 +386,20 @@ class Page extends CI_Controller {
         $this->session->unset_userdata($session);
         $this->session->sess_destroy();
         header('location:'.base_url('login'));
+    }
+    public function QrCodegenerator(){
+        $data['siteSetting'] = $this->Site_settings_model->siteSettings();
+        $data['social_media'] = $this->Site_settings_model->getSocialMedias();
+        $data['title'] = 'QR Code Generator';
+        $data['description'] = 'Generate your QR Code';
+        $data['canonical_url'] = base_url('qr-code-generator');
+        $data['url_param'] = "";
+        $data['state'] = "qr_code";
+        $data['csrf_data'] = $this->Csrf_model->getCsrfData();
+    	$this->load->view('qr_code/header', $data);
+    	$this->load->view('qr_code/nav');
+    	$this->load->view('qr_code/qr_generator');
+    	$this->load->view('qr_code/footer');
     }
     
 }
