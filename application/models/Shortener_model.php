@@ -7,18 +7,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Shortener_model extends CI_Model {
 
 	public function processUrl(){
-		$long_url = $this->input->post('long_url');
+		$url = $this->input->post('long_url');
 		$short_url = "";
-		if(!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $long_url)) {
-		// if (filter_var($long_url, FILTER_VALIDATE_URL) === FALSE) {
-			$response['status'] = 'error';
-			$response['short_url'] = "";
-			$response['message'] = "Please enter a correct URL!";
-		}
-		else if(!empty($long_url)) {
+		$pattern = '/^(https?:\/\/)?((?![0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$)[a-z0-9][a-z0-9-]*\.)+[a-z]{2,}(\/.*)?$/i';
+		// Use preg_match to check if the URL matches the pattern
+		if (preg_match($pattern, $url)) {
 			$short_url = $this->shortURLGenerator();
 			$data_arr = array(
-				'long_url'=>$long_url,
+				'long_url'=>$url,
 				'short_url'=>$short_url,
 				'status'=>'active',
 				'created_at'=>date('Y-m-d H:i:s')
@@ -28,6 +24,12 @@ class Shortener_model extends CI_Model {
 			$response['status'] = 'success';
 			$response['message'] = "Here's your short URL ".base_url().$short_url.".";
 			$response['attribute'] = array('param'=>$short_url,'url'=>base_url().$short_url);
+
+		}
+		else {
+			$response['status'] = 'error';
+			$response['short_url'] = "";
+			$response['message'] = "Please enter a correct URL!";
 		}
 		
 		return $response;

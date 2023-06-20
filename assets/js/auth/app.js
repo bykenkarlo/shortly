@@ -67,6 +67,7 @@ $("#_url_shortener_form").on('submit', function(e) {
     $("#_shorten_url_btn").text('Processing...').attr('disabled', 'disabled');
 })
 function _checkLink(long_url, formData){
+
     let api_key =  "AIzaSyCm_T4r1vS1qL-db7RKqjc22xg9OaYo-a8"; 
         let googleURL = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key="+api_key;
         let payload =
@@ -93,14 +94,31 @@ function _checkLink(long_url, formData){
             statusCode: {
                  403: () => {
                      _error403();
-                 }
+                 },
+                 400: () => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        html: "INVALID URL! Try again!",
+                    });
+                $("#_shorten_url_btn").text('Shorten URL').removeAttr('disabled', 'disabled');
+                }
              }
          })
          .done( (res) => {
+            
+
             if(jQuery.isEmptyObject(res)){
                 console.log("not_malware");
                 processURLShortener(formData);
                 console.log("No malware detected!");
+            }
+            else if(res.error.code == 400){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    html: res.error.message,
+                });
             }
             else {
             // if(res.matches[0].threatType == 'MALWARE' || res.matches[0].threatType == 'SOCIAL_ENGINEERING' || res.matches[0].threatType == 'POTENTIALLY_HARMFUL_APPLICATION' || res.matches[0].threatType == 'UNWANTED_SOFTWARE'){

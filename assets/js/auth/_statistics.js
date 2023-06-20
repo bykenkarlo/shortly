@@ -16,6 +16,7 @@ function _getWebsiteVisitsStatistics(range){
         browser_stat = res.data.browser_stat;
         platform_stat = res.data.platform_stat;
         referrer_stat = res.data.referrer_stat;
+        most_viewed_url = res.data.most_viewed_url;
         
         _siteVisitChart(site_visit);
         _linkCreatedChart(link_created_stat);
@@ -24,6 +25,7 @@ function _getWebsiteVisitsStatistics(range){
         _browserStatChart(browser_stat)
         _platformStatChart(platform_stat)
         _referrerStatChart(referrer_stat)
+        _mostViewedUrl(most_viewed_url);
     })
     .catch((error) => {
         console.error('Error:', error);
@@ -212,29 +214,29 @@ const _getWebsiteStatistics = (range) => {
         console.error('Error:', error);
     });
 }
-const _locationChart = (data) => {
-    let count = [];
-    let country = [];
+const _mostViewedUrl = (most_viewed_url) => {
+    let views = [];
+    let url_param = [];
     let string = "";
 
-    stats = data.country_statistics;
+    stats = most_viewed_url;
     for(var i in stats){
-        count.push(stats[i].count);
-        country.push(stats[i].country);
+        views.push(stats[i].views);
+        url_param.push(stats[i].url_param);
 
-        string +='<div class="col-2 col-lg-1 col-md-1 " style="margin-top:-2px;">'
-                +'<label class="font-13" for="">'+stats[i].count+'</label>'
+        string +='<div class="col-2= col-lg-1 col-md-1 " style="margin-top:-2px;">'
+                +'<label class="font-13" for="">'+stats[i].views+'</label>'
             +'</div>'
             +'<div class="col-10 col-lg-3 col-md-3 " style="margin-top:-2px;">'
-            +'<label class="font-13" for="">'+stats[i].country+'</label>'
+            +'<label class="font-13" for=""><a target="_blank" rel="noopener" href="'+base_url+'stat/'+stats[i].url_param+'">'+stats[i].url_param+'</a></label>'
         +'</div>'
         +'<div class="col-12 col-lg-8 col-md-8  mb-2">'
             +'<div class="progress progress-lg">'
-                +'<div class="progress-bar bg-success" role="progressbar" style="width: '+stats[i].percentage+'%" aria-valuenow="'+stats[i].country+'" aria-valuemin="0" aria-valuemax="100"></div>'
+                +'<div class="progress-bar bg-success" role="progressbar" style="width: '+stats[i].percentage+'%" aria-valuenow="'+stats[i].url_param+'" aria-valuemin="0" aria-valuemax="100"></div>'
             +'</div>'
        +' </div>';
     }
-    $("#_location_chart").html(string);
+    $("#_most_viewed_url_chart").html(string);
 }
 var browser_stat_chart;
 const _browserStatChart = (data) => {
@@ -468,6 +470,30 @@ const _referrerStatChart = (data) => {
             },
         }
     });
+}
+const _locationChart = (data) => {
+    let count = [];
+    let country = [];
+    let string = "";
+
+    stats = data.country_statistics;
+    for(var i in stats){
+        count.push(stats[i].count);
+        country.push(stats[i].country);
+
+        string +='<div class="col-2 col-lg-1 col-md-1 " style="margin-top:-2px;">'
+                +'<label class="font-13" for="">'+stats[i].count+'</label>'
+            +'</div>'
+            +'<div class="col-10 col-lg-3 col-md-3 " style="margin-top:-2px;">'
+            +'<label class="font-13" for="">'+stats[i].country+'</label>'
+        +'</div>'
+        +'<div class="col-12 col-lg-8 col-md-8  mb-2">'
+            +'<div class="progress progress-lg">'
+                +'<div class="progress-bar bg-success" role="progressbar" style="width: '+stats[i].percentage+'%" aria-valuenow="'+stats[i].country+'" aria-valuemin="0" aria-valuemax="100"></div>'
+            +'</div>'
+       +' </div>';
+    }
+    $("#_location_chart").html(string);
 }
 if (_state == 'dashboard'){
     range = '15_days'
