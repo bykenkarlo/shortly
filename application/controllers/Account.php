@@ -137,6 +137,7 @@ class Account extends CI_Controller {
                 $this->sendVerificationEnail($email_token, $email_address);
                 $response['status'] = 'success';
                 $response['message'] = "Email sent for verification!";
+                $response['url'] = base_url("logged/settings");
             }
             $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$response)));
        }

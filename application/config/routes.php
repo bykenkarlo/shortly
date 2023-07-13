@@ -68,6 +68,7 @@ $route['verify/(:any)'] = 'Shortener/verifyEmailAddress/$1';
 
 # USER
 $route['logged/dashboard'] = 'Shortener/accountDashboard';
+$route['logged/bio'] = 'Shortener/accountBio';
 $route['logged/settings'] = 'Shortener/accountSettings';
 $route['logged/user/(:any)'] = 'Login/loggedUserByAdmin/$1';
 
@@ -100,7 +101,6 @@ $route['api/v1/blog/_add_image'] = 'Blog/uploadImage';
 # IMAGES
 $route['api/v1/images/_get_list'] = 'Blog/getImages';
 
-
 # Article 
 $route['api/v1/article/_get_data'] = 'Blog/getArticleDataJS';
 $route['api/v1/article/_get_blog_category'] = 'Blog/getCategoryForPageJS';
@@ -111,6 +111,7 @@ $route['api/v1/account/_login'] = 'Login/loginProcess';
 
 # Statistics
 $route['api/v1/statistics/_website_stat_chart'] = 'Statistics/getWebsiteStatsChart';
+$route['api/v1/statistics/_get_location_stat'] = 'Statistics/getLocationStats';
 $route['api/v1/statistics/_website_stats'] = 'Statistics/getWebsiteStats';
 $route['api/v1/statistics/_lending_bussiness_stats'] = 'Statistics/getLendingBussinessStats';
 

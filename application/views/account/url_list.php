@@ -78,10 +78,10 @@
                                     <div class="card-body">
                                     <div class="row mb-2">
                                         <div class="col-lg-5 mt-2">
-                                           <form class=" gy-2 gx-2 align-items-center justify-content-xl-start justify-content-between" id="_search_url_form">
+                                           <form class=" gy-2 gx-2 align-items-center justify-content-xl-start justify-content-between" id="_search_bk_url_form">
                                             <div class="col-auto">
                                                 <label for="_keyword" class="visually-hidden">Search</label>
-                                                <input type="search" class="form-control" name="search" id="_search" placeholder="URL parameter, website. etc.">
+                                                <input type="search" class="form-control" name="search" id="_search_bk" placeholder="URL parameter, website. etc.">
                                             </div>
                                             </form>  
                                         </div>
@@ -130,27 +130,32 @@
                         <div class="modal fade margin-top-10" id="_add_blocklist_modal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
+                                    <form id="_blocklist_form" class="margin-bottom-30 margin-top-20">
                                     <div class="modal-body">
                                         <div class="">
                                             <div class="container">
                                                 <h3 class="text-left" style="font-weight: 300; color: #3c3c3d;" class="text-capitalize margin-top-40"> <i class="uil-plus"></i> Add URL</h3>
-                                                <form id="_blocklist_form" class="margin-bottom-30 margin-top-20">
                                                     <div class="mt-2">
                                                         <input type="text" name="url" class="form-control" id="_blocklist_url" placeholder="Link"  required autofocus>
                                                     </div>
                                                     <div class="mt-2">
-                                                        <textarea name="note" class="form-control" id="_note" placeholder="Note here..." ></textarea>
+                                                        <select name="note" id="_note" class="form-control" required>
+                                                            <option value="" selected ="disabled" readonly >Select Note</option>
+                                                            <option value="URL Shortener">URL Shortener</option>
+                                                            <option value="Malicious URL">Malicious URL</option>
+                                                        </select>    
+                                                    <!-- <textarea name="note" class="form-control" id="_note" placeholder="Note here..." ></textarea> -->
                                                     </div>
                                                 </form>
                                             </div>
                                             
                                         </div>
                                         <div class="text-end mb-2 mt-2">
-                                            <button class="btn btn-success rounded" id="_save_blocklist_url">Save</button>
-                                            <button class="btn btn-secondary rounded" data-bs-dismiss="modal">Close</button>
+                                            <button class="btn btn-success rounded" type="submit" id="_save_blocklist_url">Save</button>
+                                            <button class="btn btn-secondary rounded" type="button" data-bs-dismiss="modal">Close</button>
                                         </div>
                                     </div>
-                                    
+                                    </form>
                                 </div>
                             </div>
                         </div>

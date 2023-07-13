@@ -278,7 +278,13 @@ function deleteURL(url_param,page_no){
 	  	} 
 	})
 }
-
+$("#_blocklist_form").on('submit', function(e){
+	e.preventDefault();
+	$("#_save_blocklist_url").text('Saving...')
+	url = $("#_blocklist_url").val();
+	note = $("#_note").val();
+	blocklistURL(url, 1, note);
+})
 function blocklistURL(long_url, page_no, note){
 	csrf_token = $("#_global_csrf").val();
 	Swal.fire({
@@ -303,15 +309,18 @@ function blocklistURL(long_url, page_no, note){
 			.done(function(res) {
 				if (res.data.status == 'success') {
 					Swal.fire('Success!', res.data.message, 'success');
+					_getUrlList(page_no,'','');
+					_getBlocklistUrlList(page_no,'','');
+					$("#_add_blocklist_modal").modal('hide');
+				}
+				else if (res.data.status == 'error') {
+					Swal.fire('Error!', res.data.message, 'error');
 				}
 				else{
 					Swal.fire('Error!', 'Something went wrong! Please Try again!', 'error');
 				}
-				_getUrlList(page_no,'','');
-				_getBlocklistUrlList(page_no,'','');
 				_csrfNonce();
-				$("#_add_blocklist_modal").modal('hide');
-
+				$("#_save_blocklist_url").text('Save')
 			})
 	  	} 
 	})
@@ -395,6 +404,12 @@ function checkLink(){
 $("#add_blocklist_url").on('click', function(){
 	$("#_add_blocklist_modal").modal('toggle');
 })
+$("#_search_bk_url_form").on('submit', function(e){
+	e.preventDefault();
+	keyword = $("#_search_bk").val();
+	page_no = 1;
+	_getBlocklistUrlList(page_no, keyword, '');
+})
 function _getBlocklistUrlList(page_no, search, opt_status){
 	$("#_blocklist_url_tbl").html("<tr class='text-center'><td colspan='5'>Loading data...</td></tr>");
 	let params = new URLSearchParams({'page_no':page_no, 'search':search});
@@ -453,8 +468,3 @@ $('#_blocklist_url_pagination').on('click','a',function(e){
     var page_no = $(this).attr('data-ci-pagination-page');
     _getBlocklistUrlList(page_no, '', '');
 });
-$("#_save_blocklist_url").on('click', function(){
-	url = $("#_blocklist_url").val();
-	note = $("#_note").val();
-	blocklistURL(url, 1, note);
-})

@@ -110,6 +110,14 @@
                                             <div class="row" id="_location_chart">
                                             </div>
                                         </div>
+                                        <div class="row mt-1">
+                                            <div class="col-lg-6">
+                                                <!-- <div class="mt-2  text-start font-13" id="loc_count"></div> -->
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="mt-2 float-end font-13" id="loc_pagination"></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div> 

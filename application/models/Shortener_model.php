@@ -36,8 +36,9 @@ class Shortener_model extends CI_Model {
 	}
 	public function checkBlocklistSites(){
 		$url = trim($this->input->post('long_url')," ");
-		$query =  $this->db->SELECT('url')
+		$query =  $this->db->SELECT('url, note')
 		// ->WHERE("(url LIKE '%".$url."%' OR url LIKE '".$url."%' OR url LIKE '%".$url."' OR url = '".$url."')", NULL, FALSE)
+		->WHERE('note !=', 'URL Shortener')
 		->GET('blocklisted_urls_tbl')->result_array();
 
 		$is_blacklisted = false;
@@ -47,6 +48,27 @@ class Shortener_model extends CI_Model {
 			}
 		}
 		return $is_blacklisted;
+	}
+	public function checkURLShortenerSites(){
+		$url = trim($this->input->post('long_url')," ");
+		$query =  $this->db->SELECT('LOCATE(url, "'.$url .'") as url, note')
+		// ->WHERE("(url LIKE '%".$url."%' OR url LIKE '".$url."%' OR url LIKE '%".$url."' OR url = '".$url."')", NULL, FALSE)
+			->FROM('blocklisted_urls_tbl')
+			->GET()->result_array();
+
+		$is_blacklisted = false;
+		foreach($query as $q){
+			if($q['url'] > 0){
+				$is_blacklisted = true;;
+			}
+		}
+
+		if($is_blacklisted == true){
+			return $query;
+		}
+		else{
+			return false;
+		}
 	}
 	public function shortURLGenerator($length = 5) {
 		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -244,7 +266,7 @@ class Shortener_model extends CI_Model {
 		$data['referrer_statistics'] = $result;
 		return $data;
 	}
-	public function getLocationStat() {
+	public function getLocationStat($row_per_page, $row_no) {
 		$url_param = $this->input->get('url_param');
 		$start_date = date('Y-m-d 00:00:00',strtotime($this->input->get('from')));
 		$end_date = date('Y-m-d H:i:s',strtotime($this->input->get('to')));
@@ -255,6 +277,7 @@ class Shortener_model extends CI_Model {
 			->WHERE($date_range)
 			->WHERE('url_param',$url_param)
 			->GROUP_BY($groupBy)
+			->LIMIT($row_per_page, $row_no)
 			->ORDER_BY('count','desc')
 			->ORDER_BY('country','asc')
 			->GET('statistics_tbl')->result_array();
@@ -263,7 +286,15 @@ class Shortener_model extends CI_Model {
 			->WHERE($date_range)
 			->WHERE('url_param',$url_param)
 			->GET('statistics_tbl')->row_array();
+
+		$total_count2 = $this->db
+			->WHERE($date_range)
+			->GROUP_BY($groupBy)
+			->WHERE('url_param',$url_param)
+			->GET('statistics_tbl')->num_rows();
+
 		$result = array();
+
 		foreach($click_stat_data as $q){
 			if($q['country'] == '' || !$q['country']){
 				$q['country'] = 'Other';
@@ -275,7 +306,7 @@ class Shortener_model extends CI_Model {
 			);
 			array_push($result, $array);
 		}
-		$data['total_count'] = $total_count['total_count'];
+		$data['total_count'] = $total_count2 / (int)$total_count;
 		$data['country_statistics'] = $result;
 		return $data;
 	}
@@ -638,15 +669,26 @@ class Shortener_model extends CI_Model {
 		return $response;
 	}
 	public function blocklistURL(){
-		$data_arr = array(
-			'url'=>$this->input->post('url'),
-			'note'=>$this->input->post('note'),
-			'created_at'=>date('Y-m-d H:i:s'),
-		);
-		$this->db->INSERT('blocklisted_urls_tbl',$data_arr);
-		$response['status'] = 'success';
-		$response['message'] = "URL has been Blocklisted!";
+		$url = $this->input->post('url');
+		$check_url = $this->getblocklistURLData($url);
+		if($check_url > 0){
+			$response['status'] = 'error';
+			$response['message'] = "URL already Blocklisted!";
+		}
+		else{
+			$data_arr = array(
+				'url'=>$url,
+				'note'=>$this->input->post('note'),
+				'created_at'=>date('Y-m-d H:i:s'),
+			);
+			$this->db->INSERT('blocklisted_urls_tbl',$data_arr);
+			$response['status'] = 'success';
+			$response['message'] = "URL has been Blocklisted!";
+		}
 		return $response;
+	}
+	public function getblocklistURLData($url){
+		return $this->db->WHERE('url',$url)->GET('blocklisted_urls_tbl')->num_rows();
 	}
 	public function unblocklistURL(){
 		$url = $this->input->post('url');
@@ -658,9 +700,10 @@ class Shortener_model extends CI_Model {
 	public function getBlocklistURL($row_per_page, $row_no){
         if (isset($this->session->admin)) {
             $search = $this->input->get('search');
-            $query = $this->db->SELECT('sut.*')
-                 ->FROM('blocklisted_urls_tbl as sut')
+            $query = $this->db->SELECT('but.*')
+                 ->FROM('blocklisted_urls_tbl as but')
                  ->LIMIT($row_per_page, $row_no)
+                 ->WHERE("(but.url LIKE '%".$search."%' OR but.note LIKE '%".$search."%')", NULL, FALSE)
                  ->ORDER_BY('created_at','desc')
                  ->GET()->result_array();
             $result = array();
@@ -680,8 +723,9 @@ class Shortener_model extends CI_Model {
         if (isset($this->session->admin)) {
             $search = $this->input->get('search');
             $query = $this->db
-                ->ORDER_BY('created_at','desc')
-                ->GET('blocklisted_urls_tbl as sut')->num_rows();
+                 ->WHERE("(but.url LIKE '%".$search."%' OR but.note LIKE '%".$search."%')", NULL, FALSE)
+				 ->ORDER_BY('created_at','desc')
+                ->GET('blocklisted_urls_tbl as but')->num_rows();
             return $query;
         }
     }

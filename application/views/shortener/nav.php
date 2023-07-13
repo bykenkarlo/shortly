@@ -87,6 +87,13 @@
                         </a>
                     </li>
                     <li class="side-nav-item">
+                        <a href="<?=base_url('logged/bio')?>" class="side-nav-link website-settings <?=($state =='bio')?'active':'';?>">
+                            <i class="uil-user-square "></i>
+                            <span> Link-in Bio </span>
+                            <!-- <span class="menu-arrow"></span> -->
+                        </a>
+                    </li>
+                    <li class="side-nav-item">
                         <a href="<?=base_url('logged/settings')?>" class="side-nav-link website-settings <?=($state =='settings')?'active':'';?>">
                             <i class="uil uil-setting "></i>
                             <span> Settings </span>

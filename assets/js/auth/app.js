@@ -148,7 +148,15 @@ function processURLShortener(formData){
         }
     })
     .done( (res) => {
-        if (res.data.status == 'success') {
+        if (res.data.status == 'error') {
+            Swal.fire({
+                icon: 'error',
+                title: res.data.title,
+                html: res.data.message,
+            });
+            $("#_shorten_url_btn").text('Shorten URL').removeAttr('disabled', 'disabled');
+        }
+        else if (res.data.status == 'success') {
             $("#_input_url_div").addClass('hide');
             $("#_copy_url_div").removeClass('hide').addClass('show');
             $("#_shortened_url").val(res.data.attribute.url);
@@ -371,10 +379,17 @@ const platformStat = (_url_param, from, to) => {
 		console.error('Error:', error);
 	});
 }
-const locationStat = (_url_param, from, to) => {
+$('#loc_pagination').on('click','a',function(e){
+    e.preventDefault(); 
+    from = $('#_select_date').data('daterangepicker').startDate;
+	to = $('#_select_date').data('daterangepicker').endDate;
+    page_no = $(this).attr('data-ci-pagination-page');
+    locationStat(_url_param, from, to, page_no);
+});
+const locationStat = (_url_param, from, to, page_no) => {
     const loc_chart = _placeholder();
     $("#_location_chart").html(loc_chart);
-	let params = new URLSearchParams({'url_param':_url_param, 'from':from, 'to':to});
+	let params = new URLSearchParams({'url_param':_url_param, 'from':from, 'to':to, 'page_no':page_no});
 	fetch(base_url+'api/v1/shortener/_get_location_stats?' + params, {
   		method: "GET",
 		  	headers: {
@@ -388,7 +403,7 @@ const locationStat = (_url_param, from, to) => {
         let country = [];
         let string = "";
 
-        stats = res.data.country_statistics;
+        stats = res.data.result;
         for(var i in stats){
             count.push(stats[i].count);
             country.push(stats[i].country);
@@ -405,12 +420,49 @@ const locationStat = (_url_param, from, to) => {
                 +'</div>'
            +' </div>';
         }
+        $('#loc_pagination').html(res.data.pagination);
+		$('#loc_count').html('Count: '+res.data.count);
         $("#_location_chart").html(string);
 	})
 	.catch((error) => {
 		console.error('Error:', error);
 	});
 }
+function getLocationList(_url_param, from, to, page_no){
+	$("#_category_tbl").html("<tr class='text-center'><td colspan='3'>Loading data...</td></tr>");
+
+	let params = new URLSearchParams({'page_no':page_no,'range':range});
+	fetch(base_url+'api/v1/statistics/_get_location_stat?' + params, {
+  		method: "GET",
+		  	headers: {
+		    	'Accept': 'application/json',
+		    	'Content-Type': 'application/json'
+		  	},
+	})
+	.then(response => response.json())
+	.then(res => {
+		$('#loc_pagination').html(res.data.pagination);
+		$('#loc_count').html(res.data.count);
+		string ='';
+		if (res.result.length > 0) {
+			for(var i = 0; i < res.result.length; i++){
+				string +='<tr>'
+					+'<td>'+res.result[i].name+'</td>'
+					+'<td>'+res.result[i].created_at+'</td>'
+					+'<td><a href="#" class="btn btn-sm font-11 btn-danger" onclick="_deleteCategory(\''+res.result[i].id+'\',\''+page_no+'\')"><i class="uil-trash-alt"></i> Delete</a></td>'
+				+'</tr>'
+			}
+			$('#_category_tbl').html(string);
+		}
+		else{
+			$("#_category_tbl").html("<tr class='text-center'><td colspan='3'>"+res.message+"</td></tr>");
+		}
+	})
+	.catch((error) => {
+		console.error('Error:', error);
+	});
+}
+
 const _clickStatChart = (dates, clicks) => {
     let clicks_chart = _placeholder();
     $("#_clicks_overview").html(clicks_chart);
@@ -814,7 +866,7 @@ $("#_sort_by_date").on('click', () => {
     clickStats(_url_param, from, to );
     referrerStat(_url_param, from, to );
     platformStat(_url_param, from, to );
-    locationStat(_url_param, from, to );
+    locationStat(_url_param, from, to, 1 );
     browserStat(_url_param, from, to );
 })
 if(_state == 'statistics'){
@@ -826,7 +878,7 @@ if(_state == 'statistics'){
     clickStats(_url_param, from, to );
     referrerStat(_url_param, from, to );
     platformStat(_url_param, from, to );
-    locationStat(_url_param, from, to );
+    locationStat(_url_param, from, to, 1 );
     browserStat(_url_param, from, to );
 
     _logo_img = $("#_logo_thumbnail").croppie({
@@ -1211,7 +1263,7 @@ const _getURLData = (url_param) => {
             clickStats(url_param, from, to );
             referrerStat(url_param, from, to );
             platformStat(url_param, from, to );
-            locationStat(url_param, from, to );
+            locationStat(url_param, from, to, 1 );
             browserStat(url_param, from, to );
         }, 1000);
         $("#loader").attr('hidden','hidden');
