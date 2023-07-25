@@ -75,7 +75,7 @@
 
                             
                             <div class="row">
-                                <div class="col-lg-6  mt-2 ">
+                                <div class="col-lg-6 mt-2 ">
                                     <button class="btn btn-success rounded web-view" type="button" id="_create_account_btn">Create Account</button>
                                 </div>
                                 <div class="col-lg-6 mt-2 float-end">

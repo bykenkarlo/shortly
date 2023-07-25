@@ -77,8 +77,8 @@ function _checkLink(long_url, formData){
               "clientVersion": "382402"
             },
             "threatInfo": {
-              "threatTypes":      ["MALWARE", "SOCIAL_ENGINEERING"],
-              "platformTypes":    ["WINDOWS"],
+              "threatTypes":      ["MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE"],
+              "platformTypes":    ["ALL_PLATFORMS"],
               "threatEntryTypes": ["URL"],
               "threatEntries": [
                 {"url": ""+long_url+""},
@@ -106,26 +106,24 @@ function _checkLink(long_url, formData){
              }
          })
          .done( (res) => {
-            
-
             if(jQuery.isEmptyObject(res)){
-                console.log("not_malware");
                 processURLShortener(formData);
-                console.log("No malware detected!");
             }
-            else if(res.error.code == 400){
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error!',
-                    html: res.error.message,
-                });
-            }
+            
+            // else if(res.error.code == 400){
+            //     Swal.fire({
+            //         icon: 'error',
+            //         title: 'Error!',
+            //         html: res.error.message,
+            //     });
+            // }
             else {
+                console.log(res.matches[0].threatType)
             // if(res.matches[0].threatType == 'MALWARE' || res.matches[0].threatType == 'SOCIAL_ENGINEERING' || res.matches[0].threatType == 'POTENTIALLY_HARMFUL_APPLICATION' || res.matches[0].threatType == 'UNWANTED_SOFTWARE'){
                 Swal.fire({
                     icon: 'error',
                     title: 'Error!',
-                    html: "The URL is labeled as unsafe and malicious by Google!",
+                    html: "The URL is labeled as '"+res.matches[0].threatType+"', unsafe and malicious by Google!",
                 }); 
                 console.log("Malware detected!");
             }

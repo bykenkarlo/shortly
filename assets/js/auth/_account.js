@@ -309,7 +309,7 @@ function blocklistURL(long_url, page_no, note){
 			.done(function(res) {
 				if (res.data.status == 'success') {
 					Swal.fire('Success!', res.data.message, 'success');
-					_getUrlList(page_no,'','');
+					// _getUrlList(page_no,'','');
 					_getBlocklistUrlList(page_no,'','');
 					$("#_add_blocklist_modal").modal('hide');
 				}
@@ -353,7 +353,7 @@ function UnblockURL(long_url,page_no){
 				else{
 					Swal.fire('Error!', 'Something went wrong! Please Try again!', 'error');
 				}
-				_getUrlList(page_no,'','');
+				// _getUrlList(page_no,'','');
 				_getBlocklistUrlList(page_no,'','');
 				_csrfNonce();
 
