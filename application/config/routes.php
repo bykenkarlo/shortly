@@ -62,7 +62,6 @@ $route['category/(:any)'] = 'Page/category/$1';
 $route['tags/(:any)'] = 'Page/tags/$1';
 $route['draft/(:any)'] = 'Page/draft/$1';
 $route['stat/(:any)'] = 'Shortener/checkURLStat/$1';
-$route['(:any)-'] = 'Shortener/checkURLStat/$1';
 $route['(:any)'] = 'Shortener/accessLongURL/$1';
 $route['verify/(:any)'] = 'Shortener/verifyEmailAddress/$1';
 

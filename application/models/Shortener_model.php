@@ -158,6 +158,9 @@ class Shortener_model extends CI_Model {
 				else if (strpos($referrer, 'protonmail.com') !== false) { 
 					$referrer = 'https://protonmail.com/';
 				}
+				else if (strpos($referrer, 'shortly.at') !== false) { 
+					$referrer = '';
+				}
 			}
 			else {
 				$referrer = '';
