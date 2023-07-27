@@ -37,11 +37,14 @@ class Shortener extends CI_Controller {
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$response)));
     }
     public function accessLongURL($url_param){
-        $data = $this->Shortener_model->accessLongURL($url_param);
-        if(!empty($data)){
+        $data_url = $this->Shortener_model->accessLongURL($url_param);
+        if(!empty($data_url)){
             $click_id = $this->Shortener_model->recordUserClick($url_param);
             $this->User_model->newWebsiteVisits(); // insert new visit
-            header('Location: '.$data);
+            // header('Location: '.$data_url);
+
+            $data['url'] = $data_url;
+            $this->load->view('shortener/redirect', $data);
         }
         else{
             $this->Site_settings_model->error404();

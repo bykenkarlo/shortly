@@ -242,7 +242,6 @@ class Shortener_model extends CI_Model {
 				$parse = parse_url($q['referrer']);
 				$q['referrer'] = $parse['host'];
 			}
-			
 
 			if($q['referrer'] == '' || !$q['referrer']){
 				$q['referrer'] = 'Direct';
@@ -259,7 +258,20 @@ class Shortener_model extends CI_Model {
 			else if(strpos($q['referrer'], 'mail.google') !== false){
 				$q['referrer'] = 'Gmail';
 			}
-			$referrer = ucfirst(preg_replace("(^https?://)", "", $q['referrer'] ));
+			else if(strpos($q['referrer'], 'tiktok') !== false){
+				$q['referrer'] = 'Tiktok';
+			}
+            else if(strpos($q['referrer'], 'instagram') !== false){
+				$q['referrer'] = 'Instagram';
+			}
+			else if(strpos($q['referrer'], 'canva') !== false){
+				$q['referrer'] = 'Canva';
+			}
+			else if(strpos($q['referrer'], 'kenkarlo.com') !== false){
+				$q['referrer'] = 'Kenkarlo';
+			}
+			$referrer1 = ucfirst(preg_replace("(^https?://)", "", $q['referrer'] ));
+			$referrer = ucfirst(preg_replace("/www./i", "", $referrer1 ));
 			$array = array(
 				'count'=>$q['count'],
 				'referrer'=>$referrer

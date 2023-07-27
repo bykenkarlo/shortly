@@ -233,10 +233,23 @@ class Statistics_model extends CI_Model {
 			else if(strpos($q['referrer'], 'facebook') !== false || strpos($q['referrer'], 'fb') !== false ){
 				$q['referrer'] = 'Facebook';
 			}
+            else if(strpos($q['referrer'], 'tiktok') !== false){
+				$q['referrer'] = 'Tiktok';
+			}
+            else if(strpos($q['referrer'], 'instagram') !== false){
+				$q['referrer'] = 'Instagram';
+			}
+            else if(strpos($q['referrer'], 'canva') !== false){
+				$q['referrer'] = 'Canva';
+			}
+			else if(strpos($q['referrer'], 'kenkarlo.com') !== false){
+				$q['referrer'] = 'Kenkarlo';
+			}
 			else if(strpos($q['referrer'], 'mail.google') !== false){
 				$q['referrer'] = 'Gmail';
 			}
-			$referrer = ucfirst(preg_replace("(^https?://)", "", $q['referrer'] ));
+			$referrer1 = ucfirst(preg_replace("(^https?://)", "", $q['referrer'] ));
+			$referrer = ucfirst(preg_replace("/www./i", "", $referrer1 ));
 			$array = array(
 				'count'=>$q['count'],
 				'referrer'=>$referrer

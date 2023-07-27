@@ -1450,8 +1450,8 @@ input[type=number] {
   }
   .loader-wrapper{
     position: fixed;
-    left: 35%;
-    top: 25%;
+    left: 30%;
+    top: 30%;
     z-index: 1000;
     height: 20px;
   }
@@ -1498,7 +1498,7 @@ input[type=number] {
   .loader-wrapper{
     position: fixed;
     left: 35%;
-    top: 25%;
+    top: 30%;
     z-index: 1000;
     height: 20px;
   }
@@ -1542,8 +1542,8 @@ input[type=number] {
   }
   .loader-wrapper{
     position: fixed;
-    left: 35%;
-    top: 25%;
+    left: 25%;
+    top: 30%;
     z-index: 1000;
     height: 20px;
   }
