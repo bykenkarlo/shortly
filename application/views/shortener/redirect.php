@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <title>Redirecting - URL Shortener, Short URLs & Free Custom Link Shortener</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Link management software, QR Code features, link shortener' : $description.' , link shortener' ?>"/>
+        <meta name="description" content="Link management software, QR Code features, link shortener"/>
         <meta name="keywords" content=""/>
         <meta name="theme-color" content="#05cb62" />
 
