@@ -44,7 +44,6 @@
         <meta name="twitter:title" content="<?=$siteSetting['website_name']?>">
         <meta name="twitter:image" content="<?= ($title == 'index') ? $siteSetting['description'].' link management software, QR Code features' : $description ?>">
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-TREBS548CZ"></script>
-        <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9264139322313019" crossorigin="anonymous"></script> -->
         
     </head>
 
@@ -54,7 +53,7 @@
           "@context":"https:\/\/schema.org",
           "@type":"Organization",
           "url":"https:\/\/shortly.at\/",
-          "sameAs":["https:\/\/www.facebook.com\/profile.php?id=100089476980399\/"],
+          "sameAs":["https:\/\/www.twiiter.com\/atshortly\/"],
           "@id":"https://shortly.at/#Organization",
           "name":"Shortly",
           "logo":"https://shortly.at/assets/images/logo/logo.png"

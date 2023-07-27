@@ -1067,6 +1067,7 @@ input[type=number] {
 .notification-list .noti-icon-badge {
   right: 4px;
 }
+
 @media only screen and (min-width: 769px) {
   .navbar-toggler{
     border: none !important;
@@ -1150,7 +1151,7 @@ input[type=number] {
   .loader-wrapper{
     position: fixed;
     left: 47%;
-    top: 35%;
+    top: 40%;
     z-index: 1000;
     height: 30px;
   }
@@ -1183,6 +1184,24 @@ input[type=number] {
   }
   .mobile-view{
     display: none;
+  }
+}
+@media only screen and (min-width: 820.1px) and (max-width: 1440px) {
+  .loader-wrapper{
+    position: fixed;
+    left: 45%;
+    top: 28%;
+    z-index: 1000;
+    height: 30px;
+  }
+}
+@media only screen and (min-width: 810px) and (max-width: 820px) {
+  .loader-wrapper{
+    position: fixed;
+    left: 42%;
+    top: 25%;
+    z-index: 1000;
+    height: 30px;
   }
 }
 @media only screen and (max-width: 801px) {
@@ -1244,6 +1263,7 @@ input[type=number] {
     font-size: 27px;
   }
 }
+
 @media only screen and (max-width: 769px) {
 
   .home-title-join{
@@ -1308,8 +1328,8 @@ input[type=number] {
 
   .loader-wrapper{
     position: fixed;
-    left: 40%;
-    top: 25%;
+    left: 34%;
+    top: 30%;
     z-index: 1000;
     height: 20px;
   }
@@ -1344,6 +1364,15 @@ input[type=number] {
   }
   #web-view{
     display: none;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 768.9px) {
+  .loader-wrapper{
+    position: fixed;
+    left: 42%;
+    top: 30%;
+    z-index: 1000;
+    height: 20px;
   }
 }
 @media only screen and (max-width: 515px) {
@@ -1450,7 +1479,7 @@ input[type=number] {
   }
   .loader-wrapper{
     position: fixed;
-    left: 30%;
+    left: 35%;
     top: 30%;
     z-index: 1000;
     height: 20px;
@@ -1542,10 +1571,14 @@ input[type=number] {
   }
   .loader-wrapper{
     position: fixed;
-    left: 25%;
-    top: 30%;
+    left: 36%;
+    top: 37%;
     z-index: 1000;
-    height: 20px;
+    height: 15px;
+  }
+  .loader-wrapper img{
+    height: 100px;
+    width: 100px;
   }
   #mobile-view{
     display: show;
@@ -1579,6 +1612,18 @@ input[type=number] {
   }
 }
 @media only screen and (max-width: 321px) {
+
+  .loader-wrapper{
+    position: fixed;
+    left:37%;
+    top: 38%;
+    z-index: 1000;
+    height: 15px;
+  }
+  .loader-wrapper img{
+    height: 80px;
+    width: 80px;
+  }
    .search-result-wrapper{
     width: 300px;
   }

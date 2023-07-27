@@ -7,17 +7,13 @@
         <meta name="description" content="Link management software, QR Code features, link shortener' : $description.' , link shortener' ?>"/>
         <meta name="keywords" content=""/>
         <meta name="theme-color" content="#05cb62" />
-        <meta name="mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="default">
-        <meta name="apple-mobile-web-app-title" content="Shortly">
 
         <!-- App link -->
-        <link rel="apple-touch-icon" href="" crossorigin="anonymous">
         <link rel="shortcut icon" href="<?=base_url('assets/images/logo/favicon.webp');?>">
         <link rel="canonical" href="<?=$url;?>">
         <link href="<?=base_url()?>assets/css/default.css?v=<?=filemtime('assets/css/default.css')?>" rel="stylesheet" type="text/css" />
 	    <script src="<?=base_url('assets/js/jquery-3.6.3.min.js')?>"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-TREBS548CZ"></script>
     </head>
 
     <body>
