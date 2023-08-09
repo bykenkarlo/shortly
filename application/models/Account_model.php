@@ -4,23 +4,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Account_model extends CI_Model {
     public function getURLList($row_per_page, $row_no){
         if (isset($this->session->admin)) {
-            // $from = $this->input->get('from');
-            // $to = $this->input->get('to');
-
-            // $start_date = date('Y-m-d 00:00:00', strtotime($from));
-            // $end_date = date('Y-m-d 23:59:59', strtotime($to));
-            // $date_range = array('lt.due_date >'=>$start_date, 'lt.due_date <'=> $end_date);
-
             $search = $this->input->get('search');
-            // $opt_status = $this->input->get('status');
-
-            $query = $this->db->SELECT('sut.*')
+            if(empty($search) || $search == ''){
+                $query = $this->db->SELECT('sut.*')
+                 ->FROM('shortened_url_tbl as sut')
+                 ->LIMIT($row_per_page, $row_no)
+                 ->ORDER_BY('created_at','desc')
+                 ->GET()->result_array();
+            }
+            else{
+                $query = $this->db->SELECT('sut.*')
                  ->FROM('shortened_url_tbl as sut')
                  ->WHERE("(sut.short_url LIKE '%".$search."%' OR sut.long_url LIKE '%".$search."%')", NULL, FALSE)
                  ->LIMIT($row_per_page, $row_no)
-                 // ->WHERE($date_range)
                  ->ORDER_BY('created_at','desc')
                  ->GET()->result_array();
+            }
             $result = array();
 
             foreach($query as $q){
@@ -46,21 +45,18 @@ class Account_model extends CI_Model {
         if (isset($this->session->admin)) {
             $search = $this->input->get('search');
 
-            // $from = $this->input->get('from');
-            // $to = $this->input->get('to');
-
-            // $start_date = date('Y-m-d 00:00:00', strtotime($from));
-            // $end_date = date('Y-m-d 23:59:59', strtotime($to));
-            // $date_range = array('lt.due_date >'=>$start_date, 'lt.due_date <'=> $end_date);
-
-            // $search = $this->input->get('search');
-            // $opt_status = $this->input->get('status');
-
-            $query = $this->db
-                 ->WHERE("(sut.short_url LIKE '%".$search."%' OR sut.long_url LIKE '%".$search."%')", NULL, FALSE)
-                // ->WHERE($date_range)
-                ->ORDER_BY('created_at','desc')
-                ->GET('shortened_url_tbl as sut')->num_rows();
+            $search = $this->input->get('search');
+            if(empty($search) || $search == ''){
+                $query = $this->db
+                    ->ORDER_BY('created_at','desc')
+                    ->GET('shortened_url_tbl as sut')->num_rows();
+            }
+            else{
+                $query = $this->db
+                    ->WHERE("(sut.short_url LIKE '%".$search."%' OR sut.long_url LIKE '%".$search."%')", NULL, FALSE)
+                    ->ORDER_BY('created_at','desc')
+                    ->GET('shortened_url_tbl as sut')->num_rows();
+            }
             return $query;
         }
     }

@@ -26,7 +26,7 @@ class Account extends CI_Controller {
         // Get records
         $result = $this->Account_model->getURLList($row_per_page, $row_no);
         // Pagination Configuration
-        $config['base_url'] = base_url('api/v1/loan/_get_list');
+        $config['base_url'] = base_url('api/v1/account/_url_list');
         $config['use_page_numbers'] = TRUE;
         $config['total_rows'] = $all_count;
         $config['per_page'] = $row_per_page;

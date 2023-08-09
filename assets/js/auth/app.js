@@ -77,7 +77,7 @@ function _checkLink(long_url, formData){
               "clientVersion": "382402"
             },
             "threatInfo": {
-              "threatTypes":      ["MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE"],
+              "threatTypes":      ["MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE", "CSD_DOWNLOAD_WHITELIST","POTENTIALLY_HARMFUL_APPLICATION","THREAT_TYPE_UNSPECIFIED"],
               "platformTypes":    ["ALL_PLATFORMS"],
               "threatEntryTypes": ["URL"],
               "threatEntries": [
@@ -859,6 +859,7 @@ var location_stat_chart;
 var _logo_img;
 
 $("#_sort_by_date").on('click', () => {
+    $("#loader").removeAttr('hidden','hidden');
     from = $('#_select_date').data('daterangepicker').startDate;
 	to = $('#_select_date').data('daterangepicker').endDate;
     clickStats(_url_param, from, to );

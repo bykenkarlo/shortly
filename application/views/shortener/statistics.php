@@ -7,6 +7,10 @@
                     <div class="alert alert-danger br-10 mobile-view inline-block-view mt-3" role="alert">
                         <i class="uil-times-circle"></i>This URL has been <b>Disabled</b> for violating our Terms! If you think this was made by mistake <a href="<?=base_url('#contact_us')?>">contact us</a>!
                     </div>
+                    <?php } else if ($this->agent->is_mobile() && $blocked_status > 0){?>
+                    <div class="alert alert-danger br-10 mobile-view inline-block-view mt-3" role="alert">
+                        <i class="uil-times-circle"></i>This URL has been <b>Disabled</b> for violating our Terms! If you think this was made by mistake <a href="<?=base_url('#contact_us')?>">contact us</a>!
+                    </div>
                     <?php } ?>
                     <div class="row mt-sm-2 mb-3">
                         <div class="col-lg-4  mt-2">
@@ -71,8 +75,11 @@
                             <div class="alert alert-danger br-10 " role="alert">
                                 <i class="uil-times-circle"></i>This URL has been <b>Disabled</b> for violating our Terms! If you think this was made by mistake <a href="<?=base_url('#contact_us')?>">contact us</a>!
                             </div>
+                            <?php } else if (!$this->agent->is_mobile && $blocked_status > 0){?>
+                            <div class="alert alert-danger br-10 " role="alert">
+                                <i class="uil-times-circle"></i>This URL has been <b>Blocked</b> for violating our Terms! If you think this was made by mistake <a href="<?=base_url('#contact_us')?>">contact us</a>!
+                            </div>
                             <?php } ?>
-
                             
                             <div class="row">
                                 <div class="col-lg-6 mt-2 ">

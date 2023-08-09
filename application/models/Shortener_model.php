@@ -93,6 +93,21 @@ class Shortener_model extends CI_Model {
 		}
 		return $long_url;
 	}
+	public function checkBlockURL($url_param) {
+		return $this->db
+			->FROM('blocklisted_urls_tbl as but')
+			->JOIN('shortened_url_tbl as sut','sut.long_url=but.url')
+			->WHERE("sut.short_url", $url_param)
+			->WHERE('sut.status','active')
+			->GET()->num_rows();
+	}
+	public function checkBlockStatus($url_param) {
+		return $this->db
+			->FROM('blocklisted_urls_tbl as but')
+			->JOIN('shortened_url_tbl as sut','sut.long_url=but.url')
+			->WHERE("sut.short_url", $url_param)
+			->GET()->num_rows();
+	}
 	public function checkURLData($param) {
 		return $this->db->WHERE('short_url',$param)->GET('shortened_url_tbl')->num_rows();
 	}
@@ -388,19 +403,12 @@ class Shortener_model extends CI_Model {
 		// $data['city'] = ''; 
 
 		// USING IPREGISTRY.CO
-		$api_key = '3znwiuvs1majuisp';
-		$url = 'https://api.ipregistry.co/'.$ip_address.'?key=3znwiuvs1majuisp';
+		$api_key = 'y2krlyk73ix6prnt';
+		$url = 'https://api.ipregistry.co/'.$ip_address.'?key=y2krlyk73ix6prnt';
 		$ip_data = json_decode(file_get_contents($url));
 		$data['country'] = $ip_data->location->country->name;
 		$data['city'] = $ip_data->location->city;
 
-		// IPINFO
-		// $access_token = 'a44d209805c142';
-		// $client = new IPinfo($access_token);
-		// $details = $client->getDetails($ip_address);
-
-		// if limit is used
-		
 		return $data;
 	}
 	public function uploadCustomLogo($data){

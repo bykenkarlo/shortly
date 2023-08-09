@@ -38,7 +38,8 @@ class Shortener extends CI_Controller {
     }
     public function accessLongURL($url_param){
         $data_url = $this->Shortener_model->accessLongURL($url_param);
-        if(!empty($data_url)){
+        $check_block_url = $this->Shortener_model->checkBlockURL($url_param);
+        if(!empty($data_url) && $check_block_url <= 0){
             $click_id = $this->Shortener_model->recordUserClick($url_param);
             $this->User_model->newWebsiteVisits(); // insert new visit
             // header('Location: '.$data_url);
@@ -63,6 +64,7 @@ class Shortener extends CI_Controller {
             
             $data['url_param'] = $param;
             $data['url_data'] =  $this->Shortener_model->getURLDataByURLParam($param);
+            $data['blocked_status'] = $this->Shortener_model->checkBlockStatus($param);
             $this->load->view('home/header', $data);
             $this->load->view('home/nav');
             $this->load->view('shortener/statistics');

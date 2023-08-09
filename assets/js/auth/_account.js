@@ -7,11 +7,27 @@ else if(_state == 'users_list'){
 }
 $("#_search_url_form").on('submit', function(e){
 	e.preventDefault();
-	keyword = $("#_search").val();
 	page_no = 1;
+	keyword = ($("#_search").val() !== '' || !$("#_search").val()) ? $("#_search").val() : "";
 	_getUrlList(page_no, keyword, '');
 })
-
+function checkGoogleSafeBrowsingList(){
+	let api_key =  "AIzaSyCm_T4r1vS1qL-db7RKqjc22xg9OaYo-a8"; 
+	let googleURL = "https://safebrowsing.googleapis.com/v4/threatLists?key="+api_key;
+	fetch(googleURL, {
+		method: "GET",
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+		})
+		.then(response => response.json())
+		.then(res => {
+	 })
+		.catch((error) => {
+		  console.error('Error:', error);
+	});
+}
 function _getUrlList(page_no, search, opt_status){
 	$("#_url_tbl").html("<tr class='text-center'><td colspan='7'>Loading data...</td></tr>");
 	let params = new URLSearchParams({'page_no':page_no, 'search':search});
@@ -27,7 +43,7 @@ function _getUrlList(page_no, search, opt_status){
 		_displayDataList(page_no, res.data.result, res.data.pagination, res.data.count);
 	})
 	.catch((error) => {
-		$("#_loan_tbl").html("<tr class='text-center'><td colspan='8'>No record found!</td></tr>");
+		$("#_url_tbl").html("<tr class='text-center'><td colspan='7'>No record found!</td></tr>");
 		console.error('Error:', error);
 	});
 }
@@ -280,7 +296,6 @@ function deleteURL(url_param,page_no){
 }
 $("#_blocklist_form").on('submit', function(e){
 	e.preventDefault();
-	$("#_save_blocklist_url").text('Saving...')
 	url = $("#_blocklist_url").val();
 	note = $("#_note").val();
 	blocklistURL(url, 1, note);
@@ -295,6 +310,7 @@ function blocklistURL(long_url, page_no, note){
 		confirmButtonText: 'Yes, proceed!',
 	}).then((result) => {
 	  	if (result.isConfirmed) {
+			$("#_save_blocklist_url").text('Saving...').attr('disabled','disabled');
 	  		$.ajax({
 				url: base_url+'api/v1/shortener/_blocklist_url',
 				type: 'POST',
@@ -320,7 +336,7 @@ function blocklistURL(long_url, page_no, note){
 					Swal.fire('Error!', 'Something went wrong! Please Try again!', 'error');
 				}
 				_csrfNonce();
-				$("#_save_blocklist_url").text('Save')
+				$("#_save_blocklist_url").text('Save').removeAttr('disabled','disabled')
 			})
 	  	} 
 	})

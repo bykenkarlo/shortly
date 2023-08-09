@@ -35,7 +35,7 @@
                                         <div class="col-lg-7 mt-2">
                                             <div class="mt-xl-0 text-end">
                                                 <button type="button" class="btn rounded btn-light mb-2" onclick="_getUrlList(1,'','')"><i class="uil-redo"></i> Refresh</button>
-                                                <button type="button" class="btn rounded btn-secondary mb-2" onclick="checkLink()"><i class="uil-redo"></i> Check Google Safe</button>
+                                                <button type="button" class="btn rounded btn-success mb-2" onclick="checkGoogleSafeBrowsingList()"><i class="uil-check"></i> Check Google Safebrowsing</button>
                                             </div>
                                         </div>  
                                     </div>
@@ -87,7 +87,7 @@
                                         </div>
                                         <div class="col-lg-7 mt-2">
                                             <div class="mt-xl-0 text-end">
-                                            <button type="button" class="btn rounded btn-success mb-2" id="add_blocklist_url"><i class="uil-plus"></i> Add URL</button>
+                                            <button type="button" class="btn rounded btn-success mb-2" id="add_blocklist_url"><i class="uil-plus"></i> Block Content</button>
                                                 <button type="button" class="btn rounded btn-light mb-2" onclick="_getBlocklistUrlList(1,'','')"><i class="uil-redo"></i> Refresh</button>
                                             </div>
                                         </div>  
@@ -99,11 +99,11 @@
                                                 <tr>
                                                     <th style="width: 20px;">
                                                         <div class="form-check">
-                                                            <input type="checkbox" name="_loan_check_all" class="form-check-input cursor-pointer" id="_loan_check_all">
-                                                        <label class="form-check-label" for="_loan_check_all">&nbsp;</label>
+                                                            <input type="checkbox" name="_burl_check_all" class="form-check-input cursor-pointer" id="_burl_check_all">
+                                                        <label class="form-check-label" for="_burl_check_all">&nbsp;</label>
                                                         </div>
                                                     </th>
-                                                    <th width="400">URL</th>
+                                                    <th width="400">Content</th>
                                                     <th>Note</th>
                                                     <th>Date Blocklisted</th>
                                                     <th>Action</th>
@@ -134,15 +134,15 @@
                                     <div class="modal-body">
                                         <div class="">
                                             <div class="container">
-                                                <h3 class="text-left" style="font-weight: 300; color: #3c3c3d;" class="text-capitalize margin-top-40"> <i class="uil-plus"></i> Add URL</h3>
+                                                <h3 class="text-left" style="font-weight: 300; color: #3c3c3d;" class="text-capitalize margin-top-40"> <i class="uil-plus"></i> Add Keyword/URL</h3>
                                                     <div class="mt-2">
-                                                        <input type="text" name="url" class="form-control" id="_blocklist_url" placeholder="Link"  required autofocus>
+                                                        <input type="text" name="url" class="form-control" id="_blocklist_url" placeholder="Content/URL"  required autofocus>
                                                     </div>
                                                     <div class="mt-2">
                                                         <select name="note" id="_note" class="form-control" required>
                                                             <option value="" selected ="disabled" readonly >Select Note</option>
                                                             <option value="URL Shortener">URL Shortener</option>
-                                                            <option value="Malicious URL">Malicious URL</option>
+                                                            <option value="Malicious URL">Malicious content/URL</option>
                                                         </select>    
                                                     <!-- <textarea name="note" class="form-control" id="_note" placeholder="Note here..." ></textarea> -->
                                                     </div>
