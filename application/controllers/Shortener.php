@@ -297,11 +297,13 @@ class Shortener extends CI_Controller {
     }
     public function saveCustomURL(){
         $data = $this->Shortener_model->saveCustomURL();
-        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+        $clean_data = $this->security->xss_clean( $data);
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$clean_data)));
     }
     public function newShortURL(){
         $data = $this->Shortener_model->newShortURL();
-        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+        $clean_data = $this->security->xss_clean($data);
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$clean_data)));
     }
     public function getAccountData(){
         $data = $this->User_model->getAccountData();

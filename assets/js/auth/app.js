@@ -67,7 +67,6 @@ $("#_url_shortener_form").on('submit', function(e) {
     $("#_shorten_url_btn").text('Processing...').attr('disabled', 'disabled');
 })
 function _checkLink(long_url, formData){
-
     let api_key =  "AIzaSyCm_T4r1vS1qL-db7RKqjc22xg9OaYo-a8"; 
         let googleURL = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key="+api_key;
         let payload =
@@ -109,14 +108,6 @@ function _checkLink(long_url, formData){
             if(jQuery.isEmptyObject(res)){
                 processURLShortener(formData);
             }
-            
-            // else if(res.error.code == 400){
-            //     Swal.fire({
-            //         icon: 'error',
-            //         title: 'Error!',
-            //         html: res.error.message,
-            //     });
-            // }
             else {
                 console.log(res.matches[0].threatType)
             // if(res.matches[0].threatType == 'MALWARE' || res.matches[0].threatType == 'SOCIAL_ENGINEERING' || res.matches[0].threatType == 'POTENTIALLY_HARMFUL_APPLICATION' || res.matches[0].threatType == 'UNWANTED_SOFTWARE'){
@@ -1497,21 +1488,78 @@ $("#_edit_short_url_form").on('submit', function(e) {
     }
     let formData = new FormData(this);
 	$("#_save_url_btn").text('Saving...').attr('disabled', 'disabled');
-	$.ajax({
-		url: base_url+'api/v1/shortener/_save_custom_url',
-		type: 'POST',
-		data: formData,
-		cache       : false,
-	    contentType : false,
-	    processData : false,
-	    statusCode: {
-		403: () => {
-			    _error403();
-			}
-		}
-	})
-	.done( (res) => {
-		if (res.data.status == 'success') {
+    checkCustomURL(long_url,formData);
+})
+function checkCustomURL(long_url, formData){
+    let api_key =  "AIzaSyCm_T4r1vS1qL-db7RKqjc22xg9OaYo-a8"; 
+    let googleURL = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key="+api_key;
+    let payload =
+    {
+        "client": {
+          "clientId":      "shortlyapp382402",
+          "clientVersion": "382402"
+        },
+        "threatInfo": {
+            "threatTypes":      ["MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE", "CSD_DOWNLOAD_WHITELIST","POTENTIALLY_HARMFUL_APPLICATION","THREAT_TYPE_UNSPECIFIED"],
+            "platformTypes":    ["ALL_PLATFORMS"],
+            "threatEntryTypes": ["URL"],
+            "threatEntries": [
+            {"url": ""+long_url+""},
+            ]
+        }
+    };
+    $.ajax({
+        url: googleURL,
+        dataType: "json",
+        type: 'POST',
+        contentType: "applicaiton/js on; charset=utf-8",
+        data: JSON.stringify(payload),
+        statusCode: {
+                403: () => {
+                    _error403();
+                },
+                400: () => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    html: "INVALID URL! Try again!",
+                });
+            $("#_save_url_btn").text('Save').removeAttr('disabled', 'disabled');
+            }
+        }
+    })
+    .done( (res) => {
+        if(jQuery.isEmptyObject(res)){
+            processCustomURLShortener(formData);
+        }
+        else {
+            console.log(res.matches[0].threatType)
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                html: "The URL is labeled as '"+res.matches[0].threatType+"', unsafe and malicious by Google!",
+            }); 
+            console.log("Malware detected!");
+        }
+        $("#_save_url_btn").text('Save').removeAttr('disabled', 'disabled');
+    })
+}
+function processCustomURLShortener(formData){
+    $.ajax({
+        url: base_url+'api/v1/shortener/_save_custom_url',
+        type: 'POST',
+        data: formData,
+        cache       : false,
+        contentType : false,
+        processData : false,
+        statusCode: {
+        403: () => {
+                _error403();
+            }
+        }
+    })
+    .done( (res) => {
+        if (res.data.status == 'success') {
             Swal.fire({
                 icon: 'success',
                 title: 'Success!',
@@ -1522,19 +1570,19 @@ $("#_edit_short_url_form").on('submit', function(e) {
             $("#_edit_redirect_url").val('');
             $("#_custom_edit_link").val('');
             $("#_custom_edit_title").val('');
-	        $("#_save_url_btn").text('Save').removeAttr('disabled', 'disabled');
+            $("#_save_url_btn").text('Save').removeAttr('disabled', 'disabled');
             $("#_edit_url_modal").modal('hide')
-		}
-		else{
-			Swal.fire({
-			  	icon: 'error',
-			  	title: 'Error!',
-			 	html: res.data.message,
-			});
-	        $("#_save_url_btn").text('Save').removeAttr('disabled', 'disabled');
-		}
-		_csrfNonce();
-	})
+        }
+        else{
+            Swal.fire({
+                  icon: 'error',
+                  title: 'Error!',
+                 html: res.data.message,
+            });
+            $("#_save_url_btn").text('Save').removeAttr('disabled', 'disabled');
+        }
+        _csrfNonce();
+    })
     .fail(() => {
         Swal.fire({
             icon: 'error',
@@ -1542,9 +1590,9 @@ $("#_edit_short_url_form").on('submit', function(e) {
             html: "Something went wrong! Please refresh the page and Try again!",
       });
       $("#_save_url_btn").text('Save').removeAttr('disabled', 'disabled');
-		_csrfNonce();
+        _csrfNonce();
     })
-})
+}
 $("#show_secret").on('click', function(){
     $("#secret_key").attr('type','text');
     $(this).attr('hidden','hidden');

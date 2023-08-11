@@ -614,6 +614,19 @@ class Shortener_model extends CI_Model {
 			$response['message'] = "Something went wrong! Refresh the page and try again!";
 		}
 	}
+	public function checkBlocklistURL($url){
+		$query =  $this->db->SELECT('url, note')
+		->WHERE('note !=', 'URL Shortener')
+		->GET('blocklisted_urls_tbl')->result_array();
+
+		$is_blacklisted = false;
+		foreach($query as $q){
+			if(strpos($url, $q['url']) !== false){
+				$is_blacklisted = true;
+			}
+		}
+		return $is_blacklisted;
+	}
 	public function saveCustomURL(){
 		if(isset($this->session->secret_key)){
 			$long_url = $this->input->post('redirect_url');
@@ -622,8 +635,19 @@ class Shortener_model extends CI_Model {
 			$prev_param = $this->input->post('url_param_edit');
 
 			$check_url_param = $this->db->WHERE('short_url', $custom_link)->GET('shortened_url_tbl')->num_rows();
-			
-			if(!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $long_url)) {
+			$blocklisted_url = $this->checkBlocklistURL($long_url);
+			$disabled_url = $this->db->WHERE("long_url", $long_url)->WHERE('status','disabled')->GET('shortened_url_tbl')->num_rows();
+			if($blocklisted_url > 0){
+				$response['status'] = 'error';
+				$response['short_url'] = "";
+				$response['message'] = "URL is in Blocklisted list!";
+			}
+			else if($disabled_url > 0){
+				$response['status'] = 'error';
+				$response['short_url'] = "";
+				$response['message'] = "URL is in Disabled URL list!";
+			}
+			else if(!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $long_url)) {
 				$response['status'] = 'error';
 				$response['short_url'] = "";
 				$response['message'] = "Please enter a correct URL!";
