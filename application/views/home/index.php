@@ -118,10 +118,38 @@
                 </div>
             </div>
 
-            <!-- <div class="other-section padding-bottom-70 c-dwhite">
+            <div class="other-section padding-bottom-70 c-dwhite">
                 <div class="container">
-                    <div class="row">
-                        <div class=" col-12 col-md-6 col-lg-5 ">
+                    <h2 class="f-h2  text-center">Website Statistics</h2>
+                    <div class="row mt-2">
+                        <div class="col-xl-3 col-lg-4">
+                        </div>
+                        <div class="col-xl-3 col-lg-4">
+                            <div class="card tilebox-one">
+                                <div class="card-body">
+                                    <i class="uil uil-link-add float-end c-black font-35"></i>
+                                    <h6 class=" mt-0 c-gray">Total Links Created</h6>
+                                    <h2 class="my-2 c-gray" id="links_created">0</h2>
+                                </div> 
+                            </div>
+                        </div>
+                       <div class="col-xl-3 col-lg-4">
+                            <div class="card tilebox-one">
+                                <div class="card-body">
+                                    <i class="uil uil-mouse float-end c-black font-35"></i>
+                                    <h6 class=" mt-0 c-gray ">Total Link Click</h6>
+                                    <h2 class="my-2 c-gray" id="links_click">0</h2>
+                                    <!-- <p class="mb-0 text-muted">
+                                        <span class="text-danger me-2"><span class="mdi mdi-arrow-down-bold"></span> 1.08%</span>
+                                        <span class="text-nowrap">Since previous week</span>
+                                    </p> -->
+                                </div> 
+                            </div>
+                        </div>   
+                        <div class="col-xl-3 col-lg-4">
+                        </div>
+                    </div>
+                        <!-- <div class=" col-12 col-md-6 col-lg-5 ">
                             <h2 class="f-h2">Website Statistics</h2>
                         </div>
                         <div class="col-12 col-md-6 col-lg-7 mt-2">
@@ -150,10 +178,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
-            </div> -->
+            </div>
 
             <div class="recommend-section padding-bottom-70 c-dwhite" id="contact_us">
                 <div class="container">

@@ -63,8 +63,8 @@ $("#_url_shortener_form").on('submit', function(e) {
         });   
         return false;
     }
-    _checkLink(long_url, formData);
     $("#_shorten_url_btn").text('Processing...').attr('disabled', 'disabled');
+    _checkLink(long_url, formData);
 })
 function _checkLink(long_url, formData){
     let api_key =  "AIzaSyCm_T4r1vS1qL-db7RKqjc22xg9OaYo-a8"; 
@@ -110,14 +110,16 @@ function _checkLink(long_url, formData){
             }
             else {
                 console.log(res.matches[0].threatType)
-            // if(res.matches[0].threatType == 'MALWARE' || res.matches[0].threatType == 'SOCIAL_ENGINEERING' || res.matches[0].threatType == 'POTENTIALLY_HARMFUL_APPLICATION' || res.matches[0].threatType == 'UNWANTED_SOFTWARE'){
                 Swal.fire({
                     icon: 'error',
                     title: 'Error!',
                     html: "The URL is labeled as '"+res.matches[0].threatType+"', unsafe and malicious by Google!",
                 }); 
                 console.log("Malware detected!");
+                $("#_shorten_url_btn").text('Shorten URL').removeAttr('disabled', 'disabled');
             }
+         })
+         .fail(function(){
             $("#_shorten_url_btn").text('Shorten URL').removeAttr('disabled', 'disabled');
          })
 }
@@ -143,13 +145,11 @@ function processURLShortener(formData){
                 title: res.data.title,
                 html: res.data.message,
             });
-            $("#_shorten_url_btn").text('Shorten URL').removeAttr('disabled', 'disabled');
         }
         else if (res.data.status == 'success') {
             $("#_input_url_div").addClass('hide');
             $("#_copy_url_div").removeClass('hide').addClass('show');
             $("#_shortened_url").val(res.data.attribute.url);
-            $("#_shorten_url_btn").text('Shorten URL').removeAttr('disabled', 'disabled');
             $("#_monitor_btn").attr('data-param',res.data.attribute.param)
         }
         else{
@@ -158,7 +158,6 @@ function processURLShortener(formData){
                 title: 'Error!',
                 html: res.data.message,
             });
-            $("#_shorten_url_btn").text('Shorten URL').removeAttr('disabled', 'disabled');
         }
         _csrfNonce();
         $("#_shorten_url_btn").text('Shorten URL').removeAttr('disabled', 'disabled');
@@ -168,8 +167,8 @@ function processURLShortener(formData){
             icon: 'error',
             title: 'Error!',
             html: "Something went wrong! Please refresh the page and Try again!",
-    });
-    $("#_shorten_url_btn").text('Shorten URL').removeAttr('disabled', 'disabled');
+        });
+        $("#_shorten_url_btn").text('Shorten URL').removeAttr('disabled', 'disabled');
         _csrfNonce();
     })
 }
