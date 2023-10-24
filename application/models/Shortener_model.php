@@ -403,8 +403,8 @@ class Shortener_model extends CI_Model {
 		// $data['city'] = ''; 
 
 		// USING IPREGISTRY.CO
-		$api_key = 'y2krlyk73ix6prnt';
-		$url = 'https://api.ipregistry.co/'.$ip_address.'?key=y2krlyk73ix6prnt';
+		$api_key = '9l95z2g9mmc4dv2w';
+		$url = 'https://api.ipregistry.co/'.$ip_address.'?key='.$api_key;
 		$ip_data = json_decode(file_get_contents($url));
 		$data['country'] = $ip_data->location->country->name;
 		$data['city'] = $ip_data->location->city;
@@ -776,5 +776,33 @@ class Shortener_model extends CI_Model {
             return $query;
         }
     }
-	
+	public function generateNewSecretKey($new_secret_key){
+        if (isset($this->session->secret_key)) {
+			$data_arr = array(
+				'secret_key'=>$new_secret_key['key']
+			);
+			$this->db->WHERE('secret_key', $this->session->secret_key)
+				->UPDATE('users_tbl', $data_arr);
+
+			$data_arr2 = array(
+				'secret_key'=>$new_secret_key['key']
+			);
+			$this->db->WHERE('secret_key', $this->session->secret_key)
+				->UPDATE('account_url_tbl', $data_arr2);
+
+			$response['status'] = 'success';
+			$response['message'] = "Successfully generated a new secret key!";
+			$response['attribute'] = $data_arr;
+
+			$session = array(
+				'secret_key', 
+			);
+			$this->session->unset_userdata($session);
+			$this->session->set_userdata('secret_key', $new_secret_key['key']);
+			return $response;
+        }
+		else{
+			
+		}
+    }
 }

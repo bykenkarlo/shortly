@@ -69,8 +69,8 @@ class User_model extends CI_Model {
                 mt_rand( 0, 0x3fff ) | 0x8000,
                 mt_rand( 0, 0x2Aff ), mt_rand( 0, 0xffD3 ), mt_rand( 0, 0xff4B )
             );
-            $check = $this->db->WHERE('secret_key',$key)->GET('users_tbl')->num_rows();
-            if ($check > 1) {
+            $check_secret_key = $this->db->WHERE('secret_key',$key)->GET('users_tbl')->num_rows();
+            if ($check_secret_key > 1) {
                 $this->generateSecretKey();
             }
             else{

@@ -100,4 +100,26 @@ class Login extends CI_Controller {
             }
         }
     }
+    public function userSecretLogin($secret_key) {
+        $session = array(
+            'secret_key', 
+        );
+        $this->session->unset_userdata($session);
+        $checkUser = $this->Login_model->checkUserData($secret_key);
+        if (isset($checkUser)) {
+            if ($checkUser['status'] == 'disabled') {
+                header('Location:'.base_url());
+            }
+            else if (!empty($checkUser)) {
+                $this->session->set_userdata('secret_key',$secret_key);
+                header('Location:'.base_url('logged/dashboard'));
+            }
+            else{
+                header('Location:'.base_url());
+            }
+        }
+        else{
+            header('Location:'.base_url());
+        }
+    }
 }

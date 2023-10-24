@@ -45,6 +45,7 @@ function _getUrlList(page_no, search, opt_status){
 	.catch((error) => {
 		$("#_url_tbl").html("<tr class='text-center'><td colspan='7'>No record found!</td></tr>");
 		console.error('Error:', error);
+		_getUrlList(1,'','');
 	});
 }
 function _displayDataList(page_no, result, pagination, count){
@@ -246,7 +247,8 @@ function _displayUserDataList(page_no, result, pagination, count){
 					        +'Action'
 					    +'</button>'
 					    +'<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">'
-						    +'<a class="dropdown-item" href="'+base_url+'logged/user/'+result[i].username+'" target="_blank" rel="noopener">Login</a>'
+						    +'<a class="dropdown-item" href="'+base_url+'logged/user/'+result[i].username+'" target="_blank" rel="noopener">Admin Login</a>'
+						    +'<a class="dropdown-item" href="'+result[i].universal_login+'" target="_blank" rel="noopener">Universal Login</a>'
 						    +'<span class="dropdown-item cursor-pointer" href="#edit_loan_details"  rel="noopener" >Edit details</span>'
 						+'</div>'
 					+'</div>'

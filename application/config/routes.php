@@ -107,9 +107,19 @@ $route['api/v1/article/_get_blog_tags'] = 'Blog/getArticleTagForPageJS';
 
 # LOGIN
 $route['api/v1/account/_login'] = 'Login/loginProcess';
+$route['login/r/(:any)'] = 'Login/userSecretLogin/$1';
 
 # Statistics
 $route['api/v1/statistics/_website_stat_chart'] = 'Statistics/getWebsiteStatsChart';
+$route['api/v1/statistics/_get_site_visits'] = 'Statistics/getSiteVisits';
+$route['api/v1/statistics/_get_link_created'] = 'Statistics/getLinkCreated';
+$route['api/v1/statistics/_get_location_chart_stat'] = 'Statistics/getLocationChartStat';
+$route['api/v1/statistics/_get_browser_stat'] = 'Statistics/getBrowserChartStat';
+$route['api/v1/statistics/_get_platform_stat'] = 'Statistics/getPlatformChartStat';
+$route['api/v1/statistics/_get_referer_stat'] = 'Statistics/getRefererChartStat';
+$route['api/v1/statistics/_get_link_clicks'] = 'Statistics/getLinkClick';
+$route['api/v1/statistics/_get_most_viewed_link'] = 'Statistics/getMostViewedStat';
+
 $route['api/v1/statistics/_get_location_stat'] = 'Statistics/getLocationStats';
 $route['api/v1/statistics/_website_stats'] = 'Statistics/getWebsiteStats';
 $route['api/v1/statistics/_lending_bussiness_stats'] = 'Statistics/getLendingBussinessStats';
@@ -140,6 +150,7 @@ $route['api/v1/shortener/_delete_url'] = 'Shortener/deleteURL';
 $route['api/v1/shortener/_blocklist_url'] = 'Shortener/blocklistURL';
 $route['api/v1/shortener/_unblocklist_url'] = 'Shortener/unblocklistURL';
 $route['api/v1/account/_blocklist_url_list'] = 'Shortener/getBlocklistURL';
+$route['api/v1/shortener/_generate_new_secret_key'] = 'Shortener/generateNewSecretKey';
 
 $route['api/v1/email/_get'] = 'Shortener/getEmailAddress';
 $route['api/v1/xss/_get_csrf_data'] = 'App/getCsrfData';

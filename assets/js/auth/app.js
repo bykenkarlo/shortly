@@ -1,3 +1,8 @@
+$("#_copy_secret").on('click', function(){
+    $("#secret_key").attr('type','text');
+    $("#show_secret").attr('hidden','hidden');
+    $("#hide_secret").removeAttr('hidden','hidden');
+})
 const clipboard = new ClipboardJS('#_copy_url_btn');
 const clipboard2 = new ClipboardJS('#_copy_secret');
 const clipboard3 = new ClipboardJS('.acct_copy_url_btn');
@@ -8,6 +13,8 @@ clipboard.on('success', function(e) {
 	e.clearSelection();
 });
 clipboard2.on('success', function(e) {
+    
+
 	$("#_copy_secret").text("Copied!");
 	setTimeout(() => {$("#_copy_secret").text("Copy");}, 2000)
 	e.clearSelection();
@@ -1220,7 +1227,7 @@ const getURLs = () => {
 		console.error('Error:', error);
 	});
 }
-const _getURLData = (url_param) => {
+const _getURLData = (url_param) => { // fetch latest shortened url to top
     $("#loader").removeAttr('hidden','hidden');
     params = new URLSearchParams({'url_param':url_param});
 	fetch(base_url+'api/v1/account/_get_url_data?'+params, {
@@ -1565,7 +1572,7 @@ function processCustomURLShortener(formData){
                html: "Custom URL is sucessfully updated!",
             });
             param = $("#_custom_edit_link").val();
-            _getURLData(param);
+            getURLs()
             $("#_edit_redirect_url").val('');
             $("#_custom_edit_link").val('');
             $("#_custom_edit_title").val('');
@@ -1662,4 +1669,39 @@ $("#_update_email_form").on('submit', function(e) {
       $("#_save_email_btn").text('Save').removeAttr('disabled', 'disabled');
 		_csrfNonce();
     })
+})
+$("#generate_new_secret_key").on('click', function(){
+        csrf_token = $("#_global_csrf").val();
+        Swal.fire({
+            title: 'Generate?',
+             icon: 'warning',
+             text: 'Are you sure to delete your current secret key and generate a new one?',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, proceed!',
+        }).then((result) => {
+              if (result.isConfirmed) {
+                  $.ajax({
+                    url: base_url+'api/v1/shortener/_generate_new_secret_key',
+                    type: 'GET',
+                    dataType: 'JSON',
+                    data: {'csrf_token':csrf_token},
+                    statusCode: {
+                    403: function() {
+                              _error403();
+                        }
+                    }
+                })
+                .done(function(res) {
+                    if (res.data.status == 'success') {
+                        $("#secret_key").val(res.data.attribute.secret_key)
+                        Swal.fire('Success!', res.data.message, 'success');
+                    }
+                    else{
+                        Swal.fire('Error!', 'Something went wrong! Please Try again!', 'error');
+                    }
+                    _csrfNonce();
+    
+                })
+              } 
+        })
 })

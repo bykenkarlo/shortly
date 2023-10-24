@@ -378,4 +378,9 @@ class Shortener extends CI_Controller {
         $data['count'] = $all_count;
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
+    public function generateNewSecretKey(){
+        $new_secret_key = $this->User_model->generateSecretKey();
+        $data = $this->Shortener_model->generateNewSecretKey($new_secret_key);
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+    }
 }

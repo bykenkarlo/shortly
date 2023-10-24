@@ -52,6 +52,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="short-summary">
@@ -68,9 +69,35 @@
                                                         <div>
                                                             <label for="_redirect_url">Secret Key</label>
                                                             <input type="password" class="form-control form-input" id="secret_key" name="" value="<?=$this->session->secret_key?>" readonly>
-                                                            <button type="button" id="_copy_secret" data-clipboard-target="#secret_key" class="btn btn-success rounded mt-2 float-end">Copy</button>
                                                             <button type="button" class="btn btn-light rounded mt-2 float-end me-1" id="show_secret">Show</button>
                                                             <button type="button" class="btn btn-light rounded mt-2 float-end me-1" hidden="hidden" id="hide_secret">Hide</button>
+                                                            <button type="button" id="_copy_secret" data-clipboard-target="#secret_key" class="btn btn-success rounded mt-2 float-end">Copy</button>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            </div>
+                                        </div>
+                                    </div> <!-- end card-body-->
+                                </div> <!-- end card-->
+
+                                
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="short-summary">
+                                            <div class="su-title">
+                                                <h1 class="card-title mb-3 font-20 fw-700" id="_su_title">Generate New Secret Key</h1>    
+                                            </div>
+                                            <div>
+                                            <form id="_edit_short_url_form" class="mb-3">
+                                                <div class="row">
+                                                    <div class="col-lg-8">
+                                                        <p class="font-14">
+                                                            Your current secret key will be deleted and will be replaced with a new secret key.
+                                                        </p>
+                                                        <div>
+                                                            <button type="button" id="generate_new_secret_key" class="btn btn-success rounded mt-2 float-start">Generate</button>
                                                         </div>
                                                     </div>
                                                 </div>

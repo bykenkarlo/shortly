@@ -54,6 +54,279 @@ class Statistics_model extends CI_Model {
 
         return $data;
     }
+    public function getMostViewedStat () {
+        $range = $this->input->get('range');
+        if($range == 'today') {
+            $start_date = date('Y-m-d 00:00:00');
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+        else if($range == '7_days') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-7 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+
+        else if($range == '15_days') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-15 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+
+        else if($range == '1_month') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-30 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+        else if($range == '1_year') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-365 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+ 
+        $most_viewed_url = $this->getMostViewedUrlStat();
+        $data['most_viewed_url'] = $most_viewed_url;
+
+        return $data;
+    }
+    public function getRefererChartStat () {
+        $range = $this->input->get('range');
+        if($range == 'today') {
+            $start_date = date('Y-m-d 00:00:00');
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+        else if($range == '7_days') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-7 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+
+        else if($range == '15_days') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-15 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+
+        else if($range == '1_month') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-30 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+        else if($range == '1_year') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-365 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+ 
+        $referer_stat = $this->getRefererStat($date_range);
+        $data['referrer_stat'] = $referer_stat;
+
+        return $data;
+    }
+    public function getPlatformChartStat () {
+        $range = $this->input->get('range');
+        if($range == 'today') {
+            $start_date = date('Y-m-d 00:00:00');
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+        else if($range == '7_days') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-7 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+
+        else if($range == '15_days') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-15 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+
+        else if($range == '1_month') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-30 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+        else if($range == '1_year') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-365 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+ 
+        $platform_stat = $this->getPlatformStat($date_range);
+        $data['platform_stat'] = $platform_stat;
+        return $data;
+    }
+    public function getBrowserChartStat () {
+        $range = $this->input->get('range');
+        if($range == 'today') {
+            $start_date = date('Y-m-d 00:00:00');
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+        else if($range == '7_days') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-7 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+
+        else if($range == '15_days') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-15 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+
+        else if($range == '1_month') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-30 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+        else if($range == '1_year') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-365 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+
+        $browser_stat = $this->getBrowserStat($date_range);
+        $data['browser_stat'] = $browser_stat; 
+        return $data;
+    }
+    public function getLocationChartStat () {
+        $range = $this->input->get('range');
+        if($range == 'today') {
+            $start_date = date('Y-m-d 00:00:00');
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+        else if($range == '7_days') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-7 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+
+        else if($range == '15_days') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-15 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+
+        else if($range == '1_month') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-30 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+        else if($range == '1_year') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-365 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+        $location_stat = $this->getLocationStat($date_range);
+        $data['location_stat'] = $location_stat;
+        return $data;
+    }
+    public function getLinkClick () {
+        $range = $this->input->get('range');
+        if($range == 'today') {
+            $start_date = date('Y-m-d 00:00:00');
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+        else if($range == '7_days') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-7 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+
+        else if($range == '15_days') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-15 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+
+        else if($range == '1_month') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-30 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+        else if($range == '1_year') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-365 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+ 
+        $link_click_stat = $this->getLinkClickStat($date_range);
+        $data['link_click_stat'] = $link_click_stat;
+        return $data;
+    }
+    public function getLinkCreated () {
+        $range = $this->input->get('range');
+        if($range == 'today') {
+            $start_date = date('Y-m-d 00:00:00');
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+        else if($range == '7_days') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-7 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+
+        else if($range == '15_days') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-15 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+
+        else if($range == '1_month') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-30 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+        else if($range == '1_year') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-365 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+ 
+        $link_created_stat = $this->getLinkCreatedStat($date_range);
+        $data['link_created_stat'] = $link_created_stat;
+        return $data;
+    }
+    public function getSiteVisits () {
+        $range = $this->input->get('range');
+        if($range == 'today') {
+            $start_date = date('Y-m-d 00:00:00');
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+        else if($range == '7_days') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-7 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+
+        else if($range == '15_days') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-15 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+
+        else if($range == '1_month') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-30 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+        else if($range == '1_year') {
+            $start_date = date('Y-m-d 00:00:00', strtotime('-365 day', strtotime(date('Y-m-d 00:00:00'))));
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+ 
+        $site_visit = $this->getWebsiteVisitStat($date_range);
+        $data['site_visit'] = $site_visit;
+        return $data;
+    }
     public function generateDateTime($range){
         $result = array();
         $timestamp = time();

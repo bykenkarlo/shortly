@@ -1,6 +1,142 @@
 function _getWebsiteVisitsStatistics(range){
+    getSiteVisits(range)
+    linkCreatedChart(range)
+    browserStatChart(range)
+    linkCountChart(range)
+    locationChart(range)
+    platformStatChart(range)
+    referrerStatChart(range)
+    mostViewedURL(range)
+}
+function mostViewedURL(range){
     let params = new URLSearchParams({'range':range});
-    fetch(base_url+'api/v1/statistics/_website_stat_chart?' + params, {
+    fetch(base_url+'api/v1/statistics/_get_most_viewed_link?' + params, {
+        method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+    })
+    .then(response => response.json())
+    .then(res => {
+        most_viewed_url = res.data.most_viewed_url;
+        _mostViewedUrl(most_viewed_url);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+function referrerStatChart(range){
+    let params = new URLSearchParams({'range':range});
+    fetch(base_url+'api/v1/statistics/_get_referer_stat?' + params, {
+        method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+    })
+    .then(response => response.json())
+    .then(res => {
+        referrer_stat = res.data.referrer_stat;
+        _referrerStatChart(referrer_stat)
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+function platformStatChart(range){
+    let params = new URLSearchParams({'range':range});
+    fetch(base_url+'api/v1/statistics/_get_platform_stat?' + params, {
+        method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+    })
+    .then(response => response.json())
+    .then(res => {
+        platform_stat = res.data.platform_stat;
+        _platformStatChart(platform_stat)
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+function browserStatChart(range){
+    let params = new URLSearchParams({'range':range});
+    fetch(base_url+'api/v1/statistics/_get_browser_stat?' + params, {
+        method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+    })
+    .then(response => response.json())
+    .then(res => {
+        browser_stat = res.data.browser_stat;
+        _browserStatChart(browser_stat)
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+function locationChart(range){
+    let params = new URLSearchParams({'range':range});
+    fetch(base_url+'api/v1/statistics/_get_location_chart_stat?' + params, {
+        method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+    })
+    .then(response => response.json())
+    .then(res => {
+        location_stat = res.data.location_stat;
+        _locationChart(location_stat);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+function linkCountChart(range){
+    let params = new URLSearchParams({'range':range});
+    fetch(base_url+'api/v1/statistics/_get_link_clicks?' + params, {
+        method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+    })
+    .then(response => response.json())
+    .then(res => {
+        link_click_stat = res.data.link_click_stat;
+        _linkCountChart(link_click_stat);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+function linkCreatedChart(range){
+    let params = new URLSearchParams({'range':range});
+    fetch(base_url+'api/v1/statistics/_get_link_created?' + params, {
+        method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+    })
+    .then(response => response.json())
+    .then(res => {
+        link_created_stat = res.data.link_created_stat;
+        _linkCreatedChart(link_created_stat);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+function getSiteVisits(range){
+    let params = new URLSearchParams({'range':range});
+    fetch(base_url+'api/v1/statistics/_get_site_visits?' + params, {
         method: "GET",
             headers: {
                 'Accept': 'application/json',
@@ -10,27 +146,13 @@ function _getWebsiteVisitsStatistics(range){
     .then(response => response.json())
     .then(res => {
         site_visit = res.data.site_visit;
-        link_created_stat = res.data.link_created_stat;
-        link_click_stat = res.data.link_click_stat;
-        location_stat = res.data.location_stat;
-        browser_stat = res.data.browser_stat;
-        platform_stat = res.data.platform_stat;
-        referrer_stat = res.data.referrer_stat;
-        most_viewed_url = res.data.most_viewed_url;
-        
         _siteVisitChart(site_visit);
-        _linkCreatedChart(link_created_stat);
-        _linkCountChart(link_click_stat);
-        _locationChart(location_stat);
-        _browserStatChart(browser_stat)
-        _platformStatChart(platform_stat)
-        _referrerStatChart(referrer_stat)
-        _mostViewedUrl(most_viewed_url);
     })
     .catch((error) => {
         console.error('Error:', error);
     });
 }
+
 
 var visit_stat_chart;
 function _siteVisitChart(site_visit) {

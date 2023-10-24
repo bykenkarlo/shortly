@@ -78,6 +78,7 @@ class Account_model extends CI_Model {
                     'user_type'=>$q['user_type'],
                     'email_address'=>$q['email_address'],
                     'email_verified'=>$q['email_verified'],
+                    'universal_login'=>base_url('login/r/').$q['secret_key'],
                     'created_at'=>date('d/m/Y h:i A', strtotime($q['created_at'])),
                 );
                 array_push($result, $array);
