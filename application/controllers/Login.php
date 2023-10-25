@@ -10,6 +10,7 @@ class Login extends CI_Controller {
         $this->load->library('form_validation');
         $this->load->model('User_model');
         $this->load->model('Login_model');
+        $this->load->model('Shortener_model');
     }
     public function loginProcess() {
         $username = $this->input->post('username');
@@ -122,4 +123,50 @@ class Login extends CI_Controller {
             header('Location:'.base_url());
         }
     }
+    public function accountRecovery() {
+        $email_address = $this->input->post('email_address');
+        $checkUser = $this->Login_model->checkUserData($email_address);
+        if (isset($checkUser)) {
+            $new_secret_key = $this->User_model->generateSecretKey();
+            $this->Shortener_model->updateSecretKey($new_secret_key, $email_address);
+            $this->sendEmailRecovery($email_address, $new_secret_key['key']);
+            $response['status'] = 'success';
+            $response['message'] = 'Check your email for recovery instructions!';
+        }
+        else{
+            $response['status'] = 'error';
+            $response['message'] = 'Email address does not exist!';
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$response)));
+    }
+
+    public function sendEmailRecovery($email_address, $secret_key){
+        $config['mailtype'] = 'html';
+        $config['charset'] = 'utf-8';
+        $config['priority']= '1';
+        // $config['protocol'] = 'smtp';
+        $config['smtp_host'] = 'shortly.at ';
+        $config['smtp_crypto'] = 'tls';
+        $config['smtp_port'] = '465';
+        $config['smtp_user']  = 'info@shortly.at';
+        $config['smtp_pass'] = '@Kenkarlo-01';
+        $config['newline'] = "\r\n";
+        $config['validation'] = FALSE;
+        $config['smtp_timeout']='30';
+
+        $subject = 'Account Recovery';
+            
+        $data['login_url'] = base_url('login/r/').$secret_key;
+        $data['header_image'] = base_url().'assets/images/logo/hh-logo.png';
+        $data['header_image_url'] = base_url().'?utm_source=shortly&utm_medium=account_recovery&utm_campaign=email';
+
+        $this->email->initialize($config);
+        $this->email->from('info@shortly.at', 'Shortly');
+        $this->email->reply_to('info@shortly.at', 'Shortly');
+        $this->email->to($email_address); 
+        $this->email->subject($subject);
+        $body = $this->load->view('email/account_recovery', $data, TRUE);
+        $this->email->message($body);
+        $this->email->send();
+   }
 }

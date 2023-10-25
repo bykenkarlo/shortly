@@ -22,7 +22,7 @@
                                 </div>
                                 <form action="#" id="_login_form">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="username"  name="username" required="" placeholder="Enter your Username" />
+                                        <input type="text" class="form-control" id="username" name="username" required="" placeholder="Enter your Username" />
                                         <label for="username" class="fw-400">Username</label>
                                     </div>
                 
@@ -55,11 +55,9 @@
                                         <button type="button" class="btn-link btn text-success" id="_forgot_password">Forgot Password</button>
                                     </div>
                                 </form>
-                            </div> <!-- end card-body -->
+                            </div>
                         </div>
-                        <!-- end card -->
-
-                        <div class="modal fade" id="_forgot_password_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                        <div class="modal fade" id="account_recovery_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
                             <div class="modal-dialog modal-md " >
                                 <div class="modal-content br-10">
                                     <div class="modal-header ">
@@ -71,24 +69,21 @@
                                             <div class="row">
                                                 <div class="form-floating mb-3 col-lg-12">
                                                     <input name="user_email" type="text" class="form-control" id="_user_email" placeholder="" required="required"/>
-                                                    <label for="question" class="fw-400">Email or Username</label>
+                                                    <label for="user_email" class="fw-400">Email address</label>
                                                 </div>
                                             </div>
                                             <input type="hidden" name="<?=$csrf_data['name']?>" value="<?=$csrf_data['hash']?>">
                                             <div class="mt-1 pb-2 float-end">
-                                                <button id="_forgot_pass_btn" type="submit" class="btn rounded btn-success c-white">Send Recovery Email</button>
+                                                <button id="recovery_btn" type="submit" class="btn rounded btn-success c-white">Send Recovery Email</button>
                                                 <button type="button" class="btn rounded btn-secondary c-white" data-bs-dismiss="modal">Cancel</button>
                                             </div>
                                        </form>
                                     </div>
-                                </div><!-- /.modal-content -->
-                            </div><!-- /.modal-dialog -->
-                        </div><!-- /.modal -->
-                               
-                    </div> <!-- end col -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!-- end row -->
             </div>
-            <!-- end container -->
         </div>
 	</div>

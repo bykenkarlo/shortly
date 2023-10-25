@@ -38,7 +38,9 @@
                                 <li class="page_menu_item menu_mm cursor-pointer"><a onclick="_accessPage('privacy-terms')">Terms</a></li>
                                 <?php if(isset($this->session->user_id) || isset($this->session->secret_key)) {?>
                                 <li class="page_menu_item menu_mm cursor-pointer"><a onclick="_accessPage('<?=($this->session->secret_key)?'logged/dashboard':'account/dashboard'?>')">Account</a></li>
-                                <?php }?>
+                                <?php } else { ?>
+                                <li class="page_menu_item menu_mm cursor-pointer"><a onclick="_accessPage('login')">Account</a></li>
+                                <?php } ?>
                                 <!-- <li class="page_menu_item menu_mm cursor-pointer mt-3 install-app-btn-container"><button id="_install_app" class="btn rounded btn-warning c-white ">Install App</button></li> -->
                             </ul>
                         </div>
@@ -65,9 +67,6 @@
                         <li class="nav-item mx-lg-1">
                             <a class="nav-link cursor-pointer" onclick="_accessPage('privacy-terms')">Terms</a>
                         </li>
-                        <!--<li class="nav-item me-0">
-                            </a> 
-                        </li>  -->
                         
                         <?php if(isset($this->session->user_id)) {?>
                         <li class="dropdown text-capitalize">
@@ -94,6 +93,10 @@
                                     <span>Logout</span>
                                 </a>
                             </div>
+                        </li>
+                        <?php } else { ?> 
+                        <li class="nav-item mx-lg-1">
+                            <a class="nav-link cursor-pointer" onclick="_accessPage('login')">Account</a>
                         </li>
                         <?php } ?> 
                     </ul>

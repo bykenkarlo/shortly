@@ -9,7 +9,7 @@ const _hidePassword = () =>{
 	$("#_show_password").removeAttr('hidden');
 }
 $("#_forgot_password").on('click', function() {
-	$("#_forgot_password_modal").modal('toggle');
+	$("#account_recovery_modal").modal('toggle');
 });
 $("#_login_form").on('submit', function(e) {
 	e.preventDefault();
@@ -43,6 +43,52 @@ $("#_login_form").on('submit', function(e) {
 	.fail(function() {
 		console.log("error");
 		$("#_login_btn").removeAttr('disabled').text('Log In');
+		_csrfNonce();
+	})
+})
+$("#recover_acct_form").on('submit', function(e) {
+	e.preventDefault();
+	$("#recovery_btn").attr('disabled','disabled').text('Please wait...');
+	$.ajax({
+		url: base_url+'api/v1/account/_recovery',
+		type: 'POST',
+		dataType: 'JSON',
+		data: $(this).serialize(),
+		statusCode: {
+		403: function() {
+			  	_error403();
+			}
+		}
+	})
+	.done(function(res) {
+		if (res.data.status == 'success') {
+			$("#recovery_btn").text(res.data.message);
+			Swal.fire({
+				icon: 'success',
+				title: 'Success!',
+			   text: res.data.message,
+		  	})
+			$("#account_recovery_modal").modal('hide');
+			$("#recovery_btn").removeAttr('disabled', 'disabled').text('Send Recovery Email');
+		}
+		else{
+			_csrfNonce();
+			Swal.fire({
+			  	icon: 'error',
+			  	title: 'Error!',
+			 	text: res.data.message,
+			})
+			$("#recovery_btn").removeAttr('disabled', 'disabled').text('Send Recovery Email');
+		}
+	})
+	.fail(function() {
+		Swal.fire({
+			icon: 'error',
+			title: 'Error!',
+		   text: "Something went wrong! Try again!",
+	  	})
+		console.log("error");
+		$("#recovery_btn").removeAttr('disabled', 'disabled').text('Send Recovery Email');
 		_csrfNonce();
 	})
 })

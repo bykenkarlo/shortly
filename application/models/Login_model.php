@@ -7,6 +7,7 @@ class Login_model extends CI_Model {
 		return $this->db
 			->WHERE('username', $username)
 			->OR_WHERE('secret_key', $username)
+			->OR_WHERE('email_address', $username)
 			->GET('users_tbl')->row_array();
 	}
 	public function insertNewRememberLogin($rememberLogin){

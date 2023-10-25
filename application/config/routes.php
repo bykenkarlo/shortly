@@ -107,6 +107,7 @@ $route['api/v1/article/_get_blog_tags'] = 'Blog/getArticleTagForPageJS';
 
 # LOGIN
 $route['api/v1/account/_login'] = 'Login/loginProcess';
+$route['api/v1/account/_recovery'] = 'Login/accountRecovery';
 $route['login/r/(:any)'] = 'Login/userSecretLogin/$1';
 
 # Statistics

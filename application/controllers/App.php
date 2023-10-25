@@ -10,7 +10,7 @@ class App extends CI_Controller {
         $this->load->model('Csrf_model');
     }
     public function index(){
-        // $this->output->cache(1440); // cache for one day
+        $this->output->cache(1); // cache for xxx
         $data['siteSetting'] = $this->Site_settings_model->siteSettings();
         $data['social_media'] = $this->Site_settings_model->getSocialMedias();
         $data['title'] = 'index';

@@ -805,4 +805,18 @@ class Shortener_model extends CI_Model {
 			
 		}
     }
+	public function updateSecretKey($new_secret_key, $email_address){
+		$old_data = $this->db->SELECT('secret_key')->WHERE('email_address', $email_address)->GET('users_tbl')->row_array();
+		$data_arr = array(
+			'secret_key'=>$new_secret_key['key']
+		);
+		$this->db->WHERE('secret_key', $old_data['secret_key'])
+			->UPDATE('users_tbl', $data_arr);
+
+		$data_arr2 = array(
+			'secret_key'=>$new_secret_key['key']
+		);
+		$this->db->WHERE('secret_key', $old_data['secret_key'])
+			->UPDATE('account_url_tbl', $data_arr2);
+	}
 }
