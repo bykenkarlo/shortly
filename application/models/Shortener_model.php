@@ -819,4 +819,24 @@ class Shortener_model extends CI_Model {
 		$this->db->WHERE('secret_key', $old_data['secret_key'])
 			->UPDATE('account_url_tbl', $data_arr2);
 	}
+	public function disableMultipleURL() {
+		if (isset($this->session->admin)) {
+			$url_checkbox = $this->input->post('url_checkbox');
+			$url_data = $this->db->SELECT('short_url')->WHERE_IN('id',$url_checkbox)->GET('shortened_url_tbl')->result_array();
+			$data_arr = array(
+				'status'=>'disabled'
+			);
+			$this->db->WHERE_IN('id', $url_checkbox)
+				->UPDATE('shortened_url_tbl', $data_arr);
+	
+			// foreach($url_data as $ud){
+			// 	$this->db->WHERE_IN('url_param', $ud['short_url'])
+			// 		->DELETE('statistics_tbl');
+			// }
+	
+			$data['status'] = 'success';
+			$data['message'] = 'URls has been disabled!';
+			return $data;
+		}
+	}
 }

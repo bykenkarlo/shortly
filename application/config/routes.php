@@ -150,6 +150,7 @@ $route['api/v1/shortener/_save_email_address'] = 'Account/saveEmailAddress';
 $route['api/v1/shortener/_delete_url'] = 'Shortener/deleteURL';
 $route['api/v1/shortener/_blocklist_url'] = 'Shortener/blocklistURL';
 $route['api/v1/shortener/_unblocklist_url'] = 'Shortener/unblocklistURL';
+$route['api/v1/shortener/_disable_multiple_url'] = 'Shortener/disableMultipleURL';
 $route['api/v1/account/_blocklist_url_list'] = 'Shortener/getBlocklistURL';
 $route['api/v1/shortener/_generate_new_secret_key'] = 'Shortener/generateNewSecretKey';
 

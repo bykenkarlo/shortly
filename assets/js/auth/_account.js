@@ -88,8 +88,8 @@ function _displayDataList(page_no, result, pagination, count){
 			string +='<tr>'
 				+'<td>'
                     +'<div class="form-check ">'
-                        +'<input type="checkbox" name="loan_checkbox[]" class="form-check-input loan-checkbox cursor-pointer " id="'+result[i].id+'" >'
-                        +'<label class="form-check-label" for="_tx_check_box">&nbsp;</label>'
+                        +'<input type="checkbox" name="url_checkbox[]" class="form-check-input url-checkbox cursor-pointer " id="'+result[i].id+'" >'
+                        +'<label class="form-check-label" for="_url_check_box">&nbsp;</label>'
                     +'</div>'
                 +'</td>'
 				+'<td><a target="_blank" href="'+result[i].short_url_stat+'">'+result[i].url_param+'</a></td>'
@@ -486,3 +486,78 @@ $('#_blocklist_url_pagination').on('click','a',function(e){
     var page_no = $(this).attr('data-ci-pagination-page');
     _getBlocklistUrlList(page_no, '', '');
 });
+$("#url_checklist").on('change', function() {
+	$('.url-checkbox').prop("checked", true);
+	if( !$(this).is(':checked') ){
+		$('.url-checkbox').prop("checked", false);
+		$("#disable_multiple_url_btn").removeAttr('hidden','hidden');
+	}
+	$("#disable_multiple_url_btn").removeAttr('hidden','hidden');
+})
+$("#disable_multiple_url_btn").on('click', function (){
+	page_no = $(this).attr('data-ci-pagination-page');
+	if( !$('input[name="url_checkbox[]"]').is(':checked')  ){
+		Swal.fire({
+			icon: 'warning',
+			title: 'Error!',
+			text: 'Select URLs to Disable!',
+		});
+		return false;
+	}
+	Swal.fire({
+		title: 'Disable Multiple Record?',
+	 	icon: 'warning',
+	 	text: 'Are you sure to disable this records?',
+		showCancelButton: true,
+		confirmButtonText: 'Yes, proceed!',
+	}).then((result) => {
+	  	if (result.isConfirmed) {
+	  		url_checkbox_arr = [];
+	  		$('input[name="url_checkbox[]"]').each(function() {
+		      if (jQuery(this).is(":checked")) {
+		        var id = this.id;
+		        url_checkbox_arr.push(id);
+		      }
+		    });
+
+			$("#disable_multiple_url_btn").attr('disabled','disabled').text('Processing....');
+	  		$.ajax({
+				url: base_url+'api/v1/shortener/_disable_multiple_url',
+				type: 'POST',
+				dataType: 'JSON',
+				data: {url_checkbox:url_checkbox_arr},
+				statusCode: {
+				403: function() {
+					  	_error403();
+					}
+				}
+			})
+			.done(function(res) {
+				if (res.data.status == 'success') {
+					Swal.fire({
+					  	icon: 'success',
+					  	title: 'Success!',
+					 	text: res.data.message,
+					})
+					keyword = ($("#_search").val() !== '' || !$("#_search").val()) ? $("#_search").val() : "";
+					_getUrlList(page_no, keyword, '')
+				}
+				else{
+					Swal.fire({
+					  	icon: 'error',
+					  	title: 'Error!',
+					 	text: res.data.message,
+					})
+					_csrfNonce();
+				}
+				$("#disable_multiple_url_btn").removeAttr('disabled','disabled').text('Disable URLs');
+
+			})
+			.fail(function() {
+				console.log("error");
+				$("#disable_multiple_url_btn").removeAttr('disabled').text('Disable URLs');
+				_csrfNonce();
+			})
+	  	} 
+	})
+})

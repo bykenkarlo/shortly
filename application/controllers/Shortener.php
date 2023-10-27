@@ -383,4 +383,9 @@ class Shortener extends CI_Controller {
         $data = $this->Shortener_model->generateNewSecretKey($new_secret_key);
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
+    public function disableMultipleURL(){
+        $data = $this->Shortener_model->disableMultipleURL();
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+    }
+    
 }

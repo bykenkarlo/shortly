@@ -27,6 +27,7 @@ class Account_model extends CI_Model {
                 $blocklisted_data = $this->db->WHERE('url',$q['long_url'])->GET('blocklisted_urls_tbl')->num_rows();
                 $blocklisted = ($blocklisted_data > 0) ? 'yes':'no';
                 $array = array(
+                    'id'=>$q['id'],
                     'url_param'=>$q['short_url'],
                     'short_url'=>base_url().$q['short_url'],
                     'short_url_stat'=>base_url('stat/').$q['short_url'],

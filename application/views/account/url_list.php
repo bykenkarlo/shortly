@@ -35,7 +35,8 @@
                                         <div class="col-lg-7 mt-2">
                                             <div class="mt-xl-0 text-end">
                                                 <button type="button" class="btn rounded btn-light mb-2" onclick="_getUrlList(1,'','')"><i class="uil-redo"></i> Refresh</button>
-                                                <button type="button" class="btn rounded btn-success mb-2" onclick="checkGoogleSafeBrowsingList()"><i class="uil-check"></i> Check Google Safebrowsing</button>
+                                                <!-- <button type="button" class="btn rounded btn-success mb-2" onclick="checkGoogleSafeBrowsingList()"><i class="uil-check"></i> Check Google Safebrowsing</button> -->
+                                                <button type="button" class="btn rounded btn-danger mb-2" id="disable_multiple_url_btn"><i class="uil-times-circle"></i> Disable URLs</button>
                                             </div>
                                         </div>  
                                     </div>
@@ -46,8 +47,8 @@
                                                 <tr>
                                                     <th style="width: 20px;">
                                                         <div class="form-check">
-                                                            <input type="checkbox" name="_loan_check_all" class="form-check-input cursor-pointer" id="_loan_check_all">
-                                                        <label class="form-check-label" for="_loan_check_all">&nbsp;</label>
+                                                            <input type="checkbox" name="url_checklist" class="form-check-input cursor-pointer" id="url_checklist">
+                                                        <label class="form-check-label" for="url_checklist">&nbsp;</label>
                                                         </div>
                                                     </th>
                                                     <th>Shortened URL</th>

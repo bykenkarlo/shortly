@@ -41,7 +41,7 @@ class Statistics_model extends CI_Model {
         $browser_stat = $this->getBrowserStat($date_range);
         $platform_stat = $this->getPlatformStat($date_range);
         $referer_stat = $this->getRefererStat($date_range);
-        $most_viewed_url = $this->getMostViewedUrlStat();
+        $most_viewed_url = $this->getMostViewedUrlStat($date_range);
 
         $data['site_visit'] = $site_visit;
         $data['link_created_stat'] = $link_created_stat;
@@ -59,32 +59,32 @@ class Statistics_model extends CI_Model {
         if($range == 'today') {
             $start_date = date('Y-m-d 00:00:00');
             $end_date = date('Y-m-d 23:59:59');
-            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+            $date_range = array('st.created_at >'=>$start_date, 'st.created_at <'=> $end_date);
         }
         else if($range == '7_days') {
             $start_date = date('Y-m-d 00:00:00', strtotime('-7 day', strtotime(date('Y-m-d 00:00:00'))));
             $end_date = date('Y-m-d 23:59:59');
-            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+            $date_range = array('st.created_at >'=>$start_date, 'st.created_at <'=> $end_date);
         }
 
         else if($range == '15_days') {
             $start_date = date('Y-m-d 00:00:00', strtotime('-15 day', strtotime(date('Y-m-d 00:00:00'))));
             $end_date = date('Y-m-d 23:59:59');
-            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+            $date_range = array('st.created_at >'=>$start_date, 'st.created_at <'=> $end_date);
         }
 
         else if($range == '1_month') {
             $start_date = date('Y-m-d 00:00:00', strtotime('-30 day', strtotime(date('Y-m-d 00:00:00'))));
             $end_date = date('Y-m-d 23:59:59');
-            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+            $date_range = array('st.created_at >'=>$start_date, 'st.created_at <'=> $end_date);
         }
         else if($range == '1_year') {
             $start_date = date('Y-m-d 00:00:00', strtotime('-365 day', strtotime(date('Y-m-d 00:00:00'))));
             $end_date = date('Y-m-d 23:59:59');
-            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+            $date_range = array('st.created_at >'=>$start_date, 'st.created_at <'=> $end_date);
         }
  
-        $most_viewed_url = $this->getMostViewedUrlStat();
+        $most_viewed_url = $this->getMostViewedUrlStat($date_range);
         $data['most_viewed_url'] = $most_viewed_url;
 
         return $data;
@@ -532,40 +532,7 @@ class Statistics_model extends CI_Model {
 		$data['referrer_statistics'] = $result;
 		return $data;
     }
-    public function getMostViewedUrlStat(){
-        $range = $this->input->get('range');
-        if($range == 'today') {
-            $start_date = date('Y-m-d 00:00:00');
-            $end_date = date('Y-m-d 23:59:59');
-            $date_range = array('st.created_at >'=>$start_date, 'st.created_at <'=> $end_date);
-        }
-        else if($range == '7_days') {
-            $start_date = date('Y-m-d 00:00:00', strtotime('-7 day', strtotime(date('Y-m-d 00:00:00'))));
-            $end_date = date('Y-m-d 23:59:59');
-            $date_range = array('st.created_at >'=>$start_date, 'st.created_at <'=> $end_date);
-        }
-
-        else if($range == '15_days') {
-            $start_date = date('Y-m-d 00:00:00', strtotime('-15 day', strtotime(date('Y-m-d 00:00:00'))));
-            $end_date = date('Y-m-d 23:59:59');
-            $date_range = array('st.created_at >'=>$start_date, 'st.created_at <'=> $end_date);
-        }
-
-        else if($range == '1_month') {
-            $start_date = date('Y-m-d 00:00:00', strtotime('-30 day', strtotime(date('Y-m-d 00:00:00'))));
-            $end_date = date('Y-m-d 23:59:59');
-            $date_range = array('st.created_at >'=>$start_date, 'st.created_at <'=> $end_date);
-        }
-        else if($range == '1_year') {
-            $start_date = date('Y-m-d 00:00:00', strtotime('-365 day', strtotime(date('Y-m-d 00:00:00'))));
-            $end_date = date('Y-m-d 23:59:59');
-            $date_range = array('st.created_at >'=>$start_date, 'st.created_at <'=> $end_date);
-        }
-
-        // $groupBy = 'country';
-		// $click_stat_data = $this->db->SELECT('count(country) as count, country')
-
-
+    public function getMostViewedUrlStat($date_range){
         $groupBy = 'url_param';
         $query = $this->db->SELECT('COUNT(url_param) as views, url_param')
             ->FROM('shortened_url_tbl as sut')

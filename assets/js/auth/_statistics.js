@@ -7,6 +7,7 @@ function _getWebsiteVisitsStatistics(range){
     platformStatChart(range)
     referrerStatChart(range)
     mostViewedURL(range)
+    $("#loader").removeAttr('hidden','hidden');
 }
 function mostViewedURL(range){
     let params = new URLSearchParams({'range':range});
@@ -359,6 +360,7 @@ const _mostViewedUrl = (most_viewed_url) => {
        +' </div>';
     }
     $("#_most_viewed_url_chart").html(string);
+    $("#loader").attr('hidden','hidden');
 }
 var browser_stat_chart;
 const _browserStatChart = (data) => {
