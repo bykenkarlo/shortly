@@ -9,6 +9,10 @@ function _getWebsiteVisitsStatistics(range){
     mostViewedURL(range)
     $("#loader").removeAttr('hidden','hidden');
 }
+function browserPlatformStat(range){
+    platformStatChart(range)
+    browserStatChart(range)
+}
 function mostViewedURL(range){
     let params = new URLSearchParams({'range':range});
     fetch(base_url+'api/v1/statistics/_get_most_viewed_link?' + params, {

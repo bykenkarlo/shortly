@@ -24,17 +24,26 @@
                                 <div class="card">
                                     <div class="card-body">
                                     <div class="row mb-2">
-                                        <div class="col-lg-5 mt-2">
-                                           <form class=" gy-2 gx-2 align-items-center justify-content-xl-start justify-content-between" id="_search_url_form">
-                                            <div class="col-auto">
-                                                <label for="_keyword" class="visually-hidden">Search</label>
-                                                <input type="search" class="form-control" name="search" id="_search" placeholder="URL parameter, website. etc.">
-                                            </div>
+                                        <div class="col-lg-4 mt-2">
+                                            <form class=" gy-2 gx-2 align-items-center justify-content-xl-start justify-content-between" id="_search_url_form">
+                                                <div class="col-auto">
+                                                    <label for="_keyword" class="visually-hidden">Search</label>
+                                                    <input type="search" class="form-control" name="search" id="_search" placeholder="URL parameter, website. etc.">
+                                                </div>
                                             </form>  
                                         </div>
-                                        <div class="col-lg-7 mt-2">
+                                        <div class="col-lg-2 mt-2">
+                                            <select name="row-num" id="row_num" class="form-select">
+                                                <option value="10" selected>10</option>
+                                                <option value="20">20</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                                <option value="all">All</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-6 mt-2">
                                             <div class="mt-xl-0 text-end">
-                                                <button type="button" class="btn rounded btn-light mb-2" onclick="_getUrlList(1,'','')"><i class="uil-redo"></i> Refresh</button>
+                                                <button type="button" class="btn rounded btn-light mb-2" onclick="refreshURLList()"><i class="uil-redo"></i> Refresh</button>
                                                 <!-- <button type="button" class="btn rounded btn-success mb-2" onclick="checkGoogleSafeBrowsingList()"><i class="uil-check"></i> Check Google Safebrowsing</button> -->
                                                 <button type="button" class="btn rounded btn-danger mb-2" id="disable_multiple_url_btn"><i class="uil-times-circle"></i> Disable URLs</button>
                                             </div>
@@ -53,6 +62,7 @@
                                                     </th>
                                                     <th>Shortened URL</th>
                                                     <th width="350">Long URL</th>
+                                                    <th>User</th>
                                                     <th>Click Count</th>
                                                     <th>Status</th>
                                                     <th>Date Created</th>

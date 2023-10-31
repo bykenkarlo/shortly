@@ -6,18 +6,22 @@ class Account_model extends CI_Model {
         if (isset($this->session->admin)) {
             $search = $this->input->get('search');
             if(empty($search) || $search == ''){
-                $query = $this->db->SELECT('sut.*')
+                $query = $this->db->SELECT('sut.*, ut.username')
                  ->FROM('shortened_url_tbl as sut')
+                 ->JOIN('account_url_tbl as aut', 'aut.url_param=sut.short_url', 'left')
+                 ->JOIN('users_tbl as ut', 'ut.secret_key=aut.secret_key', 'left')
                  ->LIMIT($row_per_page, $row_no)
-                 ->ORDER_BY('created_at','desc')
+                 ->ORDER_BY('sut.created_at','desc')
                  ->GET()->result_array();
             }
             else{
                 $query = $this->db->SELECT('sut.*')
                  ->FROM('shortened_url_tbl as sut')
+                 ->JOIN('account_url_tbl as aut', 'aut.url_param=sut.short_url', 'left')
+                 ->JOIN('users_tbl as ut', 'ut.secret_key=aut.secret_key', 'left')
                  ->WHERE("(sut.short_url LIKE '%".$search."%' OR sut.long_url LIKE '%".$search."%')", NULL, FALSE)
                  ->LIMIT($row_per_page, $row_no)
-                 ->ORDER_BY('created_at','desc')
+                 ->ORDER_BY('sut.created_at','desc')
                  ->GET()->result_array();
             }
             $result = array();
@@ -26,8 +30,10 @@ class Account_model extends CI_Model {
                 $click_count = $this->db->WHERE('url_param',$q['short_url'])->GET('statistics_tbl')->num_rows();
                 $blocklisted_data = $this->db->WHERE('url',$q['long_url'])->GET('blocklisted_urls_tbl')->num_rows();
                 $blocklisted = ($blocklisted_data > 0) ? 'yes':'no';
+                $username = (!empty($q['username'])) ?  $q['username'] : 'N/A' ;
                 $array = array(
                     'id'=>$q['id'],
+                    'username'=>$username,
                     'url_param'=>$q['short_url'],
                     'short_url'=>base_url().$q['short_url'],
                     'short_url_stat'=>base_url('stat/').$q['short_url'],
@@ -48,15 +54,17 @@ class Account_model extends CI_Model {
 
             $search = $this->input->get('search');
             if(empty($search) || $search == ''){
-                $query = $this->db
-                    ->ORDER_BY('created_at','desc')
-                    ->GET('shortened_url_tbl as sut')->num_rows();
+                $query = $this->db->FROM('shortened_url_tbl as sut')
+                 ->JOIN('account_url_tbl as aut', 'aut.url_param=sut.short_url', 'left')
+                 ->JOIN('users_tbl as ut', 'ut.secret_key=aut.secret_key', 'left')
+                 ->GET()->num_rows();
             }
             else{
-                $query = $this->db
-                    ->WHERE("(sut.short_url LIKE '%".$search."%' OR sut.long_url LIKE '%".$search."%')", NULL, FALSE)
-                    ->ORDER_BY('created_at','desc')
-                    ->GET('shortened_url_tbl as sut')->num_rows();
+                $query = $this->db->FROM('shortened_url_tbl as sut')
+                 ->JOIN('account_url_tbl as aut', 'aut.url_param=sut.short_url', 'left')
+                 ->JOIN('users_tbl as ut', 'ut.secret_key=aut.secret_key', 'left')
+                 ->WHERE("(sut.short_url LIKE '%".$search."%' OR sut.long_url LIKE '%".$search."%')", NULL, FALSE)
+                 ->GET()->num_rows();
             }
             return $query;
         }

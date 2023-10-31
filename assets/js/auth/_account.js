@@ -1,16 +1,27 @@
 if (_state == 'url_list'){
-    _getUrlList(1, '', '')
+    _getUrlList(1, '', 10, '')
     _getBlocklistUrlList(1, '', '')
 }
 else if(_state == 'users_list'){
     _getUsersList(1, '', '')
 }
+$("#row_num").on('change', function(){
+	page_no = 1;
+	keyword = ($("#_search").val() !== '' || !$("#_search").val()) ? $("#_search").val() : "";
+	row_num = $(this).val();
+	_getUrlList(page_no, keyword, row_num, '');
+});
 $("#_search_url_form").on('submit', function(e){
 	e.preventDefault();
 	page_no = 1;
 	keyword = ($("#_search").val() !== '' || !$("#_search").val()) ? $("#_search").val() : "";
-	_getUrlList(page_no, keyword, '');
+	row_num = $("#row_num").val();
+	_getUrlList(page_no, keyword, row_num, '');
 })
+function refreshURLList(){
+	$("#_search").val('');
+	_getUrlList(1,'', 10, '');
+}
 function checkGoogleSafeBrowsingList(){
 	let api_key =  "AIzaSyCm_T4r1vS1qL-db7RKqjc22xg9OaYo-a8"; 
 	let googleURL = "https://safebrowsing.googleapis.com/v4/threatLists?key="+api_key;
@@ -28,9 +39,9 @@ function checkGoogleSafeBrowsingList(){
 		  console.error('Error:', error);
 	});
 }
-function _getUrlList(page_no, search, opt_status){
+function _getUrlList(page_no, search, row_num, opt_status){
 	$("#_url_tbl").html("<tr class='text-center'><td colspan='7'>Loading data...</td></tr>");
-	let params = new URLSearchParams({'page_no':page_no, 'search':search});
+	let params = new URLSearchParams({'page_no':page_no, 'search':search, 'row_num':row_num});
 	fetch(base_url+'api/v1/account/_url_list?' + params, {
   		method: "GET",
 		  	headers: {
@@ -40,22 +51,24 @@ function _getUrlList(page_no, search, opt_status){
 	})
 	.then(response => response.json())
 	.then(res => {
-		_displayDataList(page_no, res.data.result, res.data.pagination, res.data.count);
+		_displayDataList(page_no, res.data.result, res.data.pagination, res.data.count, row_num);
 	})
 	.catch((error) => {
 		$("#_url_tbl").html("<tr class='text-center'><td colspan='7'>No record found!</td></tr>");
 		console.error('Error:', error);
-		_getUrlList(1,'','');
+		row_num = $("#row_num").val();
 	});
 }
-function _displayDataList(page_no, result, pagination, count){
+function _displayDataList(page_no, result, pagination, count, row_num){
 	string ='';
 	url_status = '';
 	url_status_text = '';
 	stat_btn_bg = "";
 	blocklisted = "";
 	url_status = "";
+	username = "";
 	to_change_stat = "";
+	user_link = "";
 	func = "";
 	$('#_url_pagination').html(pagination);
 	$('#_url_count').text('Total count: '+count);
@@ -84,7 +97,11 @@ function _displayDataList(page_no, result, pagination, count){
 				func = "changeStats";
 				first_param = result[i].url_param;
 			}
-			
+			username = result[i].username;
+			user_link = '<a href="'+base_url+'logged/user/'+result[i].username+'" target="_blank" rel="noopener">'+result[i].username+'</a>';
+			if(username == 'N/A'){
+				user_link = "N/A";
+			}
 			string +='<tr>'
 				+'<td>'
                     +'<div class="form-check ">'
@@ -94,6 +111,7 @@ function _displayDataList(page_no, result, pagination, count){
                 +'</td>'
 				+'<td><a target="_blank" href="'+result[i].short_url_stat+'">'+result[i].url_param+'</a></td>'
 				+'<td>'+result[i].long_url+'</td>'
+				+'<td>'+user_link+'</td>'
 				+'<td>'+result[i].click_count+'</td>'
 				+'<td>'
 					+'<div class="dropdown font-10"">'
@@ -132,7 +150,8 @@ $('#_url_pagination').on('click','a',function(e){
     var page_no = $(this).attr('data-ci-pagination-page');
 	opt_status = $('#_select_status').val();
 	search = $("#_search").val();
-    _getUrlList(page_no, search, opt_status);
+	row_num = $("#row_num").val();
+    _getUrlList(page_no, search, row_num, opt_status);
 });
 
 
@@ -151,7 +170,9 @@ const changeStats = (url_param,status, page_no) => {
 	.done( (res) => {
 		if (res.data.status == 'success') {
 			search = $("#_search").val();
-            _getUrlList(page_no, search, '')
+			row_num = $("#row_num").val();
+
+            _getUrlList(page_no, search, row_num, '')
 		}
 		else{
 			Swal.fire({
@@ -289,7 +310,8 @@ function deleteURL(url_param,page_no){
 				else{
 					Swal.fire('Error!', 'Something went wrong! Please Try again!', 'error');
 				}
-				_getUrlList(page_no,'','');
+				row_num = $("#row_num").val();
+				_getUrlList(page_no,'', row_num, '');
 				_csrfNonce();
 
 			})
@@ -495,7 +517,6 @@ $("#url_checklist").on('change', function() {
 	$("#disable_multiple_url_btn").removeAttr('hidden','hidden');
 })
 $("#disable_multiple_url_btn").on('click', function (){
-	page_no = $(this).attr('data-ci-pagination-page');
 	if( !$('input[name="url_checkbox[]"]').is(':checked')  ){
 		Swal.fire({
 			icon: 'warning',
@@ -534,13 +555,17 @@ $("#disable_multiple_url_btn").on('click', function (){
 			})
 			.done(function(res) {
 				if (res.data.status == 'success') {
+					$('.url-checkbox').prop("checked", false)
+					$("#url_checklist").prop("checked", false)
 					Swal.fire({
 					  	icon: 'success',
 					  	title: 'Success!',
 					 	text: res.data.message,
 					})
+					page_no = $("#_url_pagination").attr('data-ci-pagination-page');
 					keyword = ($("#_search").val() !== '' || !$("#_search").val()) ? $("#_search").val() : "";
-					_getUrlList(page_no, keyword, '')
+					row_num = $("#row_num").val();
+					_getUrlList(page_no, keyword, row_num, '')
 				}
 				else{
 					Swal.fire({

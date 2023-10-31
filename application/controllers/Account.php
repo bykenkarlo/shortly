@@ -16,7 +16,17 @@ class Account extends CI_Controller {
     public function getURLList() {
 		$row_no = $this->input->get('page_no');
         // Row per page
-        $row_per_page = 10;
+        $row_num = $this->input->get('row_num');
+        if($row_num == 'all'){
+            $row_per_page = 500;    
+        }
+        else if ($row_num != 10){
+            $row_per_page = $row_num;
+        }
+        else {
+            $row_per_page = 10;
+        }
+        
         // Row position
         if($row_no != 0){
             $row_no = ($row_no-1) * $row_per_page;

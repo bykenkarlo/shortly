@@ -47,15 +47,15 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="dropdown float-end">
-                                            <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <a href="#website_visit_stat" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="mdi mdi-dots-vertical"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-end">
-                                                <a class="dropdown-item" onclick="_getWebsiteVisitsStatistics('today')" href="#">Today</a>
-                                                <a class="dropdown-item" onclick="_getWebsiteVisitsStatistics('7_days')" href="#">Last 7 days</a>
-                                                <a class="dropdown-item " onclick="_getWebsiteVisitsStatistics('15_days')" href="#">Last 15 days</a>
-                                                <a class="dropdown-item" onclick="_getWebsiteVisitsStatistics('1_month')" href="#">Last 30 days</a>
-                                                <a class="dropdown-item" onclick="_getWebsiteVisitsStatistics('1_year')" href="#">1 year</a>
+                                                <a class="dropdown-item" onclick="getSiteVisits('today')" href="#website_visit_stat">Today</a>
+                                                <a class="dropdown-item" onclick="getSiteVisits('7_days')" href="#website_visit_stat">Last 7 days</a>
+                                                <a class="dropdown-item" onclick="getSiteVisits('15_days')" href="#website_visit_stat">Last 15 days</a>
+                                                <a class="dropdown-item" onclick="getSiteVisits('1_month')" href="#website_visit_stat">Last 30 days</a>
+                                                <a class="dropdown-item" onclick="getSiteVisits('1_year')" href="#website_visit_stat">1 year</a>
                                             </div>
                                         </div>
                                           <h1 class="card-title mb-3">Website Visitors Overview</h1>
@@ -68,15 +68,15 @@
                                 <div class="card mt-2">
                                     <div class="card-body">
                                         <div class="dropdown float-end">
-                                            <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <a href="#link_created_stat" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="mdi mdi-dots-vertical"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-end">
-                                                <a class="dropdown-item" onclick="_getWebsiteVisitsStatistics('today')" href="#">Today</a>
-                                                <a class="dropdown-item" onclick="_getWebsiteVisitsStatistics('7_days')" href="#">Last 7 days</a>
-                                                <a class="dropdown-item " onclick="_getWebsiteVisitsStatistics('15_days')" href="#">Last 15 days</a>
-                                                <a class="dropdown-item" onclick="_getWebsiteVisitsStatistics('1_month')" href="#">Last 30 days</a>
-                                                <a class="dropdown-item" onclick="_getWebsiteVisitsStatistics('1_year')" href="#">1 year</a>
+                                                <a class="dropdown-item" onclick="linkCreatedChart('today')" href="#link_created_stat">Today</a>
+                                                <a class="dropdown-item" onclick="linkCreatedChart('7_days')" href="#link_created_stat">Last 7 days</a>
+                                                <a class="dropdown-item" onclick="linkCreatedChart('15_days')" href="#link_created_stat">Last 15 days</a>
+                                                <a class="dropdown-item" onclick="linkCreatedChart('1_month')" href="#link_created_stat">Last 30 days</a>
+                                                <a class="dropdown-item" onclick="linkCreatedChart('1_year')" href="#link_created_stat">1 year</a>
                                             </div>
                                         </div>
                                           <h1 class="card-title mb-3">Link Created Overview</h1>
@@ -89,15 +89,15 @@
                                 <div class="card mt-2">
                                     <div class="card-body">
                                         <div class="dropdown float-end">
-                                            <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <a href="#link_click_stat" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="mdi mdi-dots-vertical"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-end">
-                                                <a class="dropdown-item" onclick="_getWebsiteVisitsStatistics('today')" href="#">Today</a>
-                                                <a class="dropdown-item" onclick="_getWebsiteVisitsStatistics('7_days')" href="#">Last 7 days</a>
-                                                <a class="dropdown-item " onclick="_getWebsiteVisitsStatistics('15_days')" href="#">Last 15 days</a>
-                                                <a class="dropdown-item" onclick="_getWebsiteVisitsStatistics('1_month')" href="#">Last 30 days</a>
-                                                <a class="dropdown-item" onclick="_getWebsiteVisitsStatistics('1_year')" href="#">1 year</a>
+                                                <a class="dropdown-item" onclick="linkCountChart('today')" href="#link_click_stat">Today</a>
+                                                <a class="dropdown-item" onclick="linkCountChart('7_days')" href="#"link_click_stat>Last 7 days</a>
+                                                <a class="dropdown-item" onclick="linkCountChart('15_days')" href="#link_click_stat">Last 15 days</a>
+                                                <a class="dropdown-item" onclick="linkCountChart('1_month')" href="#link_click_stat">Last 30 days</a>
+                                                <a class="dropdown-item" onclick="linkCountChart('1_year')" href="#link_click_stat">1 year</a>
                                             </div>
                                         </div>
                                           <h1 class="card-title mb-3">Link Clicks Overview</h1>
@@ -110,15 +110,15 @@
                                 <div class="card mt-2">
                                     <div class="card-body">
                                         <div class="dropdown float-end">
-                                            <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <a href="#location_stat" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="mdi mdi-dots-vertical"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-end">
-                                                <a class="dropdown-item" onclick="_getWebsiteVisitsStatistics('today')" href="#">Today</a>
-                                                <a class="dropdown-item" onclick="_getWebsiteVisitsStatistics('7_days')" href="#">Last 7 days</a>
-                                                <a class="dropdown-item " onclick="_getWebsiteVisitsStatistics('15_days')" href="#">Last 15 days</a>
-                                                <a class="dropdown-item" onclick="_getWebsiteVisitsStatistics('1_month')" href="#">Last 30 days</a>
-                                                <a class="dropdown-item" onclick="_getWebsiteVisitsStatistics('1_year')" href="#">1 year</a>
+                                                <a class="dropdown-item" onclick="locationChart('today')" href="#location_stat">Today</a>
+                                                <a class="dropdown-item" onclick="locationChart('7_days')" href="#location_stat">Last 7 days</a>
+                                                <a class="dropdown-item " onclick="locationChart('15_days')" href="#location_stat">Last 15 days</a>
+                                                <a class="dropdown-item" onclick="locationChart('1_month')" href="#location_stat">Last 30 days</a>
+                                                <a class="dropdown-item" onclick="locationChart('1_year')" href="#location_stat">1 year</a>
                                             </div>
                                         </div>
                                           <h1 class="card-title mb-3">Location</h1>
@@ -132,15 +132,15 @@
                                 <div class="card mt-2">
                                     <div class="card-body">
                                         <div class="dropdown float-end">
-                                            <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <a href="#most_viewed_url_stat" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="mdi mdi-dots-vertical"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-end">
-                                                <a class="dropdown-item" onclick="_getWebsiteVisitsStatistics('today')" href="#">Today</a>
-                                                <a class="dropdown-item" onclick="_getWebsiteVisitsStatistics('7_days')" href="#">Last 7 days</a>
-                                                <a class="dropdown-item " onclick="_getWebsiteVisitsStatistics('15_days')" href="#">Last 15 days</a>
-                                                <a class="dropdown-item" onclick="_getWebsiteVisitsStatistics('1_month')" href="#">Last 30 days</a>
-                                                <a class="dropdown-item" onclick="_getWebsiteVisitsStatistics('1_year')" href="#">1 year</a>
+                                                <a class="dropdown-item" onclick="mostViewedURL('today')" href="#most_viewed_url_stat">Today</a>
+                                                <a class="dropdown-item" onclick="mostViewedURL('7_days')" href="#most_viewed_url_stat">Last 7 days</a>
+                                                <a class="dropdown-item" onclick="mostViewedURL('15_days')" href="#most_viewed_url_stat">Last 15 days</a>
+                                                <a class="dropdown-item" onclick="mostViewedURL('1_month')" href="#most_viewed_url_stat">Last 30 days</a>
+                                                <a class="dropdown-item" onclick="mostViewedURL('1_year')" href="#most_viewed_url_stat">1 year</a>
                                             </div>
                                         </div>
                                           <h1 class="card-title mb-3">Most Viewed URL</h1>
@@ -153,6 +153,18 @@
 
                                 <div class="card card-services-highlights mt-2 c-gray">
                                     <div class="card-body">
+                                        <div class="dropdown float-end">
+                                            <a href="#browser_platform_stat" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="mdi mdi-dots-vertical"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <a class="dropdown-item" onclick="browserPlatformStat('today')" href="#browser_platform_stat">Today</a>
+                                                <a class="dropdown-item" onclick="browserPlatformStat('7_days')" href="#browser_platform_stat">Last 7 days</a>
+                                                <a class="dropdown-item" onclick="browserPlatformStat('15_days')" href="#browser_platform_stat">Last 15 days</a>
+                                                <a class="dropdown-item" onclick="browserPlatformStat('1_month')" href="#browser_platform_stat">Last 30 days</a>
+                                                <a class="dropdown-item" onclick="browserPlatformStat('1_year')" href="#browser_platform_stat">1 year</a>
+                                            </div>
+                                        </div>
                                         <div class="row">
                                             <div class="col-lg-6 mb-2 mt-2">
                                             <h4 class="card-title mb-3" id="_browser_title">Browser</h4>
