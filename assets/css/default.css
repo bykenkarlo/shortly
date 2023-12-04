@@ -1134,7 +1134,7 @@ input[type=number] {
     height: 42px !important;
   }
   .home-logo{
-    display: show;
+    visibility: visible;
     z-index: 999 !important;
   }
   .home-logo img{
@@ -1177,7 +1177,7 @@ input[type=number] {
     background-size: 100% 100%;
   }
   #web-view{
-    display: show;
+    visibility: visible;
   }
   #mobile-view{
     display: none;
@@ -1354,10 +1354,10 @@ input[type=number] {
     margin-top: -210px !important;
   }
   .mobile-view{
-    display: show;
+    visibility: visible;
   }
   #mobile-view{
-    display: show;
+    visibility: visible;
   }
   .web-view{
     display: none;
@@ -1485,10 +1485,10 @@ input[type=number] {
     height: 20px;
   }
   #mobile-view{
-    display: show;
+    visibility: visible;
   }
   .mobile-view{
-    display: show;
+    visibility: visible;
   }
 }
 @media only screen and (max-width: 385px) {

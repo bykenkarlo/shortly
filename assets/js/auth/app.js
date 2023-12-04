@@ -1,3 +1,6 @@
+if(_state == 'account_dashboard'){
+    getURLs();
+}
 $("#_copy_secret").on('click', function(){
     $("#secret_key").attr('type','text');
     $("#show_secret").attr('hidden','hidden');
@@ -1189,7 +1192,8 @@ $("#_registration_form").on('submit', function(e) {
 })
 
 
-const getURLs = () => {
+function getURLs(){
+    $("#loader").removeAttr('hidden','hidden')
 	fetch(base_url+'api/v1/account/_get_urls?', {
   		method: "GET",
 		  	headers: {
@@ -1268,9 +1272,7 @@ const _getURLData = (url_param) => { // fetch latest shortened url to top
 		console.error('Error:', error);
 	});
 }
-if(_state == 'account_dashboard'){
-    getURLs();
-}
+
 $("#_su_sort_by_date").on('click', () => {
     $("#loader").removeAttr('hidden','hidden');
     _url_param = $("#_su_sort_by_date").attr('data-param');

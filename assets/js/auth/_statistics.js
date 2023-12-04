@@ -1,4 +1,5 @@
 function _getWebsiteVisitsStatistics(range){
+    mostViewedURL(range)
     getSiteVisits(range)
     linkCreatedChart(range)
     browserStatChart(range)
@@ -6,8 +7,6 @@ function _getWebsiteVisitsStatistics(range){
     locationChart(range)
     platformStatChart(range)
     referrerStatChart(range)
-    mostViewedURL(range)
-    $("#loader").removeAttr('hidden','hidden');
 }
 function browserPlatformStat(range){
     platformStatChart(range)

@@ -142,45 +142,8 @@ class Shortener_model extends CI_Model {
 	public function recordUserClick($url_param) {
 		$browser = $this->agent->browser();
 		$platform = $this->agent->platform();
-
 		if($this->session->click_session !== $url_param && !empty($browser) && $platform !== 'Unknown Platform'){
-			if(isset($_SERVER['HTTP_REFERER'])) {
-				$referrer = $_SERVER['HTTP_REFERER'];
-				if (strpos($referrer, 'facebook') !== false || strpos($referrer, 'fb') !== false) { 
-					$referrer = 'https://facebook.com/';
-				}
-				else if (strpos($referrer, 'messenger.com') !== false || strpos($referrer, 'm.me') !== false) { 
-					$referrer = 'https://messenger.com/';
-				}
-				else if (strpos($referrer, 'youtube') !== false) { 
-					$referrer = 'https://youtube.com/';
-				}
-				else if (strpos($referrer, 'twitter') !== false || strpos($referrer, 't.co') !== false) { 
-					$referrer = 'https://twitter.com/';
-				}
-				else if (strpos($referrer, 'github') !== false) { 
-					$referrer = 'https://github.com/';
-				}
-				else if (strpos($referrer, 'linkedin') !== false) { 
-					$referrer = 'https://linkedin.com/';
-				}
-				else if (strpos($referrer, 'google') !== false) { 
-					$referrer = 'https://google.com/';
-				}
-				else if (strpos($referrer, 'mail.google.com') !== false) { 
-					$referrer = 'https://gmail.google.com/';
-				}
-				else if (strpos($referrer, 'protonmail.com') !== false) { 
-					$referrer = 'https://protonmail.com/';
-				}
-				else if (strpos($referrer, 'shortly.at') !== false) { 
-					$referrer = '';
-				}
-			}
-			else {
-				$referrer = '';
-			}
-
+			$referrer = $this->getReferrer();
 			$click_id = $this->generateClickID();
 			$location = $this->getLocationData();
 			$data_arr = array(
@@ -197,6 +160,46 @@ class Shortener_model extends CI_Model {
 			$this->session->set_tempdata('click_session', $url_param, 86400); /* set session visitor views for 24 hours then reset after */
 		}
 	}
+	public function getReferrer(){
+		if(isset($_SERVER['HTTP_REFERER'])) {
+			$referrer = $_SERVER['HTTP_REFERER'];
+			if (strpos($referrer, 'facebook') !== false || strpos($referrer, 'fb') !== false) { 
+				$referrer = 'https://facebook.com/';
+			}
+			else if (strpos($referrer, 'messenger.com') !== false || strpos($referrer, 'm.me') !== false) { 
+				$referrer = 'https://messenger.com/';
+			}
+			else if (strpos($referrer, 'youtube') !== false) { 
+				$referrer = 'https://youtube.com/';
+			}
+			else if (strpos($referrer, 'twitter') !== false || strpos($referrer, 't.co') !== false) { 
+				$referrer = 'https://twitter.com/';
+			}
+			else if (strpos($referrer, 'github') !== false) { 
+				$referrer = 'https://github.com/';
+			}
+			else if (strpos($referrer, 'linkedin') !== false) { 
+				$referrer = 'https://linkedin.com/';
+			}
+			else if (strpos($referrer, 'google') !== false) { 
+				$referrer = 'https://google.com/';
+			}
+			else if (strpos($referrer, 'mail.google.com') !== false) { 
+				$referrer = 'https://gmail.google.com/';
+			}
+			else if (strpos($referrer, 'protonmail.com') !== false) { 
+				$referrer = 'https://protonmail.com/';
+			}
+			else if (strpos($referrer, 'shortly.at') !== false) { 
+				$referrer = '';
+			}
+		}
+		else {
+			$referrer = '';
+		}
+		return $referrer;
+
+	}
 	public function generateClickID ($length = 32) {
         $click_id = sprintf( '%04x-%04x-%04x-%04x%04x',
             mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
@@ -205,12 +208,17 @@ class Shortener_model extends CI_Model {
             mt_rand( 0, 0x3fff ) | 0x8000,
             mt_rand( 0, 0x2Aff ), mt_rand( 0, 0xffD3 ), mt_rand( 0, 0xff4B )
         );
-        $check = $this->db->WHERE('click_id',$click_id)->GET('statistics_tbl')->num_rows();
+        $check = $this->db->WHERE('click_id', $click_id)->GET('statistics_tbl')->num_rows();
         if ($check > 0) {
             $this->generateClickID();
         }
         else{
-           return $click_id;
+           if(!empty($click_id)){
+				return $click_id;
+		   }
+		   else{
+        		$this->generateClickID();
+		   }
         }
     }
 	public function getClickStat() {
@@ -393,21 +401,23 @@ class Shortener_model extends CI_Model {
 	}
 	public function getLocationData(){
 		$ip_address = $this->input->ip_address();
-		// check if server is localhost
-		if (strpos(base_url(), 'localhost') !== false) { 
-			$ip_address = '143.44.165.74';
-		}
-		// USING IPLIST.CC
-		// $ip_data = json_decode(file_get_contents('https://iplist.cc/api/'.$ip_address));
-		// $data['country'] = $ip_data->countryname; 
-		// $data['city'] = ''; 
+		$data['country'] = "Philippines";
+		$data['city'] = "Cebu City";
 
-		// USING IPREGISTRY.CO
-		$api_key = '9l95z2g9mmc4dv2w';
-		$url = 'https://api.ipregistry.co/'.$ip_address.'?key='.$api_key;
-		$ip_data = json_decode(file_get_contents($url));
-		$data['country'] = $ip_data->location->country->name;
-		$data['city'] = $ip_data->location->city;
+		// check if server is localhost
+		if (strpos(base_url(), 'localhost') !== false && !$this->agent->is_robot()) { 
+			$ip_address = '143.44.165.74';
+			$data['country'] = "Philippines";
+			$data['city'] = "Cebu City";
+		}
+		else if(!$this->agent->is_robot()){
+			// USING IPREGISTRY.CO
+			$api_key = 'sx14nleqy6nz6zrf';
+			$url = 'https://api.ipregistry.co/'.$ip_address.'?key='.$api_key;
+			$ip_data = json_decode(file_get_contents($url));
+			$data['country'] = $ip_data->location->country->name;
+			$data['city'] = $ip_data->location->city;
+		}
 
 		return $data;
 	}

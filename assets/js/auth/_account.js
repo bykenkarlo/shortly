@@ -40,7 +40,7 @@ function checkGoogleSafeBrowsingList(){
 	});
 }
 function _getUrlList(page_no, search, row_num, opt_status){
-	$("#_url_tbl").html("<tr class='text-center'><td colspan='7'>Loading data...</td></tr>");
+	$("#_url_tbl").html("<tr class='text-center'><td colspan='8'>Loading data...</td></tr>");
 	let params = new URLSearchParams({'page_no':page_no, 'search':search, 'row_num':row_num});
 	fetch(base_url+'api/v1/account/_url_list?' + params, {
   		method: "GET",
@@ -54,7 +54,7 @@ function _getUrlList(page_no, search, row_num, opt_status){
 		_displayDataList(page_no, res.data.result, res.data.pagination, res.data.count, row_num);
 	})
 	.catch((error) => {
-		$("#_url_tbl").html("<tr class='text-center'><td colspan='7'>No record found!</td></tr>");
+		$("#_url_tbl").html("<tr class='text-center'><td colspan='8'>Error occurs! Refresh the page and try again!</td></tr>");
 		console.error('Error:', error);
 		row_num = $("#row_num").val();
 	});
@@ -109,7 +109,7 @@ function _displayDataList(page_no, result, pagination, count, row_num){
                         +'<label class="form-check-label" for="_url_check_box">&nbsp;</label>'
                     +'</div>'
                 +'</td>'
-				+'<td><a target="_blank" href="'+result[i].short_url_stat+'">'+result[i].url_param+'</a></td>'
+				+'<td><a target="_blank" href="'+base_url+'stat/'+result[i].url_param+'">'+result[i].url_param+'</a></td>'
 				+'<td>'+result[i].long_url+'</td>'
 				+'<td>'+user_link+'</td>'
 				+'<td>'+result[i].click_count+'</td>'
@@ -142,7 +142,7 @@ function _displayDataList(page_no, result, pagination, count, row_num){
 		$('#_url_tbl').html(string);
 	}
 	else{
-		$("#_url_tbl").html("<tr class='text-center'><td colspan='7'>No records found!</td></tr>");
+		$("#_url_tbl").html("<tr class='text-center'><td colspan='8'>Error occurs! Refresh the page and try again!</td></tr>");
 	}
 }
 $('#_url_pagination').on('click','a',function(e){

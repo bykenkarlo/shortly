@@ -8,9 +8,10 @@ class App extends CI_Controller {
         parent::__construct();
         $this->load->model('Site_settings_model');
         $this->load->model('Csrf_model');
+        $this->load->library('user_agent');
     }
     public function index(){
-        $this->output->cache(1); // cache for xxx
+        $this->output->cache(2); // cache for xxx
         $data['siteSetting'] = $this->Site_settings_model->siteSettings();
         $data['social_media'] = $this->Site_settings_model->getSocialMedias();
         $data['title'] = 'index';

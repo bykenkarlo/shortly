@@ -54,7 +54,7 @@
 						<!-- <h3 class="font-16 footer-title">Products</h3> -->
 						<ul class="no-list-style ml-n-3 footer-text">
 							<li><a class="cursor-pointer" onclick="_accessPage('')">Link Shortener</a></li>
-							<li><a class="cursor-pointer" onclick="_accessPage('qr-code-generator')">QR Code Generator</a></li>
+							<li>Donate: <i class="uil-bitcoin"></i> <a href="bitcoin:bc1qsuryfjq5c2sfcnu4nxcqamgjvr2u83zha205lp" class="cursor-pointer" >bc1qsuryfjq5c2sfcnu4nxcqamgjvr2u83zha205lp</a></li>
 						</ul>
 					</div>	
 
