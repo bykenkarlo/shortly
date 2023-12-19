@@ -21,7 +21,8 @@ class Shortener extends CI_Controller {
     public function processUrl() {
         $check_blocklist = $this->Shortener_model->checkBlocklistSites();
         $check_url_shortener = $this->Shortener_model->checkURLShortenerSites();
-        if($check_blocklist > 0){
+        $check_spam_url = $this->Shortener_model->checkSpamURL();
+        if(!empty($check_blocklist)){
             $response['status'] = 'error';
             $response['title'] = "Blocked URL!";
             $response['message'] = "This URL is was reported and considered as malicious, abusive and is blocklisted! Contact us if you think this is a mistake!";
@@ -30,6 +31,11 @@ class Shortener extends CI_Controller {
             $response['status'] = 'error';
             $response['title'] = "Short URL Detected!";
             $response['message'] = "The URL uses a URL Shortener! Read our Terms for more information!";
+        }
+        else if(!empty($check_spam_url)){
+            $response['status'] = 'error';
+            $response['title'] = "Spam URL Detected!";
+            $response['message'] = "The URL is considered as Spam! Contact us if you think this is a mistake!";
         }
         else{
             $response = $this->Shortener_model->processUrl();

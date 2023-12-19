@@ -41,11 +41,14 @@
                                                 <option value="all">All</option>
                                             </select>
                                         </div>
-                                        <div class="col-lg-6 mt-2">
+                                        <div class="col-lg-1 mt-2">
+                                            <input type="number" class="form-control">
+                                        </div>
+                                        <div class="col-lg-5 mt-2">
                                             <div class="mt-xl-0 text-end">
                                                 <button type="button" class="btn rounded btn-light mb-2" onclick="refreshURLList()"><i class="uil-redo"></i> Refresh</button>
                                                 <!-- <button type="button" class="btn rounded btn-success mb-2" onclick="checkGoogleSafeBrowsingList()"><i class="uil-check"></i> Check Google Safebrowsing</button> -->
-                                                <button type="button" class="btn rounded btn-danger mb-2" id="disable_multiple_url_btn"><i class="uil-times-circle"></i> Disable URLs</button>
+                                                <button type="button" class="btn rounded btn-danger mb-2" data-row-count="" id="disable_multiple_url_btn"><i class="uil-times-circle"></i> Disable URLs</button>
                                             </div>
                                         </div>  
                                     </div>
@@ -154,6 +157,7 @@
                                                             <option value="" selected ="disabled" readonly >Select Note</option>
                                                             <option value="URL Shortener">URL Shortener</option>
                                                             <option value="Malicious URL">Malicious content/URL</option>
+                                                            <option value="Spam URL">Spam URL</option>
                                                         </select>    
                                                     <!-- <textarea name="note" class="form-control" id="_note" placeholder="Note here..." ></textarea> -->
                                                     </div>

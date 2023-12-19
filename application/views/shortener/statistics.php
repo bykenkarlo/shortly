@@ -13,8 +13,35 @@
                     </div>
                     <?php } ?>
                     <div class="row mt-sm-2 mb-3">
-                        <div class="col-lg-4  mt-2">
-                            <button class="btn btn-success rounded mobile-view" type="button" id="_mb_create_account_btn">Create Account</button>
+                        <div class="col-lg-4 mt-2">
+                            <div class=" display-flex-inline mobile-view">
+                                <button class="btn btn-success rounded-alt mobile-view mr-1" type="button" id="_mb_create_account_btn">Create Account</button>
+                                <div class="dropdown button-ad mobile-view"> <!-- start ad button -->
+                                    <a class="btn btn-success c-white rounded-alt dropdown-toggle" data-bs-toggle="dropdown" href="https://bcgame.ph/i-x6pgpc8h-n/" id="">
+                                    Get $20,000
+                                    </a>
+                                    <div class="dropdown-menu  dropdown-ad-wrapper">
+                                        <a href="https://bcgame.ph/i-x6pgpc8h-n/" target="_blank" rel="noopener nofollow" class="c-gray">
+                                            <span class="float-end font-10">Sponsored</span>
+                                            <div class="ad-logo mt-2 mb-1">
+                                                <img src="https://talkimg.com/images/2023/12/06/Niwka.png" alt="logo" width="50%">
+                                            </div>
+                                            <div class="ad-details mb-2">
+                                                <div class="btn-ad-wording">
+                                                    <p>
+                                                            Sign Up & Get Reward Up to $20,0000
+                                                    </p>
+                                                    <p>
+                                                            Best Crypto Casino. Biggest crypto crash game. Provably fair & Live dealer. 10000 slot games.Unique bonus & free lucky spins. BTC, ETH, DOGE, TRX, XRP...
+                                                    </p>
+                                                </div>
+                                                <a href="https://bcgame.ph/i-x6pgpc8h-n/" target="_blank" rel="noopener nofollow">Register, play and win!</a>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div> <!-- end ad button -->
+                            </div>
+
                             <div class="card card-services-highlights pt-1 pb-2  c-gray">
                                 <div class="card-body">
                                     <div class="float-end" id="_copy_url_div">
@@ -46,28 +73,8 @@
                                             <button class="btn  col-5"> </button>
                                         </div>
                                     </div>
-                                    <!-- <div class="mt-2 text-center">
-                                        <a href="#more_option" id="_more_opt">+ More Options</a>
-                                    </div> -->
                                 </div>
                             </div>
-                            <!-- <div class="card card-services-highlights pb-2">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-center mt-1 ">
-                                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9264139322313019" crossorigin="anonymous"></script>
-                                    <ins class="adsbygoogle"
-                                        style="display:block"
-                                        data-ad-client="ca-pub-9264139322313019"
-                                        data-ad-slot="6915775442"
-                                        data-ad-format="auto"
-                                        data-full-width-responsive="true"></ins>
-                                    <script>
-                                        (adsbygoogle = window.adsbygoogle || []).push({});
-                                    </script>
-                                    <small class="c-gray">Advertisement <i class="uil-question-circle" class="cursor-pointer"></i></small>
-                                    </div>
-                                </div>
-                            </div> -->
                         </div> 
                         <div class="col-lg-8">
                             
@@ -82,13 +89,37 @@
                             <?php } ?>
                             
                             <div class="row">
-                                <div class="col-lg-6 mt-2 ">
-                                    <button class="btn btn-success rounded web-view" type="button" id="_create_account_btn">Create Account</button>
+                                <div class="col-lg-6 mt-2 web-view">
+                                    <button class="btn btn-success rounded-alt mr-1" type="button" id="_create_account_btn">Create Account</button>
+                                    <div class="dropdown button-ad"> <!-- start ad button -->
+                                        <a class="btn btn-success c-white rounded-alt dropdown-toggle" data-bs-toggle="dropdown" href="https://bcgame.ph/i-x6pgpc8h-n/" id="">
+                                        Get $20,000
+                                        </a>
+                                        <div class="dropdown-menu  dropdown-ad-wrapper">
+                                            <a href="https://bcgame.ph/i-x6pgpc8h-n/" target="_blank" rel="noopener nofollow" class="c-gray">
+                                                <span class="float-end font-10">Sponsored</span>
+                                                <div class="ad-logo mt-2 mb-1">
+                                                    <img src="https://talkimg.com/images/2023/12/06/Niwka.png" alt="logo" width="50%">
+                                                </div>
+                                                <div class="ad-details mb-2">
+                                                    <div class="btn-ad-wording">
+                                                        <p>
+                                                        Sign Up & Get Reward Up to $20,0000
+                                                        </p>
+                                                        <p>
+                                                        Best Crypto Casino. Biggest crypto crash game. Provably fair & Live dealer. 10000 slot games.Unique bonus & free lucky spins. BTC, ETH, DOGE, TRX, XRP...
+                                                        </p>
+                                                    </div>
+                                                    <a href="https://bcgame.ph/i-x6pgpc8h-n/" target="_blank" rel="noopener nofollow">Register, play and win!</a>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div> <!-- end ad button -->
                                 </div>
                                 <div class="col-lg-6 mt-2 float-end">
                                     <div for="_select_date" class="d-flex align-items-center mb-2">
                                         <input value="<?=date('m/d/Y', strtotime('-7 days', strtotime($url_data['created_at'])))?> - <?=date('m/t/Y')?>" type="text" class="form-control date me-2 " id="_select_date" data-toggle="date-picker" data-cancel-class="btn-light">
-                                        <button class="btn btn-success c-white btn-md rounded" id="_sort_by_date">Sort</button>
+                                        <button class="btn btn-success c-white btn-md rounded-alt" id="_sort_by_date">Sort</button>
                                      </div>
                                  </div>
                             </div>

@@ -52,6 +52,7 @@ function _getUrlList(page_no, search, row_num, opt_status){
 	.then(response => response.json())
 	.then(res => {
 		_displayDataList(page_no, res.data.result, res.data.pagination, res.data.count, row_num);
+		$("#disable_multiple_url_btn").attr("data-row-count", page_no);
 	})
 	.catch((error) => {
 		$("#_url_tbl").html("<tr class='text-center'><td colspan='8'>Error occurs! Refresh the page and try again!</td></tr>");
@@ -132,7 +133,7 @@ function _displayDataList(page_no, result, pagination, count, row_num){
 					    +'<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">'
 						    +'<a class="dropdown-item" href="'+base_url+'" target="_blank" rel="noopener">View More</a>'
 						    +'<span class="dropdown-item cursor-pointer" href="#edit_loan_details"  rel="noopener" >Edit details</span>'
-						    +'<span class="dropdown-item cursor-pointer" onclick="blocklistURL(\''+result[i].long_url+'\',\''+page_no+'\', \''+''+'\')" >Blocklist</span>'
+						    +'<span class="dropdown-item cursor-pointer" onclick="blocklistURLModal(\''+result[i].long_url+'\',\''+page_no+'\', \''+''+'\')" >Blocklist</span>'
 						    +'<span class="dropdown-item cursor-pointer" onclick="deleteURL(\''+result[i].url_param+'\',\''+page_no+'\')" >Delete</span>'
 						+'</div>'
 					+'</div>'
@@ -324,6 +325,10 @@ $("#_blocklist_form").on('submit', function(e){
 	note = $("#_note").val();
 	blocklistURL(url, 1, note);
 })
+function blocklistURLModal(long_url, page_no, note){
+	$("#_add_blocklist_modal").modal('toggle');
+	$("#_blocklist_url").val(long_url);
+}
 function blocklistURL(long_url, page_no, note){
 	csrf_token = $("#_global_csrf").val();
 	Swal.fire({
@@ -517,6 +522,7 @@ $("#url_checklist").on('change', function() {
 	$("#disable_multiple_url_btn").removeAttr('hidden','hidden');
 })
 $("#disable_multiple_url_btn").on('click', function (){
+	page_no = $("#disable_multiple_url_btn").attr('data-row-count');
 	if( !$('input[name="url_checkbox[]"]').is(':checked')  ){
 		Swal.fire({
 			icon: 'warning',
@@ -562,7 +568,6 @@ $("#disable_multiple_url_btn").on('click', function (){
 					  	title: 'Success!',
 					 	text: res.data.message,
 					})
-					page_no = $("#_url_pagination").attr('data-ci-pagination-page');
 					keyword = ($("#_search").val() !== '' || !$("#_search").val()) ? $("#_search").val() : "";
 					row_num = $("#row_num").val();
 					_getUrlList(page_no, keyword, row_num, '')

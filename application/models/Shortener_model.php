@@ -35,25 +35,80 @@ class Shortener_model extends CI_Model {
 		return $response;
 	}
 	public function checkBlocklistSites(){
-		$url = trim($this->input->post('long_url')," ");
-		$query =  $this->db->SELECT('url, note')
-		// ->WHERE("(url LIKE '%".$url."%' OR url LIKE '".$url."%' OR url LIKE '%".$url."' OR url = '".$url."')", NULL, FALSE)
-		->WHERE('note !=', 'URL Shortener')
-		->GET('blocklisted_urls_tbl')->result_array();
+		// $url = trim($this->input->post('long_url')," ");
+		// $query =  $this->db->SELECT('url, note')
+		// // ->WHERE("(url LIKE '%".$url."%' OR url LIKE '".$url."%' OR url LIKE '%".$url."' OR url = '".$url."')", NULL, FALSE)
+		// ->WHERE('note !=', 'URL Shortener')
+		// ->GET('blocklisted_urls_tbl')->result_array();
 
+		// $is_blacklisted = false;
+		// foreach($query as $q){
+		// 	if(strpos($url, $q['url']) !== false){
+		// 		$is_blacklisted = true;
+		// 	}
+		// }
+		// return $is_blacklisted;
+		$url = trim($this->input->post('long_url')," ");
+		$query =  $this->db->SELECT('LOCATE(url, "'.$url .'") as url')
+			->FROM('blocklisted_urls_tbl')
+			->WHERE("(note = 'Malicious URL' OR note = '')", NULL, FALSE)
+			->GET()->result_array();
+		// return $query;
 		$is_blacklisted = false;
 		foreach($query as $q){
-			if(strpos($url, $q['url']) !== false){
-				$is_blacklisted = true;
+			if($q['url'] > 0){
+				$is_blacklisted = true;;
 			}
 		}
-		return $is_blacklisted;
+
+		if($is_blacklisted == true){
+			return $query;
+		}
+		else{
+			return false;
+		}
+	}
+	public function checkSpamURL(){
+		$url = trim($this->input->post('long_url')," ");
+		$query =  $this->db->SELECT('LOCATE(url, "'.$url .'") as url')
+			->FROM('blocklisted_urls_tbl')
+			->WHERE("(note = 'Spam URL')", NULL, FALSE)
+			->GET()->result_array();
+		$is_blacklisted = false;
+		foreach($query as $q){
+			if($q['url'] > 0){
+				$is_blacklisted = true;;
+			}
+		}
+		if($is_blacklisted == true){
+			return $query;
+		}
+		else{
+			return false;
+		}
 	}
 	public function checkURLShortenerSites(){
+		// $url = trim($this->input->post('long_url')," ");
+		// $query =  $this->db->SELECT('LOCATE(url, "'.$url .'") as url, note')
+		// // ->WHERE("(url LIKE '%".$url."%' OR url LIKE '".$url."%' OR url LIKE '%".$url."' OR url = '".$url."')", NULL, FALSE)
+		// 	->FROM('blocklisted_urls_tbl')
+		// 	->GET()->result_array();
+		// $is_blacklisted = false;
+		// foreach($query as $q){
+		// 	if($q['url'] > 0){
+		// 		$is_blacklisted = true;;
+		// 	}
+		// }
+		// if($is_blacklisted == true){
+		// 	return $query;
+		// }
+		// else{
+		// 	return false;
+		// }
 		$url = trim($this->input->post('long_url')," ");
 		$query =  $this->db->SELECT('LOCATE(url, "'.$url .'") as url, note')
-		// ->WHERE("(url LIKE '%".$url."%' OR url LIKE '".$url."%' OR url LIKE '%".$url."' OR url = '".$url."')", NULL, FALSE)
 			->FROM('blocklisted_urls_tbl')
+			->WHERE("(note = 'URL Shortener')", NULL, FALSE)
 			->GET()->result_array();
 
 		$is_blacklisted = false;
@@ -726,7 +781,7 @@ class Shortener_model extends CI_Model {
 		return $response;
 	}
 	public function blocklistURL(){
-		$url = $this->input->post('url');
+		$url = str_replace(array('http://','https://'), '', $this->input->post('url'));
 		$check_url = $this->getblocklistURLData($url);
 		if($check_url > 0){
 			$response['status'] = 'error';

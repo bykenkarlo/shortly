@@ -795,3 +795,22 @@ h1, h2, h3, h4, h5 {
 .inline-block-view{
     display: inline-block !important;
 }
+.rounded-alt{
+    border-radius: 20px!important;
+    height: 38px;
+}
+.dropdown-ad-wrapper{
+    border-radius: 10px;
+    margin-left: -60% !important;
+    width: 300px;
+    padding: 10px 20px;
+}
+.dropdown:hover .dropdown-ad-wrapper {
+    display: block;
+}
+.btn-ad-wording{
+    word-spacing: .05rem;
+}
+.display-flex-inline{
+    display:inline-flex
+}

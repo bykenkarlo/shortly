@@ -15,7 +15,7 @@ class Account_model extends CI_Model {
                  ->GET()->result_array();
             }
             else{
-                $query = $this->db->SELECT('sut.*')
+                $query = $this->db->SELECT('sut.*, ut.username')
                  ->FROM('shortened_url_tbl as sut')
                  ->JOIN('account_url_tbl as aut', 'aut.url_param=sut.short_url', 'left')
                  ->JOIN('users_tbl as ut', 'ut.secret_key=aut.secret_key', 'left')

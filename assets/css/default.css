@@ -243,7 +243,9 @@ body {
 .margin-right-200 {
   margin-right: 200px !important;
 }
-
+.mr-1{
+  margin-right: .3rem !important;
+}
 
 /*margin-right*/
 
@@ -1155,6 +1157,10 @@ input[type=number] {
     z-index: 1000;
     height: 30px;
   }
+  .redirect-banner{
+    margin-top:10%;
+    text-align: center;
+  }
   .herbal-section {
     position: relative;
     padding: 80px 0 20px 0;
@@ -1194,6 +1200,10 @@ input[type=number] {
     z-index: 1000;
     height: 30px;
   }
+  .redirect-banner{
+    margin-top:10%;
+    text-align: center;
+  }
 }
 @media only screen and (min-width: 810px) and (max-width: 820px) {
   .loader-wrapper{
@@ -1202,6 +1212,10 @@ input[type=number] {
     top: 25%;
     z-index: 1000;
     height: 30px;
+  }
+  .redirect-banner{
+    margin-top:18%;
+    text-align: center;
   }
 }
 @media only screen and (max-width: 801px) {
@@ -1332,6 +1346,10 @@ input[type=number] {
     top: 30%;
     z-index: 1000;
     height: 20px;
+  }
+  .redirect-banner{
+    margin-top:15%;
+    text-align: center;
   }
   .--carousel-text{
     position: absolute;
@@ -1483,6 +1501,10 @@ input[type=number] {
     top: 30%;
     z-index: 1000;
     height: 20px;
+  }
+  .redirect-banner{
+    margin-top:40%;
+    text-align: center;
   }
   #mobile-view{
     visibility: visible;
