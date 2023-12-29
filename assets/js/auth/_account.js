@@ -5,6 +5,17 @@ if (_state == 'url_list'){
 else if(_state == 'users_list'){
     _getUsersList(1, '', '')
 }
+else if(_state == 'activity_logs'){
+    _getActivityLogs(1, '', '')
+}
+$('#activity_logs_pagination').on('click','a',function(e){
+    e.preventDefault(); 
+    var page_no = $(this).attr('data-ci-pagination-page');
+	opt_status = $('#_select_status').val();
+	search = $("#_search").val();
+	row_num = $("#row_num").val();
+    _getActivityLogs(page_no, search, row_num, opt_status);
+});
 $("#row_num").on('change', function(){
 	page_no = 1;
 	keyword = ($("#_search").val() !== '' || !$("#_search").val()) ? $("#_search").val() : "";
@@ -591,3 +602,55 @@ $("#disable_multiple_url_btn").on('click', function (){
 	  	} 
 	})
 })
+
+function _getActivityLogs(page_no, search, opt_status){
+	$("#activity_logs").html("<tr class='text-center'><td colspan='7'>Loading data...</td></tr>");
+	let params = new URLSearchParams({'page_no':page_no, 'search':search});
+	fetch(base_url+'api/v1/account/_activity_logs?' + params, {
+  		method: "GET",
+		  	headers: {
+		    	'Accept': 'application/json',
+		    	'Content-Type': 'application/json'
+		  	},
+	})
+	.then(response => response.json())
+	.then(res => {
+		_displayActivityLogsData(page_no, res.data.result, res.data.pagination, res.data.count);
+	})
+	.catch((error) => {
+		$("#activity_logs").html("<tr class='text-center'><td colspan='7'>No record found!</td></tr>");
+		console.error('Error:', error);
+	});
+}
+function _displayActivityLogsData(page_no, result, pagination, count){
+	string ='';
+	username = "";
+	$('#activity_logs_pagination').html(pagination);
+	$('#activity_logs_count').text('Total count: '+count);
+	if (result.length > 0) {
+		for(var i = 0; i < result.length; i++){
+			username = result[i].username
+			if (result[i].username == 'sysadmin') {
+                username = 'System';
+			}
+			string +='<tr>'
+				+'<td>'
+                    +'<div class="form-check ">'
+                        +'<input type="checkbox" name="loan_checkbox[]" class="form-check-input loan-checkbox cursor-pointer " id="'+result[i].id+'" >'
+                        +'<label class="form-check-label" for="_tx_check_box">&nbsp;</label>'
+                    +'</div>'
+                +'</td>'
+				+'<td>'+username+'</td>'
+				+'<td>'+result[i].message_log+'</td>'
+				+'<td>'+result[i].ip_address+'</td>'
+				+'<td>'+result[i].browser+'</td>'
+				+'<td>'+result[i].platform+'</td>'
+				+'<td>'+result[i].created_at+'</td>'
+			+'</tr>'
+		}
+		$('#activity_logs').html(string);
+	}
+	else{
+		$("#activity_logs").html("<tr class='text-center'><td colspan='7'>No records found!</td></tr>");
+	}
+}

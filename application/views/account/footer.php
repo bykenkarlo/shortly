@@ -98,7 +98,7 @@
 			<script src="<?=base_url()?>assets/js/sweetalert2.all.min.js"></script>
 			<script src="<?=base_url()?>assets/js/auth/_csrf.js?v=<?=filemtime('assets/js/auth/_csrf.js')?>"></script>
 			<script src="<?=base_url()?>assets/js/auth/_statistics.js?v=<?=filemtime('assets/js/auth/_statistics.js')?>"></script>
-			<?= ($state == 'url_list' || $state == 'users_list') ? '<script src="'.base_url().'assets/js/auth/_account.js?'.filemtime('assets/js/auth/_account.js').'"></script>' : '' ?>
+			<?= ($state == 'url_list' || $state == 'users_list' || $state == 'activity_logs') ? '<script src="'.base_url().'assets/js/auth/_account.js?'.filemtime('assets/js/auth/_account.js').'"></script>' : '' ?>
 			
 			<?= ($state == 'dashboard') ? '<script src="'.base_url().'assets/js/vendor/Chart.bundle.min.js"></script>' : '' ?>
 

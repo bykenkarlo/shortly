@@ -106,4 +106,41 @@ class Account_model extends CI_Model {
             return $query;
         }
     }
+    public function getActivityLogs($row_per_page, $row_no){
+        if (isset($this->session->admin)) {
+            $search = $this->input->get('search');
+            $query = $this->db->SELECT('alt.*, ut.username')
+                 ->FROM('activity_logs_tbl as alt')
+                 ->JOIN('users_tbl as ut','ut.user_id=alt.user_id','left')
+                 ->WHERE("(ut.username LIKE '%".$search."%' OR alt.message_log LIKE '%".$search."%' OR alt.ip_address LIKE '%".$search."%' OR alt.browser LIKE '%".$search."%' OR alt.platform LIKE '%".$search."%')", NULL, FALSE)
+                 ->LIMIT($row_per_page, $row_no)
+                 ->ORDER_BY('alt.created_at','desc')
+                 ->GET()->result_array();
+            $result = array();
+
+            foreach($query as $q){
+                
+                $array = array(
+                    'username'=>$q['username'],
+                    'message_log'=>$q['message_log'],
+                    'ip_address'=>$q['ip_address'],
+                    'browser'=>$q['browser'],
+                    'platform'=>$q['platform'],
+                    'created_at'=>date('d/m/Y h:i A', strtotime($q['created_at'])),
+                );
+                array_push($result, $array);
+            }
+            return $result;
+        }
+    }
+    public function getActivityLogsCount(){
+        if (isset($this->session->admin)) {
+            $search = $this->input->get('search');
+            $query = $this->db->FROM('activity_logs_tbl as alt')
+                ->JOIN('users_tbl as ut','ut.user_id=alt.user_id','left')
+                ->WHERE("(ut.username LIKE '%".$search."%' OR alt.message_log LIKE '%".$search."%' OR alt.ip_address LIKE '%".$search."%' OR alt.browser LIKE '%".$search."%' OR alt.platform LIKE '%".$search."%')", NULL, FALSE)
+                ->GET()->num_rows();
+            return $query;
+        }
+    }
 }

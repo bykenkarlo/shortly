@@ -53,6 +53,7 @@
                                                     <th>Log</th>
                                                     <th>IP Address</th>
                                                     <th>Browser</th>
+                                                    <th>Platform</th>
                                                     <th>Date & Time</th>
                                                 </tr>
                                             </thead>
@@ -61,10 +62,10 @@
                                         </table>
                                         <div class="row mb-4">
                                             <div class="col-lg-6">
-                                                <div class="mt-2  text-start" id="_user_pagination"></div>
+                                                <div class="mt-2  text-start" id="activity_logs_pagination"></div>
                                             </div>
                                             <div class="col-lg-6">
-                                                <div class="mt-2 text-end" id="_user_count"></div>
+                                                <div class="mt-2 text-end" id="activity_logs_count"></div>
                                             </div>
                                         </div>
 

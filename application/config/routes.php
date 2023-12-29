@@ -140,6 +140,7 @@ $route['api/v1/shortener/_customize_url'] = 'Shortener/customizeUrl';
 $route['api/v1/shortener/_change_status'] = 'Shortener/changeStatus';
 $route['api/v1/account/_url_list'] = 'Account/getURLList';
 $route['api/v1/account/_users_list'] = 'Account/getUserList';
+$route['api/v1/account/_activity_logs'] = 'Account/getActivityLogs';
 $route['api/v1/account/_secret_key_generator'] = 'Account/generateSecretKey';
 $route['api/v1/account/_register'] = 'Account/accountRegistration';
 $route['api/v1/account/_get_urls'] = 'Shortener/getAccountURLs';
