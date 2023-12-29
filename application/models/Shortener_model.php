@@ -904,4 +904,40 @@ class Shortener_model extends CI_Model {
 			return $data;
 		}
 	}
+	public function suCurrentCount() 
+	{
+		return $this->db->WHERE('status', 'active')
+			->GET('shortened_url_tbl')->num_rows();
+	}
+	public function getURLsToScan($url_count) 
+	{
+		$query = $this->db->SELECT('long_url as url')
+			->WHERE('status','active')
+			->LIMIT($url_count)
+			->ORDER_BY('id','DESC')
+			->GET('shortened_url_tbl')->result_array();
+		// $result = array();
+		// foreach($query as $q){
+		// 	$array = array(
+		// 		"url" => $q['long_url'],
+		// 	);
+		// 	array_push($result, $array);
+		// }
+		return $query;
+	}
+	public function blockURLGoogleURLScan() 
+	{
+		$url_array = $this->input->post('url_array');
+		// $url_data = $this->db->SELECT('short_url')->WHERE_IN('id',$url_checkbox)->GET('shortened_url_tbl')->result_array();
+		// $url_data = $this->db->SELECT('short_url')->WHERE_IN('id',$url_checkbox)->GET('shortened_url_tbl')->result_array();
+		foreach($url_array as $ua){
+			$data_arr = array(
+				'url'=>$ua,
+				'note'=>'Malicious URL',
+				'created_at'=>date('Y-m-d H:i:s'),
+			);
+			$this->db->INSERT('blocklisted_urls_tbl',$data_arr);
+		}
+
+	}
 }

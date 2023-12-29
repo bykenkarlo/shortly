@@ -9,28 +9,22 @@ class Google extends CI_Controller {
     public function safeBrowsingApi(){
         // : Production
         $url = $this->input->post('url');
-        $auth = $this->google_app_api->authKeys(); 
-        $paynamics_keys =  base64_encode($auth['PNM_AUTH_USER'].':'.$auth['PNM_AUTH_USER_PASS']);
-        $request_data = '
-        {
-            "client": {
-              "clientId":      "shortly-app-382402 ",
-              "clientVersion": "1.5.2"
-            },
-            "threatInfo": {
-              "threatTypes":      ["MALWARE", "SOCIAL_ENGINEERING"],
-              "platformTypes":    ["WINDOWS"],
-              "threatEntryTypes": ["URL"],
-              "threatEntries": [
-                {"url": '.$url.'},
-              ]
-            }
-          }
-        
-        ';
+        $api_key = 'AIzaSyCm_T4r1vS1qL-db7RKqjc22xg9OaYo-a8'; 
+        $request_data = array(
+            "client"=> array(
+                "clientId" => "shortlyapp382402",
+                "clientVersion" => "382402"
+            ),
+            "threatInfo"=>array(
+                "threatTypes"=>array("MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE", "CSD_DOWNLOAD_WHITELIST","POTENTIALLY_HARMFUL_APPLICATION","THREAT_TYPE_UNSPECIFIED"),
+                "platformTypes"=>array("ALL_PLATFORMS"),
+                "threatEntryTypes"=>array("URL"),
+                "threatEntries"=>$url_array
+            )
+        );
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=" . $auth['api_key'],
+            CURLOPT_URL => "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=".$api_key,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -38,6 +32,7 @@ class Google extends CI_Controller {
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_CAINFO => 'ca-bundle.crt', /* problem here! */
             CURLOPT_POSTFIELDS => json_encode($request_data),
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',

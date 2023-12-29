@@ -141,9 +141,9 @@
                         </a>
                     </li>
                     <li class="side-nav-item">
-                        <a href="<?=base_url('account/website-settings')?>" class="side-nav-link website-settings <?=($state =='website_settings')?'active':'';?>">
-                            <i class="uil-setting "></i>
-                            <span> Website Settings </span>
+                        <a href="<?=base_url('account/activity-logs')?>" class="side-nav-link website-settings <?=($state =='activity_logs')?'active':'';?>">
+                            <i class="uil-list-ol-alt "></i>
+                            <span> Activity Logs </span>
                             <!-- <span class="menu-arrow"></span> -->
                         </a>
                     </li>

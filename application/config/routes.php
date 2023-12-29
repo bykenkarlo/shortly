@@ -78,6 +78,7 @@ $route['account/users-list'] = 'Page/usersList';
 $route['account/blog'] = 'Page/blogList';
 $route['account/blog/new'] = 'Page/newBlog';
 $route['account/blog/edit/(:any)'] = 'Page/editBlog/$1';
+$route['account/activity-logs'] = 'Page/activityLogs';
 
 #BLOG
 $route['blog/edit/(:any)'] = 'Page/editBlog/$1';
@@ -157,6 +158,12 @@ $route['api/v1/shortener/_generate_new_secret_key'] = 'Shortener/generateNewSecr
 $route['api/v1/email/_get'] = 'Shortener/getEmailAddress';
 $route['api/v1/xss/_get_csrf_data'] = 'App/getCsrfData';
 $route['api/v1/_website_guest'] = 'Page/newWebsiteVisits';
+
+
+#CRON 
+
+$route['api/v1/scan/_google_safe_browsing_url'] = 'Shortener/googleSafeBrowsingURLScan';
+$route['api/v1/url/_block_url'] = 'Shortener/blockURLGoogleURLScan';
 
 $route['default_controller'] = 'App/index';
 $route['404_override'] = 'Error404';

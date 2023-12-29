@@ -217,6 +217,26 @@ class Page extends CI_Controller {
             header('location:'.base_url('login?return=').uri_string());
         }
     }
+    public function activityLogs(){
+        if (isset($this->session->user_id)) {
+        $data['siteSetting'] = $this->Site_settings_model->siteSettings();
+        $data['social_media'] = $this->Site_settings_model->getSocialMedias();
+        $data['title'] = 'Activity Logs';
+        $data['description'] = 'Activity Logs';
+        $data['canonical_url'] = base_url('activity-logs');
+        $data['url_param'] = "";
+        $data['state'] = "activity_logs";
+        $data['csrf_data'] = $this->Csrf_model->getCsrfData();
+        $data['user_data'] = $this->User_model->getUserData(); 
+    	$this->load->view('account/header', $data);
+    	$this->load->view('account/nav');
+    	$this->load->view('account/activity_logs');
+    	$this->load->view('account/footer');
+        }
+        else{
+            header('location:'.base_url('login?return=').uri_string());
+        }
+    }
     public function article($url){
         $data['social_media'] = $this->Site_settings_model->getSocialMedias();
         $data['article_data'] = $this->Blog_model->getArticleDataURL($url);

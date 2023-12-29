@@ -221,7 +221,7 @@ const checkLink = (long_url) => {
             return false;
         }
 	 })
-  }
+}
 const isValidUrl = (long_url) => {
     var urlPattern = new RegExp('^(https?:\\/\\/)?'+ // validate protocol
     '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // validate domain name
@@ -1520,7 +1520,7 @@ function checkCustomURL(long_url, formData){
         url: googleURL,
         dataType: "json",
         type: 'POST',
-        contentType: "applicaiton/js on; charset=utf-8",
+        contentType: "application/js on; charset=utf-8",
         data: JSON.stringify(payload),
         statusCode: {
                 403: () => {

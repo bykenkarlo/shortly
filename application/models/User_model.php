@@ -16,7 +16,7 @@ class User_model extends CI_Model {
     public function insertActivityLog ($message) {
         if (isset($this->session->user_id)) {
             $activity_log = array(
-                'user_id'=>$this->session->user_id, 
+                'user_id'=>($this->session->user_id) ? $this->session->user_id : '10009357526411', 
                 'message_log'=>$message, 
                 'ip_address'=>$this->input->ip_address(), 
                 'platform'=>$this->agent->platform(), 

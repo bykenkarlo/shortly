@@ -274,48 +274,59 @@ class Shortener extends CI_Controller {
         }
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$response)));
     }
-    public function imagekit(){
+    public function imagekit()
+    {
         $data = $this->Shortener_model->imagekit();
     }
-    public function getEmailAddress(){
+    public function getEmailAddress()
+    {
         $data = $this->Shortener_model->getEmailAddress();
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
-    public function customizeUrl(){
+    public function customizeUrl()
+    {
         $data = $this->Shortener_model->customizeUrl();
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
-    public function changeStatus(){
+    public function changeStatus()
+    {
         $data = $this->Shortener_model->changeStatus();
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
-    public function getAccountURLs(){
+    public function getAccountURLs()
+    {
         $data = $this->User_model->getAccountURLs();
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
-    public function getAccountURLData(){
+    public function getAccountURLData()
+    {
         $data = $this->Shortener_model->getAccountURLData();
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
-    public function getAccountURLDataV2(){
+    public function getAccountURLDataV2()
+    {
         $data = $this->Shortener_model->getAccountURLDataV2();
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
-    public function saveCustomURL(){
+    public function saveCustomURL()
+    {
         $data = $this->Shortener_model->saveCustomURL();
         $clean_data = $this->security->xss_clean( $data);
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$clean_data)));
     }
-    public function newShortURL(){
+    public function newShortURL()
+    {
         $data = $this->Shortener_model->newShortURL();
         $clean_data = $this->security->xss_clean($data);
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$clean_data)));
     }
-    public function getAccountData(){
+    public function getAccountData()
+    {
         $data = $this->User_model->getAccountData();
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
-    public function verifyEmailAddress($token){
+    public function verifyEmailAddress($token)
+    {
         $checkUser = $this->User_model->verifyEmailAddress($token);
         if(!empty($checkUser)){
            $this->session->set_userdata('secret_key', $checkUser['secret_key']);
@@ -326,19 +337,23 @@ class Shortener extends CI_Controller {
            header('Location: '.base_url('?verify=invalid'));
         }
     }
-    public function deleteURL(){
+    public function deleteURL()
+    {
         $data = $this->Shortener_model->deleteURL();
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
-    public function blocklistURL() {
+    public function blocklistURL() 
+    {
         $data = $this->Shortener_model->blocklistURL();
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
-    public function unblocklistURL() {
+    public function unblocklistURL() 
+    {
         $data = $this->Shortener_model->unblocklistURL();
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
-    public function getBlocklistURL() {
+    public function getBlocklistURL() 
+    {
 		$row_no = $this->input->get('page_no');
         // Row per page
         $row_per_page = 10;
@@ -384,14 +399,70 @@ class Shortener extends CI_Controller {
         $data['count'] = $all_count;
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
-    public function generateNewSecretKey(){
+    public function generateNewSecretKey()
+    {
         $new_secret_key = $this->User_model->generateSecretKey();
         $data = $this->Shortener_model->generateNewSecretKey($new_secret_key);
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
-    public function disableMultipleURL(){
+    public function disableMultipleURL()
+    {
         $data = $this->Shortener_model->disableMultipleURL();
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
-    
+    public function googleSafeBrowsingURLScan() 
+    {
+        /* 
+        Check new URL every hour using cron
+        */ 
+        $url_count = 0;
+        $new_count = 0;
+        $url_array = '';
+        // $safe_browsing_data = 'No data';
+        if(!isset(($this->session->current_count))) {
+            $current_count = $this->Shortener_model->suCurrentCount();
+            $this->session->set_tempdata('current_count',  $current_count, 3720); // 62 minutes / 1 hour an 2 minutes
+        }
+        else{
+            $old_count = (int)$this->session->current_count;
+            $new_count = (int)$this->Shortener_model->suCurrentCount();
+
+            if($new_count > $old_count)
+            {
+                $url_count = $new_count - $old_count;
+                $this->session->set_tempdata('current_count',  $new_count, 3720); // 62 minutes / 1 hour an 2 minutes
+                $url_array = $this->Shortener_model->getURLsToScan($url_count);
+                // $safe_browsing_data = $this->GoogleApi_model->safeBrowsingApi($url_array);
+                
+                // Scan URL using Google Safe Browsing API
+                $message = "Scanned ".$url_count." URLs";
+                $this->User_model->insertActivityLog($message); 
+            }
+        }
+
+        $scanned_data = array(
+            'current_count'=> $this->session->current_count,
+            'scanned_url'=> $url_count,
+            // 'google_safe_browsing' =>$safe_browsing_data,
+            'URLs'=>$url_array
+        );
+        // $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$scanned_data)));
+
+        $data['url_data'] = $this->UrlToScan($url_count);
+        $data['scanned_data'] = $scanned_data ;
+        $this->load->view('account/url_scanner', $data);    
+    }
+    public function UrlToScan($url_count){
+        $url_data = $this->Shortener_model->getURLsToScan($url_count);
+        return $url_data;
+    }
+    public function blockURLGoogleURLScan(){
+		$url_array = $this->input->post('url_array');
+        $data = $this->Shortener_model->blockURLGoogleURLScan();
+
+        $message = "Blocked URLs: ".implode(", ",$url_array);
+        $this->User_model->insertActivityLog($message); 
+
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+    }
 }
