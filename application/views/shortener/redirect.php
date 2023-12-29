@@ -22,6 +22,23 @@
                 max-width: 98%;
                 height: auto;
             }
+            .text-center{
+                text-align: center;
+            }
+            .note-div{
+                position: fixed;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                background-color: #1d212d;
+                color: #cbd5e0;
+                text-align: center;
+                padding: 10px;
+
+            }
+            .note{
+                padding: 20px;
+            }
         </style>
     </head>
 
@@ -30,13 +47,17 @@
             <div class="redirect-banner">
                 <a href="https://shortly.at/coinomize" target="_blank" rel="noopener">
                     <img src="<?=base_url('assets/images/other/')."banner-1001.jpg"?>" class="img-fluid" alt="banner ad">
-                </a><br>
-                <small class="c-light font-10">Advertisement</small>
+                </a>
+                <div class="c-light font-10 mt-1">Advertisement</div>
                 
             </div>
 			<div class="loader-wrapper">
 				<img src="<?=base_url('assets/images/other/loader.gif')?>" width="120" heigth="120">
 			</div>
+
+            <div class="text-center note-div">
+                <small class="note">If you think the redirected URL is a Phishing URL, malware or a spam. Kindly report it to <a href="mailto:info@shortly.at">info@shortly.at</a></small>
+            </div>
 		</div>
         <script>
             $("#loader").removeAttr('hidden','hidden');
