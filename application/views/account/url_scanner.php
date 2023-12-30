@@ -50,7 +50,7 @@
          .done( (res) => {
             url_array = [];
             if(jQuery.isEmptyObject(res)){
-                console.log('No unwanted URLs')
+                activityLog('No unwanted URLs');
             }
             else {
                 matches = res.matches;
@@ -72,6 +72,18 @@
 			type: 'POST',
 			dataType: 'JSON',
 			data: {'url_array':url_array},
+		})
+		.done(function(res) {})
+		.fail(function() {
+			console.log("error");
+		})
+    }
+    function activityLog(message) {
+        $.ajax({
+		    url: base_url+'api/v1/account/_new_activity_log',
+			type: 'POST',
+			dataType: 'JSON',
+			data: {'message':message},
 		})
 		.done(function(res) {})
 		.fail(function() {

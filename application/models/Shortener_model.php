@@ -925,6 +925,30 @@ class Shortener_model extends CI_Model {
 		// }
 		return $query;
 	}
+	public function UrlToScanRegisteredToday() 
+	{	
+		$start_date = date('Y-m-d 00:00:00');
+        $end_date = date('Y-m-d 23:59:59');
+    	$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+
+		$query = $this->db->SELECT('long_url as url')
+			->WHERE('status','active')
+			->WHERE($date_range)
+			->GET('shortened_url_tbl')->result_array();
+		return $query;
+	}
+	public function UrlToScanRegisteredTodayCount() 
+	{	
+		$start_date = date('Y-m-d 00:00:00');
+        $end_date = date('Y-m-d 23:59:59');
+    	$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+
+		$query = $this->db->SELECT('long_url as url')
+			->WHERE('status','active')
+			->WHERE($date_range)
+			->GET('shortened_url_tbl')->num_rows();
+		return $query;
+	}
 	public function blockURLGoogleURLScan() 
 	{
 		$url_array = $this->input->post('url_array');
@@ -940,4 +964,15 @@ class Shortener_model extends CI_Model {
 		}
 
 	}
+	public function insertActivityLog ($message) {
+         $activity_log = array(
+            'user_id'=>($this->session->user_id) ? $this->session->user_id : '10009357526411', 
+            'message_log'=>$message, 
+            'ip_address'=>$this->input->ip_address(), 
+            'platform'=>$this->agent->platform(), 
+            'browser'=>$this->agent->browser(), 
+            'created_at'=>date('Y-m-d H:i:s')
+        ); 
+        $this->db->INSERT('activity_logs_tbl', $activity_log);
+    }
 }

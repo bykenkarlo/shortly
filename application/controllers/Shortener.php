@@ -413,7 +413,7 @@ class Shortener extends CI_Controller {
     public function googleSafeBrowsingURLScan() 
     {
         /* 
-        Check new URL every hour using cron
+         | Scan new URL once an hour using cron
         */ 
         $url_count = 0;
         $new_count = 0;
@@ -421,7 +421,7 @@ class Shortener extends CI_Controller {
         // $safe_browsing_data = 'No data';
         if(!isset(($this->session->current_count))) {
             $current_count = $this->Shortener_model->suCurrentCount();
-            $this->session->set_tempdata('current_count',  $current_count, 3720); // 62 minutes / 1 hour an 2 minutes
+            $this->session->set_tempdata('current_count',  $current_count, 3720); // 3720 secs / 1 hour 2 mins
         }
         else{
             $old_count = (int)$this->session->current_count;
@@ -434,9 +434,10 @@ class Shortener extends CI_Controller {
                 $url_array = $this->Shortener_model->getURLsToScan($url_count);
                 // $safe_browsing_data = $this->GoogleApi_model->safeBrowsingApi($url_array);
                 
-                // Scan URL using Google Safe Browsing API
                 $message = "Scanned ".$url_count." URLs";
-                $this->User_model->insertActivityLog($message); 
+            }
+            else{
+                $message = "Scanned ".$url_count." URLs";
             }
         }
 
@@ -448,21 +449,50 @@ class Shortener extends CI_Controller {
         );
         // $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$scanned_data)));
 
-        $data['url_data'] = $this->UrlToScan($url_count);
+        $this->Shortener_model->insertActivityLog($message); 
+        $data['url_data'] = $this->Shortener_model->getURLsToScan($url_count);
         $data['scanned_data'] = $scanned_data ;
         $this->load->view('account/url_scanner', $data);    
     }
-    public function UrlToScan($url_count){
-        $url_data = $this->Shortener_model->getURLsToScan($url_count);
-        return $url_data;
+    public function googleSafeBrowsingURLScanEveryDay() 
+    {
+        /* 
+         | Scan new registered URLs twice a day
+        */ 
+        $url_array = $this->Shortener_model->UrlToScanRegisteredToday();
+        $url_count = $this->Shortener_model->UrlToScanRegisteredTodayCount();
+
+        $scanned_data = array(
+            'scanned_url'=>$url_count,
+            'URLs'=>$url_array
+        );
+        $message = "Scanned URLs today: ".$url_count; 
+        $this->Shortener_model->insertActivityLog($message); 
+
+        $data['scanned_data'] =  $scanned_data;
+        $data['url_data'] =  $url_array;
+        $this->load->view('account/url_scanner', $data);    
     }
+    // public function UrlToScan($url_count){
+    //     $url_data = $this->Shortener_model->getURLsToScan($url_count);
+    //     return $url_data;
+    // }
     public function blockURLGoogleURLScan(){
 		$url_array = $this->input->post('url_array');
         $data = $this->Shortener_model->blockURLGoogleURLScan();
 
         $message = "Blocked URLs: ".implode(", ",$url_array);
-        $this->User_model->insertActivityLog($message); 
+        $this->Shortener_model->insertActivityLog($message); 
 
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+    }
+    public function cronTest(){
+        /* wget -q -O /dev/null "https://shortly.at/shortener/cronTest" > /dev/null 2>&1 */ 
+        $message = "Testing cron auto! Yes";
+        $this->Shortener_model->insertActivityLog($message); 
+    }
+    public function insertActivityLog(){
+        $message = $this->input->get('message');
+        $this->Shortener_model->insertActivityLog($message); 
     }
 }

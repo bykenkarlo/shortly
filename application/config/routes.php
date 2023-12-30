@@ -155,6 +155,7 @@ $route['api/v1/shortener/_unblocklist_url'] = 'Shortener/unblocklistURL';
 $route['api/v1/shortener/_disable_multiple_url'] = 'Shortener/disableMultipleURL';
 $route['api/v1/account/_blocklist_url_list'] = 'Shortener/getBlocklistURL';
 $route['api/v1/shortener/_generate_new_secret_key'] = 'Shortener/generateNewSecretKey';
+$route['api/v1/account/_new_activity_log'] = 'Shortener/insertActivityLog';
 
 $route['api/v1/email/_get'] = 'Shortener/getEmailAddress';
 $route['api/v1/xss/_get_csrf_data'] = 'App/getCsrfData';
@@ -164,6 +165,7 @@ $route['api/v1/_website_guest'] = 'Page/newWebsiteVisits';
 #CRON 
 
 $route['api/v1/scan/_google_safe_browsing_url'] = 'Shortener/googleSafeBrowsingURLScan';
+$route['api/v1/scan/_google_safe_browsing_urls_today'] = 'Shortener/googleSafeBrowsingURLScanEveryDay';
 $route['api/v1/url/_block_url'] = 'Shortener/blockURLGoogleURLScan';
 
 $route['default_controller'] = 'App/index';
