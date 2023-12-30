@@ -28,7 +28,7 @@ class App extends CI_Controller {
     }
     public function getCsrfData() { 
         $data = $this->Csrf_model->getCsrfData();
-        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+        $this->output->set_content_type('home/kenkarlo/public_html/application/json')->set_output(json_encode(array('data'=>$data)));
     }
    
 }

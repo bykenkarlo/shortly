@@ -24,7 +24,7 @@ class Account extends CI_Controller {
             $row_per_page = $row_num;
         }
         else {
-            $row_per_page = 10;
+            $row_per_page = 20;
         }
         
         // Row position
@@ -200,7 +200,7 @@ class Account extends CI_Controller {
     public function getActivityLogs() {
 		$row_no = $this->input->get('page_no');
         // Row per page
-        $row_per_page = 10;
+        $row_per_page = 20;
         // Row position
         if($row_no != 0){
             $row_no = ($row_no-1) * $row_per_page;
