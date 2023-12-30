@@ -8,6 +8,12 @@ else if(_state == 'users_list'){
 else if(_state == 'activity_logs'){
     _getActivityLogs(1, '', '')
 }
+$("#_search_activity").on('submit', function(e){
+	e.preventDefault();
+	keyword = $("#_search").val();
+	page_no = 1;
+	_getActivityLogs(page_no, keyword, '');
+})
 $('#activity_logs_pagination').on('click','a',function(e){
     e.preventDefault(); 
     var page_no = $(this).attr('data-ci-pagination-page');
@@ -205,7 +211,7 @@ const changeStats = (url_param,status, page_no) => {
     })
 	_csrfNonce();
 }
-$("#_search_user_form").on('submit', function(e){
+$("#_search_activity").on('submit', function(e){
 	e.preventDefault();
 	keyword = $("#_search").val();
 	page_no = 1;

@@ -25,7 +25,7 @@
                                     <div class="card-body">
                                     <div class="row mb-2">
                                         <div class="col-lg-5 mt-2">
-                                           <form class=" gy-2 gx-2 align-items-center justify-content-xl-start justify-content-between" id="_search_user_form">
+                                           <form class=" gy-2 gx-2 align-items-center justify-content-xl-start justify-content-between" id="_search_activity">
                                             <div class="col-auto">
                                                 <label for="_keyword" class="visually-hidden">Search</label>
                                                 <input type="search" class="form-control" name="search" id="_search" placeholder="URL parameter, website. etc.">
@@ -34,7 +34,7 @@
                                         </div>
                                         <div class="col-lg-7 mt-2">
                                             <div class="mt-xl-0 text-end">
-                                                <button type="button" class="btn rounded btn-light mb-2" onclick="_getUsersList(1,'','')"><i class="uil-redo"></i> Refresh</button>
+                                                <button type="button" class="btn rounded btn-light mb-2" onclick="_getActivityLogs(1,'','')"><i class="uil-redo"></i> Refresh</button>
                                             </div>
                                         </div>  
                                     </div>
@@ -45,8 +45,8 @@
                                                 <tr>
                                                     <th style="width: 20px;">
                                                         <div class="form-check">
-                                                            <input type="checkbox" name="_loan_check_all" class="form-check-input cursor-pointer" id="_loan_check_all">
-                                                        <label class="form-check-label" for="_loan_check_all">&nbsp;</label>
+                                                            <input type="checkbox" name="check_all" class="form-check-input cursor-pointer" id="check_all">
+                                                        <label class="form-check-label" for="check_all">&nbsp;</label>
                                                         </div>
                                                     </th>
                                                     <th>Username</th>
