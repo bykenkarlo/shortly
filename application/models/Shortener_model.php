@@ -964,6 +964,19 @@ class Shortener_model extends CI_Model {
 		}
 
 	}
+	public function disableURLGoogleURLScan() {
+		$url_array = $this->input->post('url_array');
+		foreach($url_array as $ua){
+			$this->disableURL($ua);
+		}
+	}
+	public function disableURL($url){
+		$data_arr = array(
+			'status'=>'disabled',
+		);
+		$this->db->WHERE('long_url',$url)
+				->UPDATE('shortened_url_tbl', $data_arr);
+	}
 	public function insertActivityLog ($message) {
          $activity_log = array(
             'user_id'=>($this->session->user_id) ? $this->session->user_id : '10009357526411', 

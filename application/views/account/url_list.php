@@ -49,6 +49,7 @@
                                                 <button type="button" class="btn rounded btn-light mb-2" onclick="refreshURLList()"><i class="uil-redo"></i> Refresh</button>
                                                 <!-- <button type="button" class="btn rounded btn-success mb-2" onclick="checkGoogleSafeBrowsingList()"><i class="uil-check"></i> Check Google Safebrowsing</button> -->
                                                 <button type="button" class="btn rounded btn-danger mb-2" data-row-count="" id="disable_multiple_url_btn"><i class="uil-times-circle"></i> Disable URLs</button>
+                                                <a target="_blank" rel="noopener" href="<?=base_url('api/v1/scan/_google_safe_browsing_urls_today')?>" class="btn rounded btn-warning mb-2 c-white" ><i class="uil-cloud-redo"></i> Scan Malicious URL</a>
                                             </div>
                                         </div>  
                                     </div>

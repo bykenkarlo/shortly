@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body{
+            background: rgb(28,41,55);;
+            color: #cccfd8 !important;
+        }
+    </style>
 </head>
 <body>
 <?php
@@ -44,12 +50,13 @@
             url: googleURL,
             dataType: "json",
             type: 'POST',
-            contentType: "applicaiton/js on; charset=utf-8",
+            contentType: "application/js on; charset=utf-8",
             data: JSON.stringify(payload),
          })
          .done( (res) => {
             url_array = [];
             if(jQuery.isEmptyObject(res)){
+                console.log('No unwanted URLs');
                 activityLog('No unwanted URLs');
             }
             else {
@@ -81,7 +88,7 @@
     function activityLog(message) {
         $.ajax({
 		    url: base_url+'api/v1/account/_new_activity_log',
-			type: 'POST',
+			type: 'GET',
 			dataType: 'JSON',
 			data: {'message':message},
 		})

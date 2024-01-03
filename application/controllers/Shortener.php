@@ -418,10 +418,12 @@ class Shortener extends CI_Controller {
         $url_count = 0;
         $new_count = 0;
         $url_array = '';
+        $message = "Scanned ".$url_count." URLs";
+
         // $safe_browsing_data = 'No data';
         if(!isset(($this->session->current_count))) {
             $current_count = $this->Shortener_model->suCurrentCount();
-            $this->session->set_tempdata('current_count',  $current_count, 3720); // 3720 secs / 1 hour 2 mins
+            $this->session->set_tempdata('current_count',  $current_count, 4200); // 4200 secs / 1 hour 10 mins
         }
         else{
             $old_count = (int)$this->session->current_count;
@@ -437,7 +439,6 @@ class Shortener extends CI_Controller {
                 $message = "Scanned ".$url_count." URLs";
             }
             else{
-                $message = "Scanned ".$url_count." URLs";
             }
         }
 
@@ -457,7 +458,7 @@ class Shortener extends CI_Controller {
     public function googleSafeBrowsingURLScanEveryDay() 
     {
         /* 
-         | Scan new registered URLs twice a day
+         | Scan new registered URLs twice a day AND every 6 hours
         */ 
         $url_array = $this->Shortener_model->UrlToScanRegisteredToday();
         $url_count = $this->Shortener_model->UrlToScanRegisteredTodayCount();
@@ -480,9 +481,11 @@ class Shortener extends CI_Controller {
     public function blockURLGoogleURLScan(){
 		$url_array = $this->input->post('url_array');
         $data = $this->Shortener_model->blockURLGoogleURLScan();
+        $data = $this->Shortener_model->disableURLGoogleURLScan();
 
         $message = "Blocked URLs: ".implode(", ",$url_array);
         $this->Shortener_model->insertActivityLog($message); 
+
 
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
