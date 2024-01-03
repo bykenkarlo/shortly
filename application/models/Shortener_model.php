@@ -48,77 +48,79 @@ class Shortener_model extends CI_Model {
 		// 	}
 		// }
 		// return $is_blacklisted;
-		$url = trim($this->input->post('long_url')," ");
-		$query =  $this->db->SELECT('LOCATE(url, "'.$url .'") as url')
-			->FROM('blocklisted_urls_tbl')
-			->WHERE("(note = 'Malicious URL' OR note = '')", NULL, FALSE)
-			->GET()->result_array();
-		// return $query;
-		$is_blacklisted = false;
-		foreach($query as $q){
-			if($q['url'] > 0){
-				$is_blacklisted = true;;
-			}
-		}
-
-		if($is_blacklisted == true){
-			return $query;
-		}
-		else{
-			return false;
-		}
-	}
-	public function checkSpamURL(){
-		$url = trim($this->input->post('long_url')," ");
-		$query =  $this->db->SELECT('LOCATE(url, "'.$url .'") as url')
-			->FROM('blocklisted_urls_tbl')
-			->WHERE("(note = 'Spam URL')", NULL, FALSE)
-			->GET()->result_array();
-		$is_blacklisted = false;
-		foreach($query as $q){
-			if($q['url'] > 0){
-				$is_blacklisted = true;;
-			}
-		}
-		if($is_blacklisted == true){
-			return $query;
-		}
-		else{
-			return false;
-		}
-	}
-	public function checkURLShortenerSites(){
 		// $url = trim($this->input->post('long_url')," ");
-		// $query =  $this->db->SELECT('LOCATE(url, "'.$url .'") as url, note')
-		// // ->WHERE("(url LIKE '%".$url."%' OR url LIKE '".$url."%' OR url LIKE '%".$url."' OR url = '".$url."')", NULL, FALSE)
+		// $query =  $this->db->SELECT('LOCATE(url, "'.$url .'") as url')
 		// 	->FROM('blocklisted_urls_tbl')
+		// 	->WHERE("(note = 'Malicious URL' OR note = '')", NULL, FALSE)
 		// 	->GET()->result_array();
+		// // return $query;
 		// $is_blacklisted = false;
 		// foreach($query as $q){
 		// 	if($q['url'] > 0){
 		// 		$is_blacklisted = true;;
 		// 	}
 		// }
+
 		// if($is_blacklisted == true){
 		// 	return $query;
 		// }
 		// else{
 		// 	return false;
 		// }
-		$url = trim($this->input->post('long_url')," ");
-		$query =  $this->db->SELECT('LOCATE(url, "'.$url .'") as url, note')
-			->FROM('blocklisted_urls_tbl')
-			->WHERE("(note = 'URL Shortener')", NULL, FALSE)
-			->GET()->result_array();
+	}
+	// public function checkSpamURL(){
+	// 	$url = trim($this->input->post('long_url')," ");
+	// 	$query =  $this->db->SELECT('LOCATE(url, "'.$url .'") as url')
+	// 		->FROM('blocklisted_urls_tbl')
+	// 		->WHERE("(note = 'Spam URL')", NULL, FALSE)
+	// 		->GET()->result_array();
+	// 	$is_blacklisted = false;
+	// 	foreach($query as $q){
+	// 		if($q['url'] > 0){
+	// 			$is_blacklisted = true;;
+	// 		}
+	// 	}
+	// 	if($is_blacklisted == true){
+	// 		return $query;
+	// 	}
+	// 	else{
+	// 		return false;
+	// 	}
+	// }
+	// public function checkURLShortenerSites(){
+	// 	$url = trim($this->input->post('long_url')," ");
+	// 	$query =  $this->db->SELECT('LOCATE(url, "'.$url .'") as url, note')
+	// 		->FROM('blocklisted_urls_tbl')
+	// 		->WHERE("(note = 'URL Shortener')", NULL, FALSE)
+	// 		->GET()->result_array();
 
-		$is_blacklisted = false;
+	// 	$is_blacklisted = false;
+	// 	foreach($query as $q){
+	// 		if($q['url'] > 0){
+	// 			$is_blacklisted = true;;
+	// 		}
+	// 	}
+
+	// 	if($is_blacklisted == true){
+	// 		return $query;
+	// 	}
+	// 	else{
+	// 		return false;
+	// 	}
+	// }
+	public function checkBlocklistURLs($long_url, $type){
+		$url = trim($long_url," ");
+		$query =  $this->db->SELECT('LOCATE(url, "'.$url .'") as url')
+			->FROM('blocklisted_urls_tbl')
+			->WHERE("(note = '$type')", NULL, FALSE)
+			->GET()->result_array();
+		$is_blocklisted = false;
 		foreach($query as $q){
 			if($q['url'] > 0){
-				$is_blacklisted = true;;
+				$is_blocklisted = true;;
 			}
 		}
-
-		if($is_blacklisted == true){
+		if($is_blocklisted == true){
 			return $query;
 		}
 		else{
@@ -623,60 +625,11 @@ class Shortener_model extends CI_Model {
 		);
 		return $data;
 	}
-	public function newShortURL(){
-		if(isset($this->session->secret_key)){
-			$long_url = $this->input->post('redirect_url');
-			$title = $this->input->post('title');
-			$custom_link = $this->input->post('custom_link');
-			$check_url_param = $this->db->WHERE('short_url', $custom_link)->GET('shortened_url_tbl')->num_rows();
-			if(!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $long_url)) {
-				$response['status'] = 'error';
-				$response['short_url'] = "";
-				$response['message'] = "Please enter a correct URL!";
-			}
-			else if($check_url_param > 0){
-				$response['status'] = 'error';
-				$response['short_url'] = "";
-				$response['message'] = "Custom URL already exist!";
-			}
-			else if(!empty($custom_link) && strlen($custom_link) < 4 ){
-				$response['status'] = 'error';
-				$response['short_url'] = "";
-				$response['message'] = "Custom URL should be at least 4 characters";
-			}
-			else if(!empty($custom_link) && strlen($custom_link) > 30){
-				$response['status'] = 'error';
-				$response['short_url'] = "";
-				$response['message'] = "Custom URL should not be more than 30 characters";
-			}
-			else if(!empty($long_url)) {
-				$short_url = ($custom_link!=='')?$custom_link:$this->shortURLGenerator();
-				$data_arr = array(
-					'long_url'=>$long_url,
-					'short_url'=>str_replace(' ','-',$short_url),
-					'status'=>'active',
-					'created_at'=>date('Y-m-d H:i:s')
-				);
-				$data_arr2 = array(
-					'secret_key'=>$this->session->secret_key,
-					'title'=>($title!=='')?$title:'',
-					'url_param'=>str_replace(' ','-',$short_url),
-					'status'=>'active',
-					'created_at'=>date('Y-m-d H:i:s')
-				);
-				$this->db->INSERT('shortened_url_tbl', $data_arr);
-				$this->db->INSERT('account_url_tbl', $data_arr2);
-
-				$response['status'] = 'success';
-				$response['message'] = "Here's your short URL ".base_url().$short_url.".";
-				$response['attribute'] = array('param'=>$short_url,'url'=>base_url().$short_url);
-			}
-			return $response;
-		}
-		else{
-			$response['status'] = 'error';
-			$response['short_url'] = "";
-			$response['message'] = "Something went wrong! Refresh the page and try again!";
+	public function accountNewShortURL($data_arr, $data_arr2){
+		if(isset($this->session->secret_key))
+		{
+			$this->db->INSERT('shortened_url_tbl', $data_arr);
+			$this->db->INSERT('account_url_tbl', $data_arr2);
 		}
 	}
 	public function checkBlocklistURL($url){

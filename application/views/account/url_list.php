@@ -158,6 +158,7 @@
                                                             <option value="" selected ="disabled" readonly >Select Note</option>
                                                             <option value="URL Shortener">URL Shortener</option>
                                                             <option value="Malicious URL">Malicious content/URL</option>
+                                                            <option value="Phishing URL">Phishing URL</option>
                                                             <option value="Spam URL">Spam URL</option>
                                                         </select>    
                                                     <!-- <textarea name="note" class="form-control" id="_note" placeholder="Note here..." ></textarea> -->

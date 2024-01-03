@@ -19,23 +19,38 @@ class Shortener extends CI_Controller {
         $this->load->model('GoogleApi_model');
     }
     public function processUrl() {
-        $check_blocklist = $this->Shortener_model->checkBlocklistSites();
-        $check_url_shortener = $this->Shortener_model->checkURLShortenerSites();
-        $check_spam_url = $this->Shortener_model->checkSpamURL();
-        if(!empty($check_blocklist)){
+        $long_url = $this->input->post('long_url');
+        $malicious_url = $this->Shortener_model->checkBlocklistURLs($long_url, 'Malicious URL');
+        $shortener_url = $this->Shortener_model->checkBlocklistURLs($long_url, 'URL Shortener');
+        $spam_url = $this->Shortener_model->checkBlocklistURLs($long_url, 'Spam URL');
+        $phishing_url = $this->Shortener_model->checkBlocklistURLs($long_url, 'Phishing URL');
+
+        // $check_url_shortener = $this->Shortener_model->checkURLShortenerSites();
+        // $check_spam_url = $this->Shortener_model->checkSpamURL();
+        if(!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $long_url)) {
+            $response['status'] = 'error';
+            $response['title'] = "Error";
+            $response['message'] = "Please enter a correct URL!";
+        }
+        else if(!empty($malicious_url)){
             $response['status'] = 'error';
             $response['title'] = "Blocked URL!";
-            $response['message'] = "This URL is was reported and considered as malicious, abusive and is blocklisted! Contact us if you think this is a mistake!";
+            $response['message'] = "This URL is was reported and considered as Malicious, abusive and is blocklisted! Contact us if you think this is a mistake!";
         }
-        else if(!empty($check_url_shortener)){
+        else if(!empty($shortener_url)){
             $response['status'] = 'error';
             $response['title'] = "Short URL Detected!";
             $response['message'] = "The URL uses a URL Shortener! Read our Terms for more information!";
         }
-        else if(!empty($check_spam_url)){
+        else if(!empty($spam_url)){
             $response['status'] = 'error';
             $response['title'] = "Spam URL Detected!";
             $response['message'] = "The URL is considered as Spam! Contact us if you think this is a mistake!";
+        }
+        else if(!empty($phishing_url)){
+            $response['status'] = 'error';
+            $response['title'] = "Phishing URL Detected!";
+            $response['message'] = "The URL is considered as Phishing and Malicious! Contact us if you think this is a mistake!";
         }
         else{
             $response = $this->Shortener_model->processUrl();
@@ -314,10 +329,95 @@ class Shortener extends CI_Controller {
         $clean_data = $this->security->xss_clean( $data);
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$clean_data)));
     }
-    public function newShortURL()
+    public function accountNewShortURL()
     {
-        $data = $this->Shortener_model->newShortURL();
-        $clean_data = $this->security->xss_clean($data);
+        if(isset($this->session->secret_key))
+        {
+			$long_url = $this->input->post('redirect_url');
+			$title = $this->input->post('title');
+			$custom_link = $this->input->post('custom_link');
+			$check_url_param = $this->db->WHERE('short_url', $custom_link)->GET('shortened_url_tbl')->num_rows();
+            $malicious_url = $this->Shortener_model->checkBlocklistURLs($long_url, 'Malicious URL');
+            $shortener_url = $this->Shortener_model->checkBlocklistURLs($long_url, 'URL Shortener');
+            $spam_url = $this->Shortener_model->checkBlocklistURLs($long_url, 'Spam URL');
+            $phishing_url = $this->Shortener_model->checkBlocklistURLs($long_url, 'Phishing URL');
+    
+			if(!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $long_url)) {
+				$response['status'] = 'error';
+				$response['short_url'] = "";
+				$response['message'] = "Please enter a correct URL!";
+			}
+            else if(!empty($malicious_url)){
+                $response['status'] = 'error';
+                $response['title'] = "Blocked URL!";
+				$response['short_url'] = "";
+                $response['message'] = "This URL is was reported and considered as Malicious, abusive and is blocklisted! Contact us if you think this is a mistake!";
+            }
+            else if(!empty($shortener_url)){
+                $response['status'] = 'error';
+                $response['title'] = "Short URL Detected!";
+				$response['short_url'] = "";
+                $response['message'] = "The URL uses a URL Shortener! Read our Terms for more information!";
+            }
+            else if(!empty($spam_url)){
+                $response['status'] = 'error';
+				$response['short_url'] = "";
+                $response['title'] = "Spam URL Detected!";
+                $response['message'] = "The URL is considered as Spam! Contact us if you think this is a mistake!";
+            }
+            else if(!empty($phishing_url)){
+                $response['status'] = 'error';
+				$response['short_url'] = "";
+                $response['title'] = "Phishing URL Detected!";
+                $response['message'] = "The URL is considered as Phishing and Malicious! Contact us if you think this is a mistake!";
+            }
+			else if($check_url_param > 0){
+				$response['status'] = 'error';
+				$response['short_url'] = "";
+				$response['message'] = "Custom URL already exist!";
+			}
+			else if(!empty($custom_link) && strlen($custom_link) < 4 ){
+				$response['status'] = 'error';
+				$response['short_url'] = "";
+				$response['message'] = "Custom URL should be at least 4 characters";
+			}
+			else if(!empty($custom_link) && strlen($custom_link) > 30){
+				$response['status'] = 'error';
+				$response['short_url'] = "";
+				$response['message'] = "Custom URL should not be more than 30 characters";
+			}
+           
+			else if(!empty($long_url)) {
+				$short_url = ($custom_link!=='')?$custom_link:$this->Shortener_model->shortURLGenerator();
+				$data_arr = array(
+					'long_url'=>$long_url,
+					'short_url'=>str_replace(' ','-',$short_url),
+					'status'=>'active',
+					'created_at'=>date('Y-m-d H:i:s')
+				);
+				$data_arr2 = array(
+					'secret_key'=>$this->session->secret_key,
+					'title'=>($title!=='')?$title:'',
+					'url_param'=>str_replace(' ','-',$short_url),
+					'status'=>'active',
+					'created_at'=>date('Y-m-d H:i:s')
+				);
+				$this->Shortener_model->accountNewShortURL($data_arr, $data_arr2);
+
+				$response['status'] = 'success';
+				$response['message'] = "Here's your short URL ".base_url().$short_url.".";
+				$response['attribute'] = array('param'=>$short_url,'url'=>base_url().$short_url,'uuu'=> $malicious_url);
+			}
+		}
+		else
+        {
+			$response['status'] = 'error';
+			$response['short_url'] = "";
+			$response['message'] = "Something went wrong! Refresh the page and try again!";
+		}
+        // $data = $this->Shortener_model->newShortURL();
+
+        $clean_data = $this->security->xss_clean($response);
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$clean_data)));
     }
     public function getAccountData()
