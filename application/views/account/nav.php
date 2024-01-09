@@ -129,6 +129,12 @@
                         </a>
                     </li>
                     <li class="side-nav-item">
+                        <a  href="<?=base_url('account/ads');?>" class="side-nav-link dashboard <?=($state=='ads')?'active':'';?>">
+                            <i class="uil-file-info-alt"></i>
+                            <span class=""> Advertisements </span>
+                        </a>
+                    </li>
+                    <li class="side-nav-item">
                         <a href="<?=base_url('account/blog')?>" class="side-nav-link blog <?=($state =='blog_list')?'active':'';?>">
                             <i class="uil-document-layout-left "></i>
                             <span class=""> Blog </span>

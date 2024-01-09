@@ -17,6 +17,7 @@ class Shortener extends CI_Controller {
         $this->load->model('Csrf_model');
         $this->load->model('User_model');
         $this->load->model('GoogleApi_model');
+        $this->load->model('Ads_model');
     }
     public function processUrl() {
         $long_url = $this->input->post('long_url');
@@ -66,6 +67,7 @@ class Shortener extends CI_Controller {
             // header('Location: '.$data_url);
 
             $data['url'] = $data_url;
+            $data['ad_data'] =  $this->Ads_model->showAdData('banner');
             $this->load->view('shortener/redirect', $data);
         }
         else{
@@ -85,6 +87,7 @@ class Shortener extends CI_Controller {
             
             $data['url_param'] = $param;
             $data['url_data'] =  $this->Shortener_model->getURLDataByURLParam($param);
+            $data['ad_data'] =  $this->Ads_model->showAdData('button');
             $data['blocked_status'] = $this->Shortener_model->checkBlockStatus($param);
             $this->load->view('home/header', $data);
             $this->load->view('home/nav');

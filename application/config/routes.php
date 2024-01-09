@@ -79,6 +79,7 @@ $route['account/blog'] = 'Page/blogList';
 $route['account/blog/new'] = 'Page/newBlog';
 $route['account/blog/edit/(:any)'] = 'Page/editBlog/$1';
 $route['account/activity-logs'] = 'Page/activityLogs';
+$route['account/ads'] = 'Page/ads';
 
 #BLOG
 $route['blog/edit/(:any)'] = 'Page/editBlog/$1';
@@ -110,6 +111,14 @@ $route['api/v1/article/_get_blog_tags'] = 'Blog/getArticleTagForPageJS';
 $route['api/v1/account/_login'] = 'Login/loginProcess';
 $route['api/v1/account/_recovery'] = 'Login/accountRecovery';
 $route['login/r/(:any)'] = 'Login/userSecretLogin/$1';
+
+# ADS
+$route['redirect/partner/(:any)'] = 'Ads/redirectAdsAfterClick/$1';
+$route['api/v1/ad/_new'] = 'Ads/save';
+$route['api/v1/ad/_get_list'] = 'Ads/getList';
+$route['api/v1/ad/_change_status'] = 'Ads/changeStatus';
+$route['api/v1/ad/_delete'] = 'Ads/delete';
+
 
 # Statistics
 $route['api/v1/statistics/_website_stat_chart'] = 'Statistics/getWebsiteStatsChart';

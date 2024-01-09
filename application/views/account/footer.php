@@ -101,6 +101,7 @@
 			<?= ($state == 'url_list' || $state == 'users_list' || $state == 'activity_logs') ? '<script src="'.base_url().'assets/js/auth/_account.js?'.filemtime('assets/js/auth/_account.js').'"></script>' : '' ?>
 			
 			<?= ($state == 'dashboard') ? '<script src="'.base_url().'assets/js/vendor/Chart.bundle.min.js"></script>' : '' ?>
+			<?= ($state == 'ads') ? '<script src="'.base_url().'assets/js/auth/_ads.js"></script>' : '' ?>
 
 			<?= ($state == 'new_blog' || $state == 'blog_list' || $state == 'edit_blog') ? '
 			<script src="'.base_url().'assets/js/vendor/croppie.js"></script>

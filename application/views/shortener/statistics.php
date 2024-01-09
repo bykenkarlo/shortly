@@ -16,30 +16,27 @@
                         <div class="col-lg-4 mt-2">
                             <div class=" display-flex-inline mobile-view">
                                 <button class="btn btn-success rounded-alt mobile-view mr-1" type="button" id="_mb_create_account_btn">Create Account</button>
-                                <div class="dropdown button-ad mobile-view"> <!-- start ad button -->
-                                    <a class="btn btn-success c-white rounded-alt dropdown-toggle" data-bs-toggle="dropdown" href="https://bcgame.ph/i-x6pgpc8h-n/" id="">
-                                    Get $20,000
+                                <?php if($ad_data['type'] == 'button') { ?>
+                                <div class="dropdown button-ad mobile-view"> 
+                                    <a style="background-color: #<?=$ad_data['button_color'];?>;" class="btn c-white rounded-alt dropdown-toggle" data-bs-toggle="dropdown" href="<?=base_url('redirect/partner/').$ad_data['ad_id']?>" id="">
+                                    <?=$ad_data['button_text']; ?>
                                     </a>
-                                    <div class="dropdown-menu  dropdown-ad-wrapper">
-                                        <a href="https://bcgame.ph/i-x6pgpc8h-n/" target="_blank" rel="noopener nofollow" class="c-gray">
+                                    <div class="dropdown-menu dropdown-ad-wrapper">
+                                        <a href="<?=base_url('redirect/partner/').$ad_data['ad_id']?>" target="_blank" rel="noopener nofollow" class="c-gray">
                                             <span class="float-end font-10">Sponsored</span>
                                             <div class="ad-logo mt-2 mb-1">
-                                                <img src="https://talkimg.com/images/2023/12/06/Niwka.png" alt="logo" width="50%">
+                                                <img src="<?=$ad_data['logo']; ?>" alt="logo" width="50%">
                                             </div>
                                             <div class="ad-details mb-2">
                                                 <div class="btn-ad-wording">
-                                                    <p>
-                                                            Sign Up & Get Reward Up to $20,0000
-                                                    </p>
-                                                    <p>
-                                                            Best Crypto Casino. Biggest crypto crash game. Provably fair & Live dealer. 10000 slot games.Unique bonus & free lucky spins. BTC, ETH, DOGE, TRX, XRP...
-                                                    </p>
+                                                <?=$ad_data['description']; ?>
                                                 </div>
-                                                <a href="https://bcgame.ph/i-x6pgpc8h-n/" target="_blank" rel="noopener nofollow">Register, play and win!</a>
+                                                <a href="<?=base_url('redirect/partner/').$ad_data['ad_id']?>" class="mt-2" target="_blank" rel="noopener nofollow">Learn More</a>
                                             </div>
                                         </a>
                                     </div>
-                                </div> <!-- end ad button -->
+                                </div>
+                                <?php }?>
                             </div>
 
                             <div class="card card-services-highlights pt-1 pb-2  c-gray">
@@ -91,30 +88,27 @@
                             <div class="row">
                                 <div class="col-lg-6 mt-2 web-view">
                                     <button class="btn btn-success rounded-alt mr-1" type="button" id="_create_account_btn">Create Account</button>
+                                    <?php if($ad_data['type'] == 'button') { ?>
                                     <div class="dropdown button-ad"> <!-- start ad button -->
-                                        <a class="btn btn-success c-white rounded-alt dropdown-toggle" data-bs-toggle="dropdown" href="https://bcgame.ph/i-x6pgpc8h-n/" id="">
-                                        Get $20,000
+                                        <a style="background-color: #<?=$ad_data['button_color'];?>;"  class="btn c-white rounded-alt dropdown-toggle" data-bs-toggle="dropdown" href="<?=base_url('redirect/partner/').$ad_data['ad_id']?>" id="">
+                                        <?=$ad_data['button_text']; ?>
                                         </a>
                                         <div class="dropdown-menu  dropdown-ad-wrapper">
-                                            <a href="https://bcgame.ph/i-x6pgpc8h-n/" target="_blank" rel="noopener nofollow" class="c-gray">
+                                            <a href="<?=base_url('redirect/partner/').$ad_data['ad_id']?>" target="_blank" rel="noopener nofollow" class="c-gray">
                                                 <span class="float-end font-10">Sponsored</span>
                                                 <div class="ad-logo mt-2 mb-1">
-                                                    <img src="https://talkimg.com/images/2023/12/06/Niwka.png" alt="logo" width="50%">
+                                                    <img src="<?=$ad_data['logo']; ?>" alt="<?=$ad_data['name']; ?>" width="50%">
                                                 </div>
                                                 <div class="ad-details mb-2">
                                                     <div class="btn-ad-wording">
-                                                        <p>
-                                                        Sign Up & Get Reward Up to $20,0000
-                                                        </p>
-                                                        <p>
-                                                        Best Crypto Casino. Biggest crypto crash game. Provably fair & Live dealer. 10000 slot games.Unique bonus & free lucky spins. BTC, ETH, DOGE, TRX, XRP...
-                                                        </p>
+                                                    <?=$ad_data['description']; ?>
                                                     </div>
-                                                    <a href="https://bcgame.ph/i-x6pgpc8h-n/" target="_blank" rel="noopener nofollow">Register, play and win!</a>
+                                                    <a href="<?=base_url('redirect/partner/').$ad_data['ad_id']?>" class="mt-2" target="_blank" rel="noopener nofollow">Learn More</a>
                                                 </div>
                                             </a>
                                         </div>
                                     </div> <!-- end ad button -->
+                                    <?php }?>
                                 </div>
                                 <div class="col-lg-6 mt-2 float-end">
                                     <div for="_select_date" class="d-flex align-items-center mb-2">

@@ -44,13 +44,14 @@
 
     <body>
         <div id="loader" class="loader-div" hidden>
+            <?php if($ad_data['type'] == 'banner') {?>
             <div class="redirect-banner">
-                <a href="https://shortly.at/coinomize" target="_blank" rel="noopener">
-                    <img src="<?=base_url('assets/images/other/')."banner-1001.jpg"?>" class="img-fluid" alt="banner ad">
+                <a href="<?=base_url('redirect/partner/').$ad_data['ad_id'];?>" target="_blank" rel="noopener">
+                    <img src="<?= $ad_data['image'];?>" class="img-fluid" alt="banner ad">
                 </a>
                 <div class="c-light font-10 mt-1">Advertisement</div>
-                
             </div>
+            <?php }?>
 			<div class="loader-wrapper">
 				<img src="<?=base_url('assets/images/other/loader.gif')?>" width="120" heigth="120">
 			</div>

@@ -456,7 +456,9 @@ $config['csrf_regenerate'] = TRUE;
 $config['csrf_exclude_uris'] = array(
     'api/v1/shortener/_process',
     'api/v1/shortener/_disable_multiple_url',
-    'api/v1/url/_block_url'
+    'api/v1/url/_block_url',
+    'api/v1/ad/_new'
+
 );
 
 /*

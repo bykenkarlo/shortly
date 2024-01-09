@@ -475,7 +475,6 @@ class Shortener_model extends CI_Model {
 			$data['country'] = $ip_data->location->country->name;
 			$data['city'] = $ip_data->location->city;
 		}
-
 		return $data;
 	}
 	public function uploadCustomLogo($data){
