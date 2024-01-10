@@ -6,7 +6,7 @@ class Ads_model extends CI_Model {
         return $this->db->SELECT('redirect_url')->WHERE('ad_id', $ad_id)->GET('ads_tbl')->row_array();
     }
     public function showAdData($type){
-        return $this->db->SELECT('name, ad_id, redirect_url, description, logo, button_text, button_color, image')
+        return $this->db->SELECT('name, ad_id, redirect_url, type, description, logo, button_text, button_color, image')
             ->WHERE('type', $type)
             ->WHERE('status', 'active')
             ->ORDER_BY('id', 'RANDOM')

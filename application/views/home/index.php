@@ -30,9 +30,12 @@
                                             </div>
                                         </div>
                                         <div class="mt-2 text-center">
-                                            <a href="https://shortly.at/coinomize">
-                                                <img src="<?=base_url('assets/images/other/')."banner-1001.jpg"?>" class="img-fluid" alt="banner ad">
-                                            </a>
+                                            
+                                            <?php if($ad_data['type'] == 'banner') {?>
+                                                <a href="<?=base_url('redirect/partner/').$ad_data['ad_id'];?>" target="_blank" rel="noopener">
+                                                    <img src="<?= $ad_data['image'];?>" class="img-fluid" alt="banner ad">
+                                                </a>
+                                            <?php }?>
                                             <small class="c-light font-10">Advertisement</small>
                                         </div>
                                     </div>
