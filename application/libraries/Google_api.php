@@ -7,7 +7,7 @@ class Google_api {
 
     public function authKeys() {
         $auth = array(
-            'api_key' => 'AIzaSyDck2wgJU_lerRlt8WHCOo8aQnb01AKpYo',
+            'api_key' => 'api_key_here',
             'google_safe_url' => "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=",
         );
         return $auth;
