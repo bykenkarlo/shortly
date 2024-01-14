@@ -100,7 +100,6 @@
                                                     <img src="<?=$ad_data['logo']; ?>" alt="<?=$ad_data['name']; ?>" width="50%">
                                                 </div>
                                                 <div class="ad-details mb-2">
-                                                    <div class="btn-ad-wording">
                                                     <?=$ad_data['description']; ?>
                                                     </div>
                                                     <a href="<?=base_url('redirect/partner/').$ad_data['ad_id']?>" class="mt-2" target="_blank" rel="noopener nofollow">Learn More</a>

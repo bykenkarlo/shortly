@@ -20,12 +20,8 @@
     '</pre>';
 ?>
 <script src="<?=base_url('assets/js/jquery-3.6.3.min.js')?>"></script>
-<?php if ($scanned_data['scanned_url'] > 0){ 
-    $urls = "";
-    foreach ($url_data as $ud) {      
-        $urls .= '{"url"'.': "'.$ud["url"].'"},' ;
-    }
-    ?>
+<?php if ($scanned_data['url_count'] > 0){ 
+?>
     <script>
     base_url = "<?=base_url()?>";
     scanURL();
@@ -42,7 +38,7 @@
               "threatTypes":      ["MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE", "CSD_DOWNLOAD_WHITELIST","POTENTIALLY_HARMFUL_APPLICATION","THREAT_TYPE_UNSPECIFIED"],
               "platformTypes":    ["ALL_PLATFORMS"],
               "threatEntryTypes": ["URL"],
-              "threatEntries": [ <?= rtrim($urls,',');?>
+              "threatEntries": [ <?= rtrim($url_to_scan,','); ?>
               ]
             }
         };

@@ -28,7 +28,6 @@
 			</div>
 
 			<script src="<?=base_url('assets/js/jquery-3.6.3.min.js')?>"></script>
-			<script src="<?=base_url()?>assets/js/vendor/daterangepicker.min.js"></script>
 			<script src="<?=base_url()?>assets/js/vendor/croppie.js"></script>
 			<script src="<?=base_url()?>assets/js/vendor/Chart.bundle.min.js"></script>
 			<script src="<?=base_url()?>assets/js/vendor/moment.min.js"></script>

@@ -49,7 +49,7 @@
                                                 <button type="button" class="btn rounded btn-light mb-2" onclick="refreshURLList()"><i class="uil-redo"></i> Refresh</button>
                                                 <!-- <button type="button" class="btn rounded btn-success mb-2" onclick="checkGoogleSafeBrowsingList()"><i class="uil-check"></i> Check Google Safebrowsing</button> -->
                                                 <button type="button" class="btn rounded btn-danger mb-2" data-row-count="" id="disable_multiple_url_btn"><i class="uil-times-circle"></i> Disable URLs</button>
-                                                <a target="_blank" rel="noopener" href="<?=base_url('api/v1/scan/_google_safe_browsing_urls_today')?>" class="btn rounded btn-warning mb-2 c-white" ><i class="uil-cloud-redo"></i> Scan Malicious URL</a>
+                                                <button id="scan_url_btn" class="btn rounded btn-warning mb-2 c-white" ><i class="uil-cloud-redo"></i> Scan Malicious URL</button>
                                             </div>
                                         </div>  
                                     </div>
@@ -149,7 +149,7 @@
                                     <div class="modal-body">
                                         <div class="">
                                             <div class="container">
-                                                <h3 class="text-left" style="font-weight: 300; color: #3c3c3d;" class="text-capitalize margin-top-40"> <i class="uil-plus"></i> Add Keyword/URL</h3>
+                                                <h3 class="text-left" style="font-weight: 300; color: #3c3c3d;" class="text-capitalize margin-top-40"> <i class="uil-cloud-redo"></i> Add Keyword/URL</h3>
                                                     <div class="mt-2">
                                                         <input type="text" name="url" class="form-control" id="_blocklist_url" placeholder="Content/URL"  required autofocus>
                                                     </div>
@@ -169,6 +169,31 @@
                                         </div>
                                         <div class="text-end mb-2 mt-2">
                                             <button class="btn btn-success rounded" type="submit" id="_save_blocklist_url">Save</button>
+                                            <button class="btn btn-secondary rounded" type="button" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade margin-top-10" id="scan_url_modal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <form id="" class="margin-bottom-30 margin-top-20">
+                                    <div class="modal-body">
+                                        <div class="">
+                                            <div class="container">
+                                                <h3 class="text-left" style="font-weight: 300; color: #3c3c3d;" class="text-capitalize margin-top-40"> <i class="uil-cloud-redo"></i> Scan Malicious URL</h3>
+                                                    <div class="mt-3">
+                                                        <label for="">Select Date</label>
+                                                        <input value="<?=date('m/d/Y')?> - <?=date('m/d/Y')?>" type="text" class="form-control date me-2 select-date" id="select_date" data-toggle="date-picker" data-cancel-class="btn-light">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="text-end mb-2 mt-2">
+                                            <button class="btn btn-success rounded" type="button" id="scan_btn">Scan</button>
                                             <button class="btn btn-secondary rounded" type="button" data-bs-dismiss="modal">Close</button>
                                         </div>
                                     </div>

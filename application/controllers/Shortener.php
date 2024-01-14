@@ -513,58 +513,18 @@ class Shortener extends CI_Controller {
         $data = $this->Shortener_model->disableMultipleURL();
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
-    public function googleSafeBrowsingURLScan() 
-    {
-        /* 
-         | Scan new URL once an hour using cron
-        */ 
-        $url_count = 0;
-        $new_count = 0;
-        $url_array = '';
-        $message = "Scanned ".$url_count." URLs";
-
-        // $safe_browsing_data = 'No data';
-        if(!isset(($this->session->current_count))) {
-            $current_count = $this->Shortener_model->suCurrentCount();
-            $this->session->set_tempdata('current_count',  $current_count, 4200); // 4200 secs / 1 hour 10 mins
-        }
-        else{
-            $old_count = (int)$this->session->current_count;
-            $new_count = (int)$this->Shortener_model->suCurrentCount();
-
-            if($new_count > $old_count)
-            {
-                $url_count = $new_count - $old_count;
-                $this->session->set_tempdata('current_count',  $new_count, 3720); // 62 minutes / 1 hour an 2 minutes
-                $url_array = $this->Shortener_model->getURLsToScan($url_count);
-                // $safe_browsing_data = $this->GoogleApi_model->safeBrowsingApi($url_array);
-                
-                $message = "Scanned ".$url_count." URLs";
-            }
-            else{
-            }
-        }
-
-        $scanned_data = array(
-            'current_count'=> $this->session->current_count,
-            'scanned_url'=> $url_count,
-            // 'google_safe_browsing' =>$safe_browsing_data,
-            'URLs'=>$url_array
-        );
-        // $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$scanned_data)));
-
-        $this->Shortener_model->insertActivityLog($message); 
-        $data['url_data'] = $this->Shortener_model->getURLsToScan($url_count);
-        $data['scanned_data'] = $scanned_data ;
-        $this->load->view('account/url_scanner', $data);    
-    }
     public function googleSafeBrowsingURLScanEveryDay() 
     {
         /* 
          | Scan new registered URLs twice a day AND every 6 hours
         */ 
-        $url_array = $this->Shortener_model->UrlToScanRegisteredToday();
-        $url_count = $this->Shortener_model->UrlToScanRegisteredTodayCount();
+
+        $start_date = date('Y-m-d 00:00:00');
+        $end_date = date('Y-m-d 23:59:59');
+    	$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+
+        $url_array = $this->Shortener_model->UrlToScanRegisteredToday($date_range);
+        $url_count = $this->Shortener_model->UrlToScanRegisteredTodayCount($date_range);
 
         $scanned_data = array(
             'scanned_url'=>$url_count,
@@ -577,14 +537,145 @@ class Shortener extends CI_Controller {
         $data['url_data'] =  $url_array;
         $this->load->view('account/url_scanner', $data);    
     }
-    // public function UrlToScan($url_count){
-    //     $url_data = $this->Shortener_model->getURLsToScan($url_count);
-    //     return $url_data;
-    // }
+    public function googleSafeBrowsingURLScan(){
+        /* 
+         | Scan new registered URLs twice a day AND every 6 hours
+        */ 
+        $from = $this->input->get('from');
+        $to = $this->input->get('to');
+        if($from == 'monthly' && $to == 'monthly') {
+            $start_date = date('Y-m-01 00:00:00');
+            $end_date = date('Y-m-t 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+        else{
+            $start_date = date('Y-m-d 00:00:00');
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+
+        $message_status = "";
+        $curl_message = "";
+        
+
+        $url_array = $this->Shortener_model->UrlToScanRegisteredToday($date_range);
+        $url_count = $this->Shortener_model->UrlToScanRegisteredTodayCount($date_range);
+
+        $url_to_scan = "";
+        foreach ($url_array as $ud) {      
+            $url_to_scan .= '{"url"'.': "'.$ud["url"].'"},' ;
+        }
+        
+        $message1 = "Scanned URLs: ".$url_count; 
+        $this->Shortener_model->insertActivityLog($message1); 
+        $data['scanned_data'] = array(
+            'url_count' => $url_count,
+            // 'message' => $message1,
+            'url_to_scan' => $url_array, # url_array OR url_to_scan
+        );
+        $data['url_to_scan'] = $url_to_scan;
+        $this->load->view('account/url_scanner', $data);   
+
+        // $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+    }
+    public function googleSafeBrowsingURLScanV2(){
+        /* 
+         | Scan new registered URLs twice a day AND every 6 hours
+        */ 
+        $from = $this->input->get('from');
+        $to = $this->input->get('to');
+        if($from == 'monthly' && $to == 'monthly') {
+            $start_date = date('Y-m-01 00:00:00');
+            $end_date = date('Y-m-t 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+        else{
+            $start_date = date('Y-m-d 00:00:00');
+            $end_date = date('Y-m-d 23:59:59');
+            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
+        }
+        $message_status = "";
+        $curl_message = "";
+        $url_array = $this->Shortener_model->UrlToScanRegisteredToday($date_range);
+        $url_count = $this->Shortener_model->UrlToScanRegisteredTodayCount($date_range);
+
+        $url_to_scan = "";
+        foreach ($url_array as $ud) {      
+            $url_to_scan .= '{"url"'.': "'.$ud["url"].'"},' ;
+        }
+        $safe_browsing_response = $this->safeBrowsingApi($url_array, $url_count);
+        $data['scanned_data'] = array(
+            'url_count' => $url_count,
+            'safe_browsing_response' => $safe_browsing_response,
+            'url_to_scan' => $url_array, # url_array OR url_to_scan
+        );
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+    }
+    public function safeBrowsingApi($url_to_scan, $url_count){
+        $api_key = 'AIzaSyDck2wgJU_lerRlt8WHCOo8aQnb01AKpYo';
+        $api_url = 'https://safebrowsing.googleapis.com/v4/threatMatches:find?key=' . $api_key;
+        $request_data = [
+            'client' => [
+                'clientId' => 'shortlyapp382402',
+                'clientVersion' => '382402',
+            ],
+            'threatInfo' => [
+                'threatTypes' => ["MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE", "CSD_DOWNLOAD_WHITELIST","POTENTIALLY_HARMFUL_APPLICATION","THREAT_TYPE_UNSPECIFIED"],
+                'platformTypes' => ['ANY_PLATFORM'],
+                'threatEntryTypes' => ['URL'],
+                'threatEntries' => [
+                     rtrim($url_to_scan,',')
+                ],
+            ],
+        ];
+        $ch = curl_init($api_url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_REFERER, "https://shortly.at/");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request_data));
+        $response = curl_exec($ch);
+        if (curl_errno($ch)) 
+        {
+            $curl_message = "cURL error: " . curl_error($ch);
+            $this->Shortener_model->insertActivityLog($curl_message);
+        } 
+        else 
+        {
+            $curl_message = "";
+            $result = json_decode($response, true);
+            if (isset($result['matches']) && !empty($result['matches'])) 
+            {
+                $msg = 'The URL is flagged as a threat.';
+                $message1 = "Scanned URLs: ".$url_count; 
+                $this->Shortener_model->insertActivityLog($message1); 
+                $blocked_url = array();
+                foreach($result['matches'] as $match){
+                    $array = array(
+                        "url"=>$match['threat']['url'],
+                    );
+                    array_push($blocked_url, $array);
+                }
+                $this->Shortener_model->blockURLGoogleURLScan($blocked_url);
+                $this->Shortener_model->disableURLGoogleURLScan($blocked_url);
+                $message_status = "Blocked URLs: ".implode(", ", $blocked_url );
+                $this->Shortener_model->insertActivityLog($message_status);
+            } 
+            else 
+            {
+                $message1 = "Scanned URLs: ".$url_count; 
+                $this->Shortener_model->insertActivityLog($message1); 
+                $message_status = "No unwanted URLs";
+                $this->Shortener_model->insertActivityLog($message_status); 
+            }
+        }
+        curl_close($ch);
+        return $response;
+    }
     public function blockURLGoogleURLScan(){
 		$url_array = $this->input->post('url_array');
-        $data = $this->Shortener_model->blockURLGoogleURLScan();
-        $data = $this->Shortener_model->disableURLGoogleURLScan();
+        $data = $this->Shortener_model->blockURLGoogleURLScan($url_array);
+        $data = $this->Shortener_model->disableURLGoogleURLScan($url_array);
 
         $message = "Blocked URLs: ".implode(", ",$url_array);
         $this->Shortener_model->insertActivityLog($message); 

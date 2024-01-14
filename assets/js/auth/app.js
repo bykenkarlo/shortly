@@ -1499,7 +1499,7 @@ $("#_edit_short_url_form").on('submit', function(e) {
     checkCustomURL(long_url,formData);
 })
 function checkCustomURL(long_url, formData){
-    let api_key =  "AIzaSyCm_T4r1vS1qL-db7RKqjc22xg9OaYo-a8"; 
+    let api_key =  "AIzaSyDck2wgJU_lerRlt8WHCOo8aQnb01AKpYo"; 
     let googleURL = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key="+api_key;
     let payload =
     {

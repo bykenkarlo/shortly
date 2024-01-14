@@ -40,7 +40,7 @@ function refreshURLList(){
 	_getUrlList(1,'', 10, '');
 }
 function checkGoogleSafeBrowsingList(){
-	let api_key =  "AIzaSyCm_T4r1vS1qL-db7RKqjc22xg9OaYo-a8"; 
+	let api_key =  "AIzaSyDck2wgJU_lerRlt8WHCOo8aQnb01AKpYo"; 
 	let googleURL = "https://safebrowsing.googleapis.com/v4/threatLists?key="+api_key;
 	fetch(googleURL, {
 		method: "GET",
@@ -660,3 +660,30 @@ function _displayActivityLogsData(page_no, result, pagination, count){
 		$("#activity_logs").html("<tr class='text-center'><td colspan='7'>No records found!</td></tr>");
 	}
 }
+$("#scan_url_btn").on('click', function() {
+	$('.daterangepicker').css('z-index','1600');
+	$("#scan_url_modal").modal('toggle');
+})
+$("#scan_btn").on('click', function() {
+	$("#scan_url_btn").text('Scanning...').attr('disabled','disabled');
+	from = $('#select_date').data('daterangepicker').startDate;
+	to = $('#select_date').data('daterangepicker').endDate;
+	let params = new URLSearchParams({'from':from, 'to':to});
+	let url_api = base_url+'api/v1/scan/_google_safe_browsing_url_v2?'+params;
+
+	fetch(url_api, {
+		method: "GET",
+			headers: {
+			  'Accept': 'application/json',
+			  'Content-Type': 'application/json'
+			},
+	})
+	.then(response => response.json())
+	.then(res => {
+	})
+	.catch((error) => {
+		console.error('Error:', error);
+	});
+	// window.open(url_api);
+	$("#scan_url_btn").text('Scan').removeAttr('disabled','disabled');
+})
