@@ -74,65 +74,8 @@ $("#_url_shortener_form").on('submit', function(e) {
         return false;
     }
     $("#_shorten_url_btn").text('Processing...').attr('disabled', 'disabled');
-    _checkLink(long_url, formData);
+    processURLShortener(formData);
 })
-function _checkLink(long_url, formData){
-    let api_key =  "AIzaSyCm_T4r1vS1qL-db7RKqjc22xg9OaYo-a8"; 
-        let googleURL = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key="+api_key;
-        let payload =
-        {
-            "client": {
-              "clientId":      "shortlyapp382402",
-              "clientVersion": "382402"
-            },
-            "threatInfo": {
-              "threatTypes":      ["MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE", "CSD_DOWNLOAD_WHITELIST","POTENTIALLY_HARMFUL_APPLICATION","THREAT_TYPE_UNSPECIFIED"],
-              "platformTypes":    ["ALL_PLATFORMS"],
-              "threatEntryTypes": ["URL"],
-              "threatEntries": [
-                {"url": ""+long_url+""},
-              ]
-            }
-        };
-        $.ajax({
-            url: googleURL,
-            dataType: "json",
-            type: 'POST',
-            contentType: "applicaiton/js on; charset=utf-8",
-            data: JSON.stringify(payload),
-            statusCode: {
-                 403: () => {
-                     _error403();
-                 },
-                 400: () => {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error!',
-                        html: "INVALID URL! Try again!",
-                    });
-                $("#_shorten_url_btn").text('Shorten URL').removeAttr('disabled', 'disabled');
-                }
-             }
-         })
-         .done( (res) => {
-            if(jQuery.isEmptyObject(res)){
-                processURLShortener(formData);
-            }
-            else {
-                console.log(res.matches[0].threatType)
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error!',
-                    html: "The URL is labeled as '"+res.matches[0].threatType+"', unsafe and malicious by Google!",
-                }); 
-                console.log("Malware detected!");
-                $("#_shorten_url_btn").text('Shorten URL').removeAttr('disabled', 'disabled');
-            }
-         })
-         .fail(function(){
-            $("#_shorten_url_btn").text('Shorten URL').removeAttr('disabled', 'disabled');
-         })
-}
 function processURLShortener(formData){
     
     $.ajax({
@@ -181,46 +124,6 @@ function processURLShortener(formData){
         $("#_shorten_url_btn").text('Shorten URL').removeAttr('disabled', 'disabled');
         _csrfNonce();
     })
-}
-
-const checkLink = (long_url) => {
-	let api_key =  "AIzaSyCm_T4r1vS1qL-db7RKqjc22xg9OaYo-a8"; 
-	let googleURL = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key="+api_key;
-	let payload =
-	{
-		"client": {
-		  "clientId":      "shortlyapp382402",
-		  "clientVersion": "382402"
-		},
-		"threatInfo": {
-		  "threatTypes":      ["MALWARE", "SOCIAL_ENGINEERING"],
-		  "platformTypes":    ["WINDOWS"],
-		  "threatEntryTypes": ["URL"],
-		  "threatEntries": [
-			{"url": ""+long_url+""},
-		  ]
-		}
-	};
-	$.ajax({
-		url: googleURL,
-		dataType: "json",
-		type: 'POST',
-		contentType: "applicaiton/json; charset=utf-8",
-		data: JSON.stringify(payload),
-		statusCode: {
-			 403: () => {
-				 _error403();
-			 }
-		 }
-	 })
-	 .done( (res) => {
-		if(res.matches[0].threatType == 'MALWARE'){
-			return res.matches[0].threatType;
-		}
-        else{
-            return false;
-        }
-	 })
 }
 const isValidUrl = (long_url) => {
     var urlPattern = new RegExp('^(https?:\\/\\/)?'+ // validate protocol
@@ -1243,6 +1146,10 @@ const _getURLData = (url_param) => { // fetch latest shortened url to top
 	})
 	.then(response => response.json())
 	.then(res => {
+        $(".alert-wrapper").attr('hidden','hidden')
+        if(res.data.status == 'disabled'){
+            $(".alert-wrapper").removeAttr('hidden','hidden')
+        }
         $('html, body').animate({scrollTop:$('#stat_view').position().top}, 'slow');
         $("#_acct_copy_url_btn").attr('data-clipboard-text',base_url+''+url_param)
         $(".acct_copy_url_btn").attr('data-clipboard-text',base_url+''+url_param)
@@ -1496,62 +1403,9 @@ $("#_edit_short_url_form").on('submit', function(e) {
     }
     let formData = new FormData(this);
 	$("#_save_url_btn").text('Saving...').attr('disabled', 'disabled');
-    checkCustomURL(long_url,formData);
+    processCustomURLShortener(formData);
 })
-function checkCustomURL(long_url, formData){
-    let api_key =  "AIzaSyDck2wgJU_lerRlt8WHCOo8aQnb01AKpYo"; 
-    let googleURL = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key="+api_key;
-    let payload =
-    {
-        "client": {
-          "clientId":      "shortlyapp382402",
-          "clientVersion": "382402"
-        },
-        "threatInfo": {
-            "threatTypes":      ["MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE", "CSD_DOWNLOAD_WHITELIST","POTENTIALLY_HARMFUL_APPLICATION","THREAT_TYPE_UNSPECIFIED"],
-            "platformTypes":    ["ALL_PLATFORMS"],
-            "threatEntryTypes": ["URL"],
-            "threatEntries": [
-            {"url": ""+long_url+""},
-            ]
-        }
-    };
-    $.ajax({
-        url: googleURL,
-        dataType: "json",
-        type: 'POST',
-        contentType: "application/js on; charset=utf-8",
-        data: JSON.stringify(payload),
-        statusCode: {
-                403: () => {
-                    _error403();
-                },
-                400: () => {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error!',
-                    html: "INVALID URL! Try again!",
-                });
-            $("#_save_url_btn").text('Save').removeAttr('disabled', 'disabled');
-            }
-        }
-    })
-    .done( (res) => {
-        if(jQuery.isEmptyObject(res)){
-            processCustomURLShortener(formData);
-        }
-        else {
-            console.log(res.matches[0].threatType)
-            Swal.fire({
-                icon: 'error',
-                title: 'Error!',
-                html: "The URL is labeled as '"+res.matches[0].threatType+"', unsafe and malicious by Google!",
-            }); 
-            console.log("Malware detected!");
-        }
-        $("#_save_url_btn").text('Save').removeAttr('disabled', 'disabled');
-    })
-}
+
 function processCustomURLShortener(formData){
     $.ajax({
         url: base_url+'api/v1/shortener/_save_custom_url',

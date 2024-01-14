@@ -11,7 +11,7 @@ class Shortener extends CI_Controller {
         parent::__construct();
         $this->load->library('user_agent');
         $this->load->library('pagination');
-        $this->load->library('google_app_api');
+        $this->load->library('google_api');
         $this->load->model('Shortener_model');
         $this->load->model('Site_settings_model');
         $this->load->model('Csrf_model');
@@ -25,6 +25,7 @@ class Shortener extends CI_Controller {
         $shortener_url = $this->Shortener_model->checkBlocklistURLs($long_url, 'URL Shortener');
         $spam_url = $this->Shortener_model->checkBlocklistURLs($long_url, 'Spam URL');
         $phishing_url = $this->Shortener_model->checkBlocklistURLs($long_url, 'Phishing URL');
+        $gsafe_browsing = $this->GoogleApi_model->safeBrowsingApi($long_url);
 
         // $check_url_shortener = $this->Shortener_model->checkURLShortenerSites();
         // $check_spam_url = $this->Shortener_model->checkSpamURL();
@@ -32,6 +33,11 @@ class Shortener extends CI_Controller {
             $response['status'] = 'error';
             $response['title'] = "Error";
             $response['message'] = "Please enter a correct URL!";
+        }
+        else if($gsafe_browsing){
+            $response['status'] = 'error';
+            $response['title'] = "Error";
+            $response['message'] = "The URL is labeled as &ldquo;".$gsafe_browsing['matches'][0]['threatType']."&ldquo;, unsafe and malicious by Google!";
         }
         else if(!empty($malicious_url)){
             $response['status'] = 'error';
@@ -327,8 +333,10 @@ class Shortener extends CI_Controller {
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
     public function saveCustomURL()
-    {
-        $data = $this->Shortener_model->saveCustomURL();
+    {   
+		$long_url = $this->input->post('redirect_url');
+        $gsafe_browsing = $this->GoogleApi_model->safeBrowsingApi($long_url);
+        $data = $this->Shortener_model->saveCustomURL($gsafe_browsing);
         $clean_data = $this->security->xss_clean( $data);
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$clean_data)));
     }
@@ -344,12 +352,18 @@ class Shortener extends CI_Controller {
             $shortener_url = $this->Shortener_model->checkBlocklistURLs($long_url, 'URL Shortener');
             $spam_url = $this->Shortener_model->checkBlocklistURLs($long_url, 'Spam URL');
             $phishing_url = $this->Shortener_model->checkBlocklistURLs($long_url, 'Phishing URL');
+            $gsafe_browsing = $this->GoogleApi_model->safeBrowsingApi($long_url);
     
 			if(!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $long_url)) {
 				$response['status'] = 'error';
 				$response['short_url'] = "";
 				$response['message'] = "Please enter a correct URL!";
 			}
+            else if($gsafe_browsing){
+                $response['status'] = 'error';
+                $response['title'] = "Error";
+                $response['message'] = "The URL is labeled as &ldquo;".$gsafe_browsing['matches'][0]['threatType']."&ldquo;, unsafe and malicious by Google!";
+            }
             else if(!empty($malicious_url)){
                 $response['status'] = 'error';
                 $response['title'] = "Blocked URL!";
@@ -513,33 +527,9 @@ class Shortener extends CI_Controller {
         $data = $this->Shortener_model->disableMultipleURL();
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
-    public function googleSafeBrowsingURLScanEveryDay() 
-    {
-        /* 
-         | Scan new registered URLs twice a day AND every 6 hours
-        */ 
-
-        $start_date = date('Y-m-d 00:00:00');
-        $end_date = date('Y-m-d 23:59:59');
-    	$date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
-
-        $url_array = $this->Shortener_model->UrlToScanRegisteredToday($date_range);
-        $url_count = $this->Shortener_model->UrlToScanRegisteredTodayCount($date_range);
-
-        $scanned_data = array(
-            'scanned_url'=>$url_count,
-            'URLs'=>$url_array
-        );
-        $message = "Scanned URLs today: ".$url_count; 
-        $this->Shortener_model->insertActivityLog($message); 
-
-        $data['scanned_data'] =  $scanned_data;
-        $data['url_data'] =  $url_array;
-        $this->load->view('account/url_scanner', $data);    
-    }
     public function googleSafeBrowsingURLScan(){
         /* 
-         | Scan new registered URLs twice a day AND every 6 hours
+         | Scan URL through Google safe browsing, manually or using CRON
         */ 
         $from = $this->input->get('from');
         $to = $this->input->get('to');
@@ -548,45 +538,9 @@ class Shortener extends CI_Controller {
             $end_date = date('Y-m-t 23:59:59');
             $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
         }
-        else{
-            $start_date = date('Y-m-d 00:00:00');
-            $end_date = date('Y-m-d 23:59:59');
-            $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
-        }
-
-        $message_status = "";
-        $curl_message = "";
-        
-
-        $url_array = $this->Shortener_model->UrlToScanRegisteredToday($date_range);
-        $url_count = $this->Shortener_model->UrlToScanRegisteredTodayCount($date_range);
-
-        $url_to_scan = "";
-        foreach ($url_array as $ud) {      
-            $url_to_scan .= '{"url"'.': "'.$ud["url"].'"},' ;
-        }
-        
-        $message1 = "Scanned URLs: ".$url_count; 
-        $this->Shortener_model->insertActivityLog($message1); 
-        $data['scanned_data'] = array(
-            'url_count' => $url_count,
-            // 'message' => $message1,
-            'url_to_scan' => $url_array, # url_array OR url_to_scan
-        );
-        $data['url_to_scan'] = $url_to_scan;
-        $this->load->view('account/url_scanner', $data);   
-
-        // $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
-    }
-    public function googleSafeBrowsingURLScanV2(){
-        /* 
-         | Scan new registered URLs twice a day AND every 6 hours
-        */ 
-        $from = $this->input->get('from');
-        $to = $this->input->get('to');
-        if($from == 'monthly' && $to == 'monthly') {
-            $start_date = date('Y-m-01 00:00:00');
-            $end_date = date('Y-m-t 23:59:59');
+        else if(!empty($from) && !empty($to)){
+            $start_date = date('Y-m-d 00:00:00', strtotime($from));
+            $end_date = date('Y-m-d 23:59:59', strtotime($to));
             $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
         }
         else{
@@ -594,8 +548,6 @@ class Shortener extends CI_Controller {
             $end_date = date('Y-m-d 23:59:59');
             $date_range = array('created_at >'=>$start_date, 'created_at <'=> $end_date);
         }
-        $message_status = "";
-        $curl_message = "";
         $url_array = $this->Shortener_model->UrlToScanRegisteredToday($date_range);
         $url_count = $this->Shortener_model->UrlToScanRegisteredTodayCount($date_range);
 
@@ -612,8 +564,8 @@ class Shortener extends CI_Controller {
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
     }
     public function safeBrowsingApi($url_to_scan, $url_count){
-        $api_key = 'AIzaSyDck2wgJU_lerRlt8WHCOo8aQnb01AKpYo';
-        $api_url = 'https://safebrowsing.googleapis.com/v4/threatMatches:find?key=' . $api_key;
+        $google_api = $this->google_api->authKeys();
+        $api_url = $google_api['google_safe_url'] . $google_api['api_key'] ;
         $request_data = [
             'client' => [
                 'clientId' => 'shortlyapp382402',
@@ -631,7 +583,7 @@ class Shortener extends CI_Controller {
         $ch = curl_init($api_url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_REFERER, "https://shortly.at/");
+        curl_setopt($ch, CURLOPT_REFERER, base_url());
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request_data));
         $response = curl_exec($ch);
@@ -646,7 +598,6 @@ class Shortener extends CI_Controller {
             $result = json_decode($response, true);
             if (isset($result['matches']) && !empty($result['matches'])) 
             {
-                $msg = 'The URL is flagged as a threat.';
                 $message1 = "Scanned URLs: ".$url_count; 
                 $this->Shortener_model->insertActivityLog($message1); 
                 $blocked_url = array();
@@ -663,9 +614,7 @@ class Shortener extends CI_Controller {
             } 
             else 
             {
-                $message1 = "Scanned URLs: ".$url_count; 
-                $this->Shortener_model->insertActivityLog($message1); 
-                $message_status = "No unwanted URLs";
+                $message_status = "No unwanted URLs. Scanned URLs: ".$url_count; 
                 $this->Shortener_model->insertActivityLog($message_status); 
             }
         }
@@ -676,17 +625,9 @@ class Shortener extends CI_Controller {
 		$url_array = $this->input->post('url_array');
         $data = $this->Shortener_model->blockURLGoogleURLScan($url_array);
         $data = $this->Shortener_model->disableURLGoogleURLScan($url_array);
-
         $message = "Blocked URLs: ".implode(", ",$url_array);
         $this->Shortener_model->insertActivityLog($message); 
-
-
         $this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
-    }
-    public function cronTest(){
-        /* wget -q -O /dev/null "https://shortly.at/shortener/cronTest" > /dev/null 2>&1 */ 
-        $message = "Testing cron auto! Yes";
-        $this->Shortener_model->insertActivityLog($message); 
     }
     public function insertActivityLog(){
         $message = $this->input->get('message');

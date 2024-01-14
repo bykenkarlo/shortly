@@ -42,9 +42,14 @@
                                 </div>
                             </div> <!-- end col -->
                             <div class="col-xl-8 col-lg-8 col-12 mb-4">
-                                    <div class="mobile-view">
+                                <div class="mobile-view">
                                     <h2 id="link_details" class=" font-20 fw-700"><i class="uil uil-chart-line"></i> Link Statistics</h2>
                                  </div>
+                                 <div class="alert-wrapper" hidden="hidden">
+                                    <div class="alert alert-danger br-10 inline-block-view" role="alert">
+                                        <i class="uil-times-circle"></i>This URL has been <b>Disabled</b> for violating our Terms! If you think this was made by mistake <a href="<?=base_url('#contact_us')?>">contact us</a>!
+                                   </div>
+                                </div>
                                 <div class="card" id="stat_view">
                                     <div class="card-body" >
                                         <div class="dropdown float-end mobile-view">
@@ -57,6 +62,7 @@
                                                 <span class="dropdown-item cursor-pointer qr_url" ><i class="uil uil-qrcode-scan"></i> Show QR </span>
                                             </div>
                                         </div>
+                                        
                                         <div class="float-end web-view">
                                             <button class="arrow-none card-drop cursor-pointer btn rounded btn-light font-13 me-1 fw-500 acct_copy_url_btn" id="_acct_copy_url_btn">
                                                 <i class="uil uil-copy"></i> Copy 
@@ -72,7 +78,7 @@
                                             </span>
                                             <input type="hidden" id="_img_logo">
                                         </div>
-
+                                        
                                         <div class="short-summary">
                                             <div class="su-title">
                                                 <h1 class="card-title mb-3 font-20 fw-700 text-success" id="_su_title">Title Here</h1>    

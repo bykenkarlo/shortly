@@ -173,9 +173,7 @@ $route['api/v1/_website_guest'] = 'Page/newWebsiteVisits';
 
 #CRON 
 
-$route['api/v1/scan/_google_safe_browsing_urls_today'] = 'Shortener/googleSafeBrowsingURLScanEveryDay';
-$route['api/v1/scan/_google_safe_browsing_url'] = 'Shortener/googleSafeBrowsingURLScan';
-$route['api/v1/scan/_google_safe_browsing_url_v2'] = 'Shortener/googleSafeBrowsingURLScanV2';
+$route['api/v1/scan/_google_safe_browsing_url_v2'] = 'Shortener/googleSafeBrowsingURLScan';
 $route['api/v1/url/_block_url'] = 'Shortener/blockURLGoogleURLScan';
 
 $route['default_controller'] = 'App/index';

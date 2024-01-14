@@ -164,9 +164,12 @@ class User_model extends CI_Model {
 	}
     public function getAccountURLs(){
         $result = array();
-		$query = $this->db->WHERE('secret_key',$this->session->secret_key)
+		$query = $this->db->SELECT('aut.title, aut.url_param, sut.status, aut.created_at')
+            ->FROM('account_url_tbl as aut')
+            ->JOIN('shortened_url_tbl as sut','sut.short_url=url_param')
+            ->WHERE('secret_key',$this->session->secret_key)
             ->ORDER_BY('created_at','desc')
-            ->GET('account_url_tbl')->result_array();
+            ->GET()->result_array();
 
         foreach($query as $q){
             $total_click = $this->db->SELECT('COUNT(click_id) as total_click')->WHERE('url_param',$q['url_param'])->GET('statistics_tbl')->row_array();

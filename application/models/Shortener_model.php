@@ -601,6 +601,7 @@ class Shortener_model extends CI_Model {
 			'title'=>($query['title'])?$query['title']:str_replace(array('http://','https://'),'',base_url().$query['short_url']),
 			'short_url'=>$query['short_url'],
 			'redirect_url'=>$query['long_url'],
+			'status'=>$query['status'],
 			'total_click'=>$query['total_click'],
 			'logo_image'=>$query['image'],
 			'select_date'=>date('m/d/Y', strtotime($query['created_at'])).'-'.date('m/t/Y'),
@@ -644,7 +645,7 @@ class Shortener_model extends CI_Model {
 		}
 		return $is_blacklisted;
 	}
-	public function saveCustomURL(){
+	public function saveCustomURL($gsafe_browsing){
 		if(isset($this->session->secret_key)){
 			$long_url = $this->input->post('redirect_url');
 			$title = $this->input->post('title');
@@ -659,6 +660,11 @@ class Shortener_model extends CI_Model {
 				$response['short_url'] = "";
 				$response['message'] = "URL is in Blocklisted list!";
 			}
+            else if($gsafe_browsing){
+                $response['status'] = 'error';
+                $response['title'] = "Error";
+                $response['message'] = "The URL is labeled as &ldquo;".$gsafe_browsing['matches'][0]['threatType']."&ldquo;, unsafe and malicious by Google!";
+            }
 			else if($disabled_url > 0){
 				$response['status'] = 'error';
 				$response['short_url'] = "";

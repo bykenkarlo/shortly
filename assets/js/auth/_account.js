@@ -39,23 +39,6 @@ function refreshURLList(){
 	$("#_search").val('');
 	_getUrlList(1,'', 10, '');
 }
-function checkGoogleSafeBrowsingList(){
-	let api_key =  "AIzaSyDck2wgJU_lerRlt8WHCOo8aQnb01AKpYo"; 
-	let googleURL = "https://safebrowsing.googleapis.com/v4/threatLists?key="+api_key;
-	fetch(googleURL, {
-		method: "GET",
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-		})
-		.then(response => response.json())
-		.then(res => {
-	 })
-		.catch((error) => {
-		  console.error('Error:', error);
-	});
-}
 function _getUrlList(page_no, search, row_num, opt_status){
 	$("#_url_tbl").html("<tr class='text-center'><td colspan='8'>Loading data...</td></tr>");
 	let params = new URLSearchParams({'page_no':page_no, 'search':search, 'row_num':row_num});
@@ -425,7 +408,7 @@ function UnblockURL(long_url,page_no){
 }
 
 function checkLink(){
-	var api_key =  "AIzaSyCm_T4r1vS1qL-db7RKqjc22xg9OaYo-a8"; //My actual key is in here
+	var api_key =  "AIzaSyDck2wgJU_lerRlt8WHCOo8aQnb01AKpYo"; //My actual key is in here
 	var googleURL = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key="+api_key;
 	googleURL = googleURL + apiKey;
 	console.log(googleURL);
@@ -680,6 +663,7 @@ $("#scan_btn").on('click', function() {
 	})
 	.then(response => response.json())
 	.then(res => {
+		$("#scan_url_modal").modal('hide');
 	})
 	.catch((error) => {
 		console.error('Error:', error);
