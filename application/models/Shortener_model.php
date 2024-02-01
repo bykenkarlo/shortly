@@ -469,7 +469,7 @@ class Shortener_model extends CI_Model {
 		}
 		else if(!$this->agent->is_robot()){
 			// USING IPREGISTRY.CO
-			$api_key = 'sx14nleqy6nz6zrf';
+			$api_key = 'j1vh65gb477h4cu4';
 			$url = 'https://api.ipregistry.co/'.$ip_address.'?key='.$api_key;
 			$ip_data = json_decode(file_get_contents($url));
 			$data['country'] = $ip_data->location->country->name;
