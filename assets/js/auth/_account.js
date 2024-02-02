@@ -116,11 +116,11 @@ function _displayDataList(page_no, result, pagination, count, row_num){
 				+'<td>'+result[i].click_count+'</td>'
 				+'<td>'
 					+'<div class="dropdown font-10"">'
-					    +'<button class="btn btn-'+stat_btn_bg+' rounded btn-xs dropdown-toggle c-white text-capitalize" type="button" id="_url_stat_dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
+					    +'<button class="btn btn-'+stat_btn_bg+' rounded btn-xs dropdown-toggle c-white text-capitalize statid-'+result[i].id+'" type="button" id="_url_stat_dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
 					        +url_status
 					    +'</button>'
 					    +'<div class="dropdown-menu" aria-labelledby="_url_stat_dropdown">'
-						    +'<span class="dropdown-item cursor-pointer text-capitalize" onclick="'+func+'(\''+first_param+'\',\''+to_change_stat+'\',\''+page_no+'\')">'+to_change_stat+'</span>'
+						    +'<span class="dropdown-item cursor-pointer text-capitalize spanid-'+result[i].id+'"  onclick="'+func+'(\''+first_param+'\',\''+to_change_stat+'\',\''+page_no+'\',\''+result[i].id+'\',\''+stat_btn_bg+'\')">'+to_change_stat+'</span>'
 						+'</div>'
 					+'</div>'
 				+'</td>'
@@ -156,7 +156,7 @@ $('#_url_pagination').on('click','a',function(e){
 });
 
 
-const changeStats = (url_param,status, page_no) => {
+const changeStats = (url_param, status, page_no, id, stat_btn_bg) => {
 	csrf_token = $("#_global_csrf").val();
 	$.ajax({
 		url: base_url+'api/v1/shortener/_change_status',
@@ -171,9 +171,24 @@ const changeStats = (url_param,status, page_no) => {
 	.done( (res) => {
 		if (res.data.status == 'success') {
 			search = $("#_search").val();
-			row_num = $("#row_num").val();
+			row_num = $("#row_num").val()
+			;
+			new_stat_btn_bg = 'warning';
+			if(stat_btn_bg == 'warning'){
+				new_stat_btn_bg = 'success';
+			}
 
-            _getUrlList(page_no, search, row_num, '')
+			
+			$(".statid-"+id).text(status).removeClass("btn-"+stat_btn_bg).addClass("btn-" + new_stat_btn_bg);
+			
+			new_status = "active";
+			if (status == 'disabled'){
+				new_status = "active";
+			}
+			$(".spanid-"+id).removeAttr('changeStats').attr('changeStats', url_param +", "+ new_status+", "+page_no+"," +id+","+new_stat_btn_bg);
+
+
+            // _getUrlList(page_no, search, row_num, '');
 		}
 		else{
 			Swal.fire({
