@@ -106,7 +106,7 @@ function _displayDataList(page_no, result, pagination, count, row_num){
 			string +='<tr>'
 				+'<td>'
                     +'<div class="form-check ">'
-                        +'<input type="checkbox" name="url_checkbox[]" class="form-check-input url-checkbox cursor-pointer " id="'+result[i].id+'" >'
+                        +'<input data-url_param_'+result[i].id+'="'+result[i].url_param+'" type="checkbox" name="url_checkbox[]" class="form-check-input url-checkbox cursor-pointer " id="'+result[i].id+'" >'
                         +'<label class="form-check-label" for="_url_check_box">&nbsp;</label>'
                     +'</div>'
                 +'</td>'
@@ -585,7 +585,13 @@ $("#disable_multiple_url_btn").on('click', function (){
 					})
 					keyword = ($("#_search").val() !== '' || !$("#_search").val()) ? $("#_search").val() : "";
 					row_num = $("#row_num").val();
-					_getUrlList(page_no, keyword, row_num, '')
+
+					for(var i = 0; i < url_checkbox_arr.length; i++){
+						console.log(url_checkbox_arr[i])
+						$(".statid-"+url_checkbox_arr[i]).removeClass('btn-success').addClass('btn-warning').text('Disabled');
+						url_param = $("#"+url_checkbox_arr[i]).attr('data-url_param_'+url_checkbox_arr[i]);
+						$(".spanid-"+url_checkbox_arr[i]).attr('onclick','changeStats(\''+url_param+'\',\'active\',1 , \''+url_checkbox_arr[i]+'\'\'warning\')');
+					}
 				}
 				else{
 					Swal.fire({
